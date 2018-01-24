@@ -10,7 +10,15 @@ angular
         }
 
         getAccounts (serviceName) {
-            return [];
+            return this.OvhHttp.get(`/hosting/web/${serviceName}/localSeo/account`, {
+                rootPath: "apiv6"
+            });
+        }
+
+        getLocations (serviceName) {
+            return this.OvhHttp.get(`/hosting/web/${serviceName}/localSeo/location`, {
+                rootPath: "apiv6"
+            });
         }
     }
 );
