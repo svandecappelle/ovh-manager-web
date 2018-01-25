@@ -8,22 +8,27 @@ angular.module("App").controller(
         }
 
         $onInit () {
-            this.loading = true;
+            this.loading = {
+                accounts: true,
+                locations: false
+            };
             this.productId = this.$stateParams.productId;
 
             this.accounts = null;
             this.locations = null;
+            this.locationDetails = null;
 
             this.getAccounts()
                 .then((accounts) => {
                     this.accounts = accounts;
                     if (!_.isEmpty(accounts)) {
-                        this.locations = this.getLocations();
-                        return this.locations;
+                        return this.getLocations().then((locations) => {
+                            this.locations = locations;
+                        });
                     }
                 })
                 .finally(() => {
-                    this.loading = false;
+                    this.loading.accounts = false;
                 });
         }
 
@@ -41,6 +46,15 @@ angular.module("App").controller(
 
         hasLocations () {
             return !_.isEmpty(this.locations);
+        }
+
+        transformItem (locationId) {
+            this.loading.locations = true;
+            return this.HostingLocalMarketing.getLocation(this.productId, locationId);
+        }
+
+        transformItemDone (locations) {
+            this.loading.locations = false;
         }
     }
 );

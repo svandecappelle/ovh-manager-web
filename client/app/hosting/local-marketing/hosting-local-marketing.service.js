@@ -20,5 +20,11 @@ angular
                 rootPath: "apiv6"
             });
         }
+
+        getLocation (serviceName, locationId) {
+            return this.OvhHttp.get(`/hosting/web/${serviceName}/localSeo/location/${locationId}`, {
+                rootPath: "apiv6"
+            });
+        }
     }
 );
