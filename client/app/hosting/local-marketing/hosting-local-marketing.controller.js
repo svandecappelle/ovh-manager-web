@@ -56,5 +56,9 @@ angular.module("App").controller(
         transformItemDone (locations) {
             this.loading.locations = false;
         }
+
+        goToInterface (location) {
+
+        }
     }
 );

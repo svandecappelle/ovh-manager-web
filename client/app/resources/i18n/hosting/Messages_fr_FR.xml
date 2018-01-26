@@ -320,6 +320,9 @@
    <translation id="hosting_tab_LOCAL_MARKETING_table_header_name">Nom de l'entreprise</translation>
    <translation id="hosting_tab_LOCAL_MARKETING_table_header_email">Email</translation>
    <translation id="hosting_tab_LOCAL_MARKETING_table_header_address">Adresse</translation>
+   <translation id="hosting_tab_LOCAL_MARKETING_access_interface">Accéder à l'interface</translation>
+   <translation id="hosting_tab_LOCAL_MARKETING_delete">Résilier l'abonnement</translation>
+   <translation id="hosting_tab_LOCAL_MARKETING_delete_confirm">Êtes-vous sûr de vouloir résilier votre abonnement «Visibilité Pro» pour le compte suivant ?</translation>
 
    <translation id="hosting_tab_DATABASES_change_offer" qtlid="327302">Basculer sur un hébergement payant afin de créer une base de données. Changer d'offre rapidement et sans coupure, via le bouton</translation>
    <translation id="hosting_tab_DATABASES_table_header_name" qtlid="302041">Nom d'utilisateur</translation>
