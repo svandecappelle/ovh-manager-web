@@ -233,6 +233,7 @@
    <translation id="hosting_dashboard_database_versions_error" qtlid="260364">Une erreur est survenue lors de la récupération des versions disponibles des bases de données privées.</translation>
 
    <translation id="hosting_dashboard_local_marketing">Référencement local</translation>
+   <translation id="hosting_dashboard_local_marketing_quantity">{0} entreprise(s)</translation>
    <translation id="hosting_dashboard_local_marketing_manage">Gérer</translation>
    <translation id="hosting_dashboard_local_marketing_order">Commander</translation>
    <translation id="hosting_dashboard_local_marketing_visibility_check">Vérifiez votre référencement local</translation>
