@@ -454,9 +454,9 @@
                 }).then((resp) => resp, (err) => err)));
             }
 
-            pollSqlPrive (serviceName, taskIds) {
+            pollPrivateDb (serviceName, taskIds) {
                 return this.$q.all(_.map(taskIds, (taskId) => this.Poll.poll(`apiv6/hosting/web/${serviceName}/tasks/${taskId}`, null, {
-                    namespace: "hosting.database.sqlPrive",
+                    namespace: "hosting.database.privateDb",
                     interval: 30000
                 })
                     .then((resp) => resp)
@@ -471,8 +471,8 @@
                 return this.Poll.poll(`apiv6/hosting/web/${serviceName}/tasks/${taskId}`);
             }
 
-            killPollSqlPrive () {
-                this.Poll.kill({ namespace: "hosting.database.sqlPrive" });
+            killPollPrivateDb () {
+                this.Poll.kill({ namespace: "hosting.database.privateDb" });
             }
 
             /**

@@ -76,14 +76,8 @@ angular
             this.loadDatabases();
         }
 
-        convertBytesSize (nb, unit, decimalWanted = 0) {
-            const res = filesize(this.converterService.convertToOctet(nb, unit), { output: "object", round: decimalWanted, base: -1 });
-            const resUnit = this.$scope.tr(`unit_size_${res.symbol}`);
-            return `${res.value} ${resUnit}`;
-        }
-
         getQuotaUsageString (quotaUsed, quotaSize) {
-            return `${this.convertBytesSize(quotaUsed.value, quotaUsed.unit, 2)} / ${this.convertBytesSize(quotaSize.value, quotaSize.unit)}`;
+            return `${this.converterService.convertBytesSize(quotaUsed.value, quotaUsed.unit, 2)} / ${this.converterService.convertBytesSize(quotaSize.value, quotaSize.unit)}`;
         }
 
         getPhpMyAdminUrl (element) {
@@ -140,7 +134,7 @@ angular
                 dumps: this.hostingDatabaseService.getDumpIds(this.$stateParams.productId, id)
             }).then(({ database, dumps }) => {
                 _.set(database, "quotaUsed.asText", this.getQuotaUsageString(database.quotaUsed, database.quotaSize));
-                _.set(database, "quotaUsed.cappedAsText", this.convertBytesSize(database.quotaUsed.value, database.quotaUsed.unit, 2));
+                _.set(database, "quotaUsed.cappedAsText", this.converterService.convertBytesSize(database.quotaUsed.value, database.quotaUsed.unit, 2));
                 _.set(database, "dumpsCount", dumps.length || 0);
                 _.set(database, "dumps", dumps);
                 return database;

@@ -26,10 +26,10 @@
                                               data-ng-bind="tr('hosting_dashboard_service_state_' + hosting.serviceState)"></span>
                                         <span class="label label-danger"
                                               data-i18n-static="hosting_dashboard_service_state_DELETE"
-                                              data-ng-if="hosting.serviceInfos.renew.deleteAtExpiration"></span>
-                                        <div class="mt-2" data-ng-if="guideHostingState">
+                                              data-ng-if="ctrl.hosting.serviceInfos.renew.deleteAtExpiration"></span>
+                                        <div class="mt-2" data-ng-if="ctrl.guideHostingState">
                                             <a target="_blank" title="{{::i18n.hosting_state_info_title}}"
-                                               data-ng-href="{{guideHostingState}}">
+                                               data-ng-href="{{ctrl.guideHostingState}}">
                                                 <span class="fa fa-info-circle mr-2" aria-hidden="true"></span>
                                                 <span data-ng-bind="tr('hosting_state_info_' + hosting.serviceState)"></span>
                                             </a>
@@ -138,28 +138,28 @@
                         <h3 class="oui-tile__title" data-i18n-static="hosting_dashboard_configuration"></h3>
                         <div class="oui-tile__body">
                             <ul class="list-unstyled">
-                                <li class="oui-tile__item" data-ng-if="ovhConfig.isPhpEngine">
+                                <li class="oui-tile__item" data-ng-if="ctrl.ovhConfig.isPhpEngine">
                                     <div class="oui-tile__definition">
                                         <div class="d-flex w-100">
                                             <div>
                                                 <strong class="d-block"
                                                         data-i18n-static="hosting_global_php_version"></strong>
-                                                <span data-ng-bind="ovhConfig.engineVersion"></span>
+                                                <span data-ng-bind="ctrl.ovhConfig.engineVersion"></span>
                                                 <span class="fa fa-exclamation-triangle" aria-hidden="true"
                                                       data-ng-class="{
-                                                        'text-warning': phpVersionSupport.support === 'SECURITY_FIXES',
-                                                        'text-danger': phpVersionSupport.support === 'END_OF_LIFE'
+                                                        'text-warning': ctrl.phpVersionSupport.support === 'SECURITY_FIXES',
+                                                        'text-danger': ctrl.phpVersionSupport.support === 'END_OF_LIFE'
                                                       }"
-                                                      data-ng-if="phpVersionSupport.support && phpVersionSupport.support !== 'SUPPORTED'"
-                                                      data-uib-tooltip="{{tr('hosting_dashboard_php_support_'+ phpVersionSupport.support)}}"
+                                                      data-ng-if="ctrl.phpVersionSupport.support && ctrl.phpVersionSupport.support !== 'SUPPORTED'"
+                                                      data-uib-tooltip="{{tr('hosting_dashboard_php_support_'+ ctrl.phpVersionSupport.support)}}"
                                                       data-tooltip-placement="bottom">
                                                 </span>
-                                                <div class="d-inline ml-2" data-ng-if="ovhConfig.taskPending">
+                                                <div class="d-inline ml-2" data-ng-if="ctrl.ovhConfig.taskPending">
                                                     <oui-loader size="s" inline="true"></oui-loader>
                                                 </div>
                                                 <span class="help-inside ml-2"
-                                                      data-ng-if="ovhConfig.taskPendingError"
-                                                      data-uib-tooltip="{{ovhConfig.taskPendingError}}">
+                                                      data-ng-if="ctrl.ovhConfig.taskPendingError"
+                                                      data-uib-tooltip="{{ctrl.ovhConfig.taskPendingError}}">
                                                     <span class="fa fa-times-circle text-danger" aria-hidden="true"></span>
                                                 </span>
                                             </div>
@@ -167,7 +167,7 @@
                                                     type="button"
                                                     data-i18n-static="hosting_global_php_version_edit"
                                                     data-ng-click="setAction('ovhconfig/hosting-ovhconfig', hosting)"
-                                                    data-ng-disabled="ovhConfig.taskPending">
+                                                    data-ng-disabled="ctrl.ovhConfig.taskPending">
                                             </button>
                                         </div>
                                     </div>
@@ -178,10 +178,10 @@
                                             <div>
                                                 <strong class="d-block"
                                                         data-i18n-static="hosting_dashboard_service_ssl"></strong>
-                                                <span data-ng-bind="hosting.hasHostedSsl || ssl ? i18n.common_yes : i18n.common_no"></span>
+                                                <span data-ng-bind="hosting.hasHostedSsl || ctrl.ssl ? i18n.common_yes : i18n.common_no"></span>
                                                 <span class="ml-2"
-                                                      data-ng-if="ssl && ssl.status === 'creating' || ssl.status === 'deleting' || ssl.status === 'regenerating'"
-                                                      data-uib-tooltip="{{tr('hosting_dashboard_service_ssl_' + ssl.status)}}">
+                                                      data-ng-if="ctrl.ssl && ctrl.ssl.status === 'creating' || ctrl.ssl.status === 'deleting' || ctrl.ssl.status === 'regenerating'"
+                                                      data-uib-tooltip="{{tr('hosting_dashboard_service_ssl_' + ctrl.ssl.status)}}">
                                                     <oui-loader size="s" inline="true"></oui-loader>
                                                 </span>
                                             </div>
@@ -209,7 +209,7 @@
                                                         <i class="fa fa-times-circle" aria-hidden="true"></i>
                                                         <button class="btn btn-link" type="button" name="deleteSsl"
                                                                 data-i18n-static="hosting_dashboard_service_order_ssl_delete"
-                                                                data-ng-click="setAction('ssl/delete/hosting-ssl-delete', ssl)"></button>
+                                                                data-ng-click="setAction('ssl/delete/hosting-ssl-delete', ctrl.ssl)"></button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -224,27 +224,27 @@
                                                         data-i18n-static="hosting_dashboard_service_cdn"></strong>
                                                 <span class="mr-2"
                                                       data-ng-bind="hosting.hasCdn ? i18n.common_yes : i18n.common_no"></span>
-                                                <oui-loader size="s" inline="true" data-ng-if="flushCdnState === 'check'"></oui-loader>
+                                                <oui-loader size="s" inline="true" data-ng-if="ctrl.flushCdnState === 'check'"></oui-loader>
                                                 <span class="label label-info"
                                                       data-i18n-static="hosting_dashboard_service_flush_cdn_doing"
-                                                      data-ng-if="flushCdnState === 'doing'"></span>
+                                                      data-ng-if="ctrl.flushCdnState === 'doing'"></span>
                                             </div>
                                             <div class="ml-auto mb-auto" style="position: relative"
-                                                 data-ng-if="flushCdnState === 'ok' && !hosting.hasCdn && hosting.offer!== 'START_10_M' || hosting.hasCdn && flushCdnState === 'ok' || hosting.hasCdn">
+                                                 data-ng-if="ctrl.flushCdnState === 'ok' && !hosting.hasCdn && hosting.offer!== 'START_10_M' || hosting.hasCdn && ctrl.flushCdnState === 'ok' || hosting.hasCdn">
                                                 <button class="oui-button oui-button_dropdown mb-0" type="button" aria-haspopup="true" aria-expanded="false"
                                                         data-toggle="dropdown">
                                                     <span data-i18n-static="common_actions"></span>
                                                     <span class="oui-icon oui-icon-chevron-down" aria-hidden="true"></span>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right m-0 p-0">
-                                                    <li data-ng-if="flushCdnState === 'ok' && !hosting.hasCdn && hosting.offer!== 'START_10_M'">
+                                                    <li data-ng-if="ctrl.flushCdnState === 'ok' && !hosting.hasCdn && hosting.offer!== 'START_10_M'">
                                                         <i class="ovh-font ovh-font-cart" aria-hidden="true"></i>
                                                         <button class="btn btn-link" type="button" name="orderCdn"
                                                                 data-i18n-static="hosting_dashboard_service_order_cdn"
                                                                 data-ng-click="setAction('cdn/order/hosting-cdn-order', hostingProxy)">
                                                         </button>
                                                     </li>
-                                                    <li data-ng-if="hosting.hasCdn && flushCdnState === 'ok'">
+                                                    <li data-ng-if="hosting.hasCdn && ctrl.flushCdnState === 'ok'">
                                                         <i class="oui-icon oui-icon-trash_line" aria-hidden="true"></i>
                                                         <button class="btn btn-link" type="button" name="flushCdn"
                                                                 data-ng-click="setAction('cdn/flush/hosting-cdn-flush')">
@@ -273,24 +273,24 @@
                                             <div>
                                                 <strong class="d-block"
                                                         data-i18n-static="hosting_dashboard_service_privatesql"></strong>
-                                                <div data-ng-if="hosting.sqlPriveInfo.nbDataBaseInclude > 0">
+                                                <div data-ng-if="ctrl.hosting.privateDbInfo.nbDataBaseInclude > 0">
                                                     <div data-progress-bar-element-counter
-                                                         data-pbec-nb-elements="hosting.sqlPriveInfo.nbDataBaseActive"
-                                                         data-pbec-max-elements="hosting.sqlPriveInfo.nbDataBaseInclude"
+                                                         data-pbec-nb-elements="ctrl.hosting.privateDbInfo.nbDataBaseActive"
+                                                         data-pbec-max-elements="ctrl.hosting.privateDbInfo.nbDataBaseInclude"
                                                          data-pbec-upper-limit="cloudWebUnlimitedQuantity"></div>
                                                 </div>
-                                                <span data-ng-if="!hosting.sqlPriveInfo.nbDataBaseInclude">0</span>
+                                                <span data-ng-if="!ctrl.hosting.privateDbInfo.nbDataBaseInclude">0</span>
                                                 <button class="oui-button oui-button_dropdown mb-0 mt-3" type="button" title="{{::i18n.hosting_dashboard_service_privatesql_more}}"
-                                                        data-ng-click="displayMore.value = !displayMore.value"
-                                                        data-ng-if="privateDatabasesLinked && privateDatabasesLinked.length">
+                                                        data-ng-click="ctrl.showPrivateDbList = !ctrl.showPrivateDbList"
+                                                        data-ng-if="ctrl.privateDatabasesLinked && ctrl.privateDatabasesLinked.length">
                                                     <span class="mr-3"
                                                           data-i18n-static="hosting_dashboard_service_privatesql_more"></span>
                                                     <span class="oui-icon oui-icon-chevron-down" aria-hidden="true"
-                                                          data-ng-class="{'oui-icon-chevron-down': !displayMore.value, 'oui-icon-chevron-up': displayMore.value}"></span>
+                                                          data-ng-class="{'oui-icon-chevron-down': !ctrl.showPrivateDbList, 'oui-icon-chevron-up': ctrl.showPrivateDbList}"></span>
                                                 </button>
-                                                <ul class="list-unstyled mt-2" data-ng-if="displayMore.value">
-                                                    <li data-ng-repeat="privateDb in privateDatabasesLinked track by $index"
-                                                        data-ng-class="{'animated fadeInDown fast-fade-in-down': displayMore.value}">
+                                                <ul class="list-unstyled mt-2" data-ng-if="ctrl.showPrivateDbList">
+                                                    <li data-ng-repeat="privateDb in ctrl.privateDatabasesLinked track by $index"
+                                                        data-ng-class="{'animated fadeInDown fast-fade-in-down': ctrl.showPrivateDbList}">
                                                         <span data-ng-bind="privateDb.name"
                                                               data-ng-if="!privateDb.isAdmin"></span>
                                                         <button class="btn btn-link py-0" type="button" role="link"
@@ -308,17 +308,17 @@
                                                     <span class="oui-icon oui-icon-chevron-down" aria-hidden="true"></span>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right m-0 p-0">
-                                                    <li data-ng-if="hosting.sqlPriveInfo.nbDataBaseInclude > 0 && hosting.sqlPriveInfo.nbDataBaseActive < hosting.sqlPriveInfo.nbDataBaseInclude">
+                                                    <li data-ng-if="ctrl.hosting.privateDbInfo.nbDataBaseInclude > 0 && ctrl.hosting.privateDbInfo.nbDataBaseActive < ctrl.hosting.privateDbInfo.nbDataBaseInclude">
                                                         <i class="oui-icon oui-icon-power_line" aria-hidden="true"></i>
                                                         <button class="btn btn-link" type="button" name="orderCdn"
                                                                 data-ng-click="setAction('database/private-activation/database-private-activation', hosting)"
-                                                                data-ng-disabled="sqlPriveState === 'check' || sqlPriveState === 'doing'">
+                                                                data-ng-disabled="this.privateDbState === 'check' || this.privateDbState === 'doing'">
                                                             <span
                                                                 data-i18n-static="hosting_dashboard_service_privatesql_active"
-                                                                data-ng-if="sqlPriveState !== 'doing'"></span>
+                                                                data-ng-if="this.privateDbState !== 'doing'"></span>
                                                             <span
                                                                 data-i18n-static="hosting_dashboard_service_privatesql_active_doing"
-                                                                data-ng-if="sqlPriveState === 'doing'"></span>
+                                                                data-ng-if="this.privateDbState === 'doing'"></span>
                                                         </button>
                                                     </li>
                                                     <li>
@@ -393,15 +393,15 @@
         <div class="col-md-3 mt-md-5 mt-lg-0">
             <div class="d-flex flex-column-reverse flex-lg-column">
                 <div class="text-center"
-                     data-ng-class="{'mb-5': screenshot}"
+                     data-ng-class="{'mb-5': ctrl.screenshot}"
                      data-ng-if="!hosting.isExpired">
-                    <oui-loader inline="true" data-ng-if="loadingScreenshot"></oui-loader>
+                    <oui-loader inline="true" data-ng-if="ctrl.loading.screenshot"></oui-loader>
                     <a class="oui-box oui-box_light d-block p-0 text-truncate" target="_blank" title="{{hosting.serviceName}} ({{i18n.common_newtab}})"
                        data-ng-href="http://{{hosting.serviceName}}"
-                       data-ng-if="!loadingScreenshot && screenshot">
-                        <img class="h-100 mw-100" data-ng-src="data:image/png;base64,{{screenshot}}" width="600"
+                       data-ng-if="!ctrl.loading.screenshot && ctrl.screenshot">
+                        <img class="h-100 mw-100" data-ng-src="data:image/png;base64,{{ctrl.screenshot}}" width="600"
                              alt="{{hosting.serviceName}}"
-                             data-ng-if="screenshot"/>
+                             data-ng-if="ctrl.screenshot"/>
                     </a>
                 </div>
 
@@ -488,13 +488,13 @@
                                     <strong class="d-block"
                                             data-i18n-static="hosting_tab_USER_LOGS_dashboard_stats"></strong>
                                     <a class="d-block word-break" target="_blank" title="{{i18n.hosting_tab_USER_LOGS_dashboard_stats_newtab}}"
-                                       data-ng-href="{{ urchin }}"
-                                       data-ng-bind="urchin"
-                                       data-ng-if="!userLogsToken"></a>
+                                       data-ng-href="{{ ctrl.urchin }}"
+                                       data-ng-bind="ctrl.urchin"
+                                       data-ng-if="!ctrl.userLogsToken"></a>
                                     <a class="d-block word-break" target="_blank" title="{{i18n.hosting_tab_USER_LOGS_dashboard_stats_newtab}}"
-                                       data-ng-href="{{ urchin  + '?token=' +  userLogsToken}}"
-                                       data-ng-bind="urchin"
-                                       data-ng-if="userLogsToken"></a>
+                                       data-ng-href="{{ ctrl.urchin  + '?token=' +  ctrl.userLogsToken}}"
+                                       data-ng-bind="ctrl.urchin"
+                                       data-ng-if="ctrl.userLogsToken"></a>
                                 </div>
                             </li>
                         </ul>

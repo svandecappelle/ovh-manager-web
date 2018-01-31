@@ -59,33 +59,16 @@ angular
         }
 
         /**
-         * Convert a number to its best unit => Now use (filesize)[https://github.com/avoidwork/filesize.js]
+         * Convert a number to its best unit
          * @param  {number} nb                Number to convert
          * @param  {string} unit              Unit of the number to convert
          * @param  {number} [decimalWanted=0] Number of decimal wanted
-         * @return {Object}                   An object composed with the number converted and its unit
+         * @return {string}                   A string formatted as "<value> <unit>"
          */
         convertBytesSize (nb, unit, decimalWanted = 0) {
-            if (!_.isNumber(Number(nb)) || !_.isString(unit) || !_.isNumber(decimalWanted) || nb <= 0 || decimalWanted < 0) {
-                throw new Error("Wrong parameter(s)");
-            }
+            const res = filesize(this.convertToOctet(nb, unit), { output: "object", round: decimalWanted, base: -1 });
+            const resUnit = this.translator.tr(`unit_size_${res.symbol}`);
 
-            let convertedNb;
-
-            try {
-                convertedNb = this.convertToOctet(nb, unit);
-            } catch (err) {
-                throw err;
-            }
-
-            const bestUnitIndex = Math.floor(Math.log(convertedNb) / Math.log(this.base));
-
-            convertedNb = `${(convertedNb / this.def[bestUnitIndex].val).toFixed(decimalWanted)}`;
-            const bestUnit = this.translator.tr(`unit_size_${this.def[bestUnitIndex].unit}`);
-
-            return {
-                val: convertedNb,
-                unit: bestUnit
-            };
+            return `${res.value} ${resUnit}`;
         }
 });

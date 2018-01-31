@@ -36,7 +36,7 @@ angular.module("App").controller("HostingDatabasePrivateActiveCtrl", ($scope, $r
             $scope.loaders.versions = true;
             HostingDatabase.activeDatabasePrivate($stateParams.productId, $scope.choice.ram.quota.value, $scope.choice.version)
                 .then(() => {
-                    $rootScope.$broadcast("hosting.database.sqlPrive");
+                    $rootScope.$broadcast("hosting.database.privateDb");
                     Alerter.success($scope.tr("hosting_dashboard_database_active_success"), $scope.alerts.main);
                 })
                 .catch((err) => {

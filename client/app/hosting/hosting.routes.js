@@ -5,6 +5,7 @@ angular.module("App").config(($stateProvider) => {
         url: "/configuration/hosting/:productId?tab",
         templateUrl: "hosting/hosting.html",
         controller: "HostingCtrl",
+        controllerAs: "ctrl",
         reloadOnSearch: false,
         params: {
             tab: null

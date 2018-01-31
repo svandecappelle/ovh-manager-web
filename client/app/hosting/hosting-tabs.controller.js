@@ -1,19 +1,26 @@
 angular.module("App").controller(
     "HostingTabsCtrl",
     class HostingTabsCtrl {
-        constructor ($scope, $q, $location, $stateParams, HostingFreedom, HostingIndy) {
+        constructor ($scope, $q, $location, $stateParams, HostingFreedom, HostingIndy, User) {
             this.$scope = $scope;
             this.$q = $q;
             this.$location = $location;
             this.$stateParams = $stateParams;
             this.HostingFreedom = HostingFreedom;
             this.HostingIndy = HostingIndy;
+            this.User = User;
         }
 
         $onInit () {
             this.defaultTab = "GENERAL_INFORMATIONS";
             this.tabs = ["GENERAL_INFORMATIONS", "MULTISITE", "MODULE", "FTP", "LOCAL_MARKETING", "DATABASE", "TASK"];
             this.$scope.displayTabs = { cron: true, databases: true, modules: true };
+
+            const changeOwnerItem = {
+                label: this.$scope.tr("core_change_owner"),
+                target: "",
+                type: "EXTERNAL_LINK"
+            };
 
             this.tabMenu = {
                 title: this.$scope.tr("navigation_more"),
@@ -53,11 +60,7 @@ angular.module("App").controller(
                         text: this.$scope.tr("hosting_tab_menu_contacts"),
                         type: "LINK"
                     },
-                    {
-                        label: this.$scope.tr("core_change_owner"),
-                        target: this.$scope.changeOwnerUrl,
-                        type: "EXTERNAL_LINK"
-                    },
+                    changeOwnerItem,
                     {
                         type: "SEPARATOR"
                     },
@@ -100,6 +103,15 @@ angular.module("App").controller(
                         });
                     }
                 });
+
+            this.hostingUrl = "";
+            this.User.getUrlOfEndsWithSubsidiary("hosting").then((url) => {
+                this.hostingUrl = url;
+            });
+
+            this.User.getUrlOf("changeOwner").then((url) => {
+                changeOwnerItem.target = url;
+            });
         }
 
         setSelectedTab (tab) {
