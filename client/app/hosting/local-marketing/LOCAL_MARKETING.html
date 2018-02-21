@@ -26,6 +26,7 @@
                                 <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_name"></th>
                                 <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_email"></th>
                                 <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_address"></th>
+                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_status"></th>
                                 <th class="min-width text-right" scope="col">
                                     <button class="btn btn-icon" type="button" title="{{i18n.refresh}}"
                                             data-ng-click="ctrl.refreshLocations()">
@@ -50,9 +51,16 @@
 
                         <tbody data-ng-if="!ctrl.loading.locations && ctrl.hasLocations()">
                             <tr data-ng-repeat="location in ctrl.locationDetails track by location">
-                                <td data-ng-bind="location.name"></td>
-                                <td data-ng-bind="location.email"></td>
-                                <td data-ng-bind="location.address"></td>
+                                <td data-ng-bind="location.name || tr('hosting_tab_LOCAL_MARKETING_table_value_undefined')"></td>
+                                <td data-ng-bind="location.account.email"></td>
+                                <td data-ng-bind="location.address || tr('hosting_tab_LOCAL_MARKETING_table_value_undefined')"></td>
+                                <td>
+                                    <span class="label"
+                                          data-ng-class="{'label-success': location.status === 'created',
+                                                          'label-danger': location.status === 'deleting'}"
+                                          data-ng-bind="tr('hosting_tab_LOCAL_MARKETING_state_' + location.status)">
+                                    </span>
+                                </td>
                                 <td class="text-right">
                                     <button class="btn btn-icon" type="button"
                                             data-linkedpopover="hosting/local-marketing/hosting-local-marketing.popover.html"
