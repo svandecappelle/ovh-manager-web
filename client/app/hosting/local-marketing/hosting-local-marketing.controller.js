@@ -19,10 +19,10 @@ angular.module("App").controller(
             this.locations = null;
             this.locationDetails = null;
 
-            this.load();
+            this.loadAccountsAndLocations();
         }
 
-        load () {
+        loadAccountsAndLocations () {
             this.loading.accounts = true;
             return this.getAccounts()
                 .then((accounts) => {
@@ -59,7 +59,7 @@ angular.module("App").controller(
             this.loading.locations = true;
             return this.HostingLocalMarketing.getLocation(this.productId, locationId)
                 .then((location) => {
-                    const accountId = _.get(location, "id");
+                    const accountId = _.get(location, "accountId");
                     if (accountId) {
                         const account = _.find(this.accounts, { id: accountId });
                         if (account) {
@@ -75,7 +75,7 @@ angular.module("App").controller(
         }
 
         refreshLocations () {
-            this.load();
+            this.loadAccountsAndLocations();
         }
 
         goToInterface (location) {
