@@ -1,10 +1,11 @@
 angular.module("App").controller(
     "HostingTabLocalMarketingCtrl",
     class HostingTabLocalMarketingCtrl {
-        constructor ($scope, $stateParams, $q, HostingLocalMarketing) {
+        constructor ($scope, $stateParams, $q, $window, HostingLocalMarketing) {
             this.$scope = $scope;
             this.$stateParams = $stateParams;
             this.$q = $q;
+            this.$window = $window;
             this.HostingLocalMarketing = HostingLocalMarketing;
         }
 
@@ -79,7 +80,14 @@ angular.module("App").controller(
         }
 
         goToInterface (location) {
+            if (!location.accountId) {
+                return;
+            }
 
+            this.HostingLocalMarketing.login(this.productId, location.accountId)
+                .then((token) => {
+                    this.$window.open(`https://localseo.ovh.net/?access_token=${token}`, "_blank");
+                });
         }
     }
 );

@@ -21,6 +21,12 @@ angular
             });
         }
 
+        login (serviceName, accountId) {
+            return this.OvhHttp.post(`/hosting/web/${serviceName}/localSeo/account/${accountId}/login`, {
+                rootPath: "apiv6"
+            });
+        }
+
         getLocations (serviceName) {
             return this.OvhHttp.get(`/hosting/web/${serviceName}/localSeo/location`, {
                 rootPath: "apiv6"
