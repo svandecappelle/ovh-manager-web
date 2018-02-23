@@ -1,12 +1,12 @@
 angular.module("App").controller(
-    "HostingTabLocalMarketingCtrl",
-    class HostingTabLocalMarketingCtrl {
-        constructor ($scope, $stateParams, $q, $window, HostingLocalMarketing) {
+    "HostingTabLocalSeoCtrl",
+    class HostingTabLocalSeoCtrl {
+        constructor ($scope, $stateParams, $q, $window, HostingLocalSeo) {
             this.$scope = $scope;
             this.$stateParams = $stateParams;
             this.$q = $q;
             this.$window = $window;
-            this.HostingLocalMarketing = HostingLocalMarketing;
+            this.HostingLocalSeo = HostingLocalSeo;
         }
 
         $onInit () {
@@ -40,12 +40,12 @@ angular.module("App").controller(
         }
 
         getAccounts () {
-            return this.HostingLocalMarketing.getAccounts(this.productId)
-                .then((accounts) => this.$q.all(_.map(accounts, (account) => this.HostingLocalMarketing.getAccount(this.productId, account))));
+            return this.HostingLocalSeo.getAccounts(this.productId)
+                .then((accounts) => this.$q.all(_.map(accounts, (account) => this.HostingLocalSeo.getAccount(this.productId, account))));
         }
 
         getLocations () {
-            return this.HostingLocalMarketing.getLocations(this.productId);
+            return this.HostingLocalSeo.getLocations(this.productId);
         }
 
         hasAccounts () {
@@ -58,7 +58,7 @@ angular.module("App").controller(
 
         transformItem (locationId) {
             this.loading.locations = true;
-            return this.HostingLocalMarketing.getLocation(this.productId, locationId)
+            return this.HostingLocalSeo.getLocation(this.productId, locationId)
                 .then((location) => {
                     const accountId = _.get(location, "accountId");
                     if (accountId) {
@@ -84,7 +84,7 @@ angular.module("App").controller(
                 return;
             }
 
-            this.HostingLocalMarketing.login(this.productId, location.accountId)
+            this.HostingLocalSeo.login(this.productId, location.accountId)
                 .then((token) => {
                     this.$window.open(`https://localseo.ovh.net/?access_token=${token}`, "_blank");
                 });

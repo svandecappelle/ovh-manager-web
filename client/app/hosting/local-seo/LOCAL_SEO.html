@@ -1,4 +1,4 @@
-<div class="container-fluid px-0" data-ng-controller="HostingTabLocalMarketingCtrl as ctrl">
+<div class="container-fluid px-0" data-ng-controller="HostingTabLocalSeoCtrl as ctrl">
 
     <div class="text-center" data-ng-if="ctrl.loading.accounts">
         <oui-loader size="l" inline="true"></oui-loader>
@@ -8,14 +8,14 @@
         <div class="col-md-9">
             <div data-ovh-alert="{{alerts.main}}"></div>
 
-            <h3 data-i18n-static="hosting_tab_LOCAL_MARKETING"></h3>
+            <h3 data-i18n-static="hosting_tab_LOCAL_SEO"></h3>
             <p>
-                {{::i18n.hosting_tab_LOCAL_MARKETING_description}}
-                <a href="#" data-i18n-static="hosting_dashboard_local_marketing_visibility_check"></a>
+                {{::i18n.hosting_tab_LOCAL_SEO_description}}
+                <a href="#" data-i18n-static="hosting_dashboard_local_seo_visibility_check"></a>
             </p>
 
             <button class="oui-button oui-button_primary oui-button_large-height">
-                <span data-i18n-static="hosting_dashboard_local_marketing_order"></span>
+                <span data-i18n-static="hosting_dashboard_local_seo_order"></span>
             </button>
 
             <div data-ng-if="ctrl.hasAccounts()">
@@ -23,10 +23,10 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_name"></th>
-                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_address"></th>
-                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_email"></th>
-                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_MARKETING_table_header_status"></th>
+                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_SEO_table_header_name"></th>
+                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_SEO_table_header_address"></th>
+                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_SEO_table_header_email"></th>
+                                <th scope="col" data-i18n-static="hosting_tab_LOCAL_SEO_table_header_status"></th>
                                 <th class="min-width text-right" scope="col">
                                     <button class="btn btn-icon" type="button" title="{{i18n.refresh}}"
                                             data-ng-click="ctrl.refreshLocations()">
@@ -45,7 +45,7 @@
                         <tbody data-ng-if="!ctrl.loading.locations && !ctrl.hasLocations()">
                             <tr>
                                 <td class="text-center" colspan="4"
-                                    data-i18n-static="hosting_tab_LOCAL_MARKETING_table_empty"></td>
+                                    data-i18n-static="hosting_tab_LOCAL_SEO_table_empty"></td>
                             </tr>
                         </tbody>
 
@@ -55,14 +55,14 @@
                                     {{location.name}}
                                     <span class="label label-info"
                                           data-ng-if="!location.name"
-                                          data-i18n-static="hosting_tab_LOCAL_MARKETING_table_value_undefined">
+                                          data-i18n-static="hosting_tab_LOCAL_SEO_table_value_undefined">
                                     </span>
                                 </td>
                                 <td>
                                     {{location.address}}
                                     <span class="label label-info"
                                           data-ng-if="!location.address"
-                                          data-i18n-static="hosting_tab_LOCAL_MARKETING_table_value_undefined">
+                                          data-i18n-static="hosting_tab_LOCAL_SEO_table_value_undefined">
                                     </span>
                                 </td>
                                 <td data-ng-bind="location.account.email || '-'"></td>
@@ -71,13 +71,13 @@
                                           data-ng-class="{'label-success': location.status === 'created',
                                                           'label-warning': location.status === 'creating',
                                                           'label-danger': location.status === 'deleting'}"
-                                          data-ng-bind="tr('hosting_tab_LOCAL_MARKETING_state_' + location.status)">
+                                          data-ng-bind="tr('hosting_tab_LOCAL_SEO_state_' + location.status)">
                                     </span>
                                 </td>
                                 <td class="text-right">
                                     <button class="btn btn-icon" type="button"
                                             data-ng-if="location.status === 'created'"
-                                            data-linkedpopover="hosting/local-marketing/hosting-local-marketing.popover.html"
+                                            data-linkedpopover="hosting/local-seo/hosting-local-seo.popover.html"
                                             data-linkedpopover-placement="left"
                                             data-linkedpopover-remote="true"
                                             data-linkedpopover-single="true"

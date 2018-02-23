@@ -1,6 +1,6 @@
 angular
     .module("services")
-    .service("HostingLocalMarketing", class HostingDomain {
+    .service("HostingLocalSeo", class HostingDomain {
 
         constructor ($rootScope, $q, Hosting, OvhHttp) {
             this.$rootScope = $rootScope;
