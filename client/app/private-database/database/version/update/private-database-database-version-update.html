@@ -19,7 +19,7 @@
             </div>
 
             <div data-ng-if="!versionCtrl.loading.init && versionCtrl.model.versions.length > 0">
-                <p data-ng-bind="tr('privateDatabase_change_version_step1', tr('privateDatabase_dashboard_version_' + versionCtrl.privateDBToUpdate.version))"></p>
+                <p data-ng-bind="tr('privateDatabase_change_version_step1', formatVersion(versionCtrl.privateDBToUpdate.version))"></p>
 
                 <form class="form-horizontal mt-4">
                     <div class="form-group">
@@ -44,7 +44,7 @@
 
         <div data-wizard-step>
             <p data-ng-bind="tr('privateDatabase_change_version_step2', [
-                tr('privateDatabase_dashboard_version_' + versionCtrl.privateDBToUpdate.version),
+                formatVersion(versionCtrl.privateDBToUpdate.version),
                 formatVersion(versionCtrl.model.choice)
             ])"></p>
 
