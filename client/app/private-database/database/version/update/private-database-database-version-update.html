@@ -29,7 +29,8 @@
                             <div class="oui-select oui-select_inline">
                                 <select class="oui-select__input" id="changeVersion"
                                         data-ng-model="versionCtrl.model.choice"
-                                        data-ng-options="formatVersion(version) for version in versionCtrl.model.versions track by version">
+                                        data-ng-options="formatVersion(version) for version in versionCtrl.model.versions track by version"
+                                        data-ng-init="versionCtrl.model.choice = versionCtrl.model.versions[0]">
                                     <option value="" disabled
                                             data-i18n-static="privateDatabase_change_version_available_select"></option>
                                 </select>
