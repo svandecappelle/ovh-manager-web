@@ -113,6 +113,8 @@ angular
                 }
             };
 
+            this.$scope.formatVersion = (version) => this.privateDatabaseService.formatDbVersion(version);
+
             this.$scope.$on("privateDatabase.global.actions.start", (e, taskOpt) => {
                 this.$scope.taskState.lockAction = taskOpt.lock || this.$scope.taskState.lockAction;
             });

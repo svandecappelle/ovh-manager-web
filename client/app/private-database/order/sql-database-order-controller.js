@@ -404,5 +404,9 @@ angular.module("App").controller(
         isStart () {
             return this.getData(this.model.type).key === "start";
         }
+
+        formatVersion (version) {
+            return this.privateDatabaseService.formatDbVersion(version);
+        }
     }
 );
