@@ -75,7 +75,7 @@
                             <select class="oui-select__input" id="orderVersion" name="orderVersion" required
                                     data-ng-change="sqlOrderCtrl.getDuration()"
                                     data-ng-model="sqlOrderCtrl.model.version"
-                                    data-ng-options="version as i18n['privateDatabase_dashboard_version_' + version.replace('.', '')] ||
+                                    data-ng-options="sqlOrderCtrl.formatVersion(version) ||
                                     version for version in sqlOrderCtrl.getData(sqlOrderCtrl.model.type).versions track by version">
                                 <option value="" disabled
                                         data-i18n-static="select_option"></option>
