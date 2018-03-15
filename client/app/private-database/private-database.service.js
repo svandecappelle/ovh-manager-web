@@ -1103,8 +1103,10 @@ angular.module("services").service(
         }
 
         formatDbVersion (version) {
-            const splitedVersion = version.split("_");
-            return `${this.$rootScope.tr(`privateDatabase_dashboard_type_${splitedVersion[0]}`)} ${splitedVersion[1]}`;
+            if (version) {
+                const splitedVersion = version.split("_");
+                return `${this.$rootScope.tr(`privateDatabase_dashboard_type_${splitedVersion[0]}`)} ${splitedVersion[1]}`;
+            }
         }
     }
 );
