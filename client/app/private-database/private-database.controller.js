@@ -145,7 +145,7 @@ angular
             return this.privateDatabaseService.getSelected(this.productId, forceRefresh)
                 .then((database) => {
                     this.$scope.database = database;
-                    this.$scope.database.version = database.version.replace(".", "");
+                    this.$scope.database.version = database.version;
                     this.isExpired = _.get(database, "serviceInfos.status") === "expired";
                     this.$scope.guides = [];
 

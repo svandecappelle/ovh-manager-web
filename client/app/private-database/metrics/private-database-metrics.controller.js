@@ -27,7 +27,7 @@ angular.module("App").controller(
                 "mysql_55"
             ];
             this.wrongVersionTrad = _.trim(_.map(wrongVersion, (version) => ` ${this.$scope.tr(`privateDatabase_dashboard_version_${version}`)}`));
-            this.isWrongVersion = _.indexOf(wrongVersion, this.$scope.database.version) !== -1;
+            this.isWrongVersion = _.indexOf(wrongVersion, this.$scope.database.version.replace(".", "")) !== -1;
 
             this.loadMetrics();
 
