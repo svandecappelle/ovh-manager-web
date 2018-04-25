@@ -4,7 +4,8 @@
     </oui-back-button>
 
     <p>
-        <a class="oui-link oui-link_icon" href="{{::ctrl.allGuides}}" target="_blank">
+        <a class="oui-link oui-link_icon" href="{{::ctrl.allGuides}}" target="_blank"
+            title="{{tr('email_tab_modal_migrate_configuration_guides_button')}} ({{tr('core_new_window')}})">
             <span data-i18n-static="email_tab_modal_migrate_configuration_guides_button"></span>
             <span class="oui-icon oui-icon-external_link" aria-hidden="true"></span>
         </a>
@@ -28,6 +29,7 @@
         <oui-step-form data-header="{{::tr('email_tab_modal_migrate_detination_step_title')}}"
             data-loading="ctrl.loaders.isInitialRetrievalRunning"
             data-navigation="ctrl.availableServices"
+            data-valid="ctrl.migrate.destinationService"
             data-on-focus="ctrl.destinationFocused = true"
             data-on-submit="ctrl.getDestinationEmails(ctrl.migrate.destinationService.name)">
 
@@ -35,7 +37,8 @@
             <div data-ng-if="!ctrl.availableServices">
                 <p data-i18n-static="email_tab_modal_migrate_no_email_service"></p>
                 <p>
-                    <a href="{{::ctrl.emailsOrder}}" target="_blank" class="btn btn-primary">
+                    <a class="btn btn-primary" href="{{::ctrl.emailsOrder}}" target="_blank"
+                        title="{{tr('email_tab_modal_migrate_order_email_service')}} ({{tr('core_new_window')}})">
                         <span data-i18n-static="email_tab_modal_migrate_order_email_service"></span>
                         <span class="fa fa-external-link"></span>
                     </a>
@@ -51,7 +54,7 @@
                 </label>
                 <div class="row oui-field__control oui-field__control_auto">
                     <div class="col-md-{{(12 / ctrl.availableServices)}}"
-                        data-ng-repeat="(serviceType, destinationService) in ctrl.destinationServices"
+                        data-ng-repeat="(serviceType, destinationService) in ctrl.destinationServices track by $index"
                         data-ng-hide="!ctrl.destinationFocused && (ctrl.migrate.destinationService.type !== serviceType)">
                         <oui-select-picker name="serviceType"
                             data-text="{{::serviceType}}"
@@ -83,7 +86,8 @@
                 <h4 data-i18n-static="email_tab_modal_migrate_informations_before_title"></h4>
                 <p>
                     <span data-ng-bind-html="tr('email_tab_modal_migrate_available_email_selected', ctrl.migrate.destinationEmail)"></span>
-                    <span data-i18n-static="email_tab_modal_migrate_not_supported"></span>
+                    <span data-ng-if="!ctrl.isExchange" data-i18n-static="email_tab_modal_migrate_not_supported"></span>
+                    <span data-ng-if="ctrl.isExchange" data-i18n-static="email_tab_modal_migrate_not_supported_exchange"></span>
                 </p>
                 <!-- /Before -->
 
@@ -106,7 +110,8 @@
                         data-i18n-static="email_tab_modal_migrate_no_remaining_available_emails">
                     </span>
                     <span data-i18n-static="email_tab_modal_migrate_email_deleted"></span>
-                    <span data-i18n-static="email_tab_modal_migrate_email_reconfiguration"></span>
+                    <span data-ng-if="!ctrl.isExchange" data-i18n-static="email_tab_modal_migrate_email_reconfiguration"></span>
+                    <span data-ng-if="ctrl.isExchange" data-i18n-static="email_tab_modal_migrate_email_reconfiguration_exchange"></span>
                 </p>
                 <!-- /After -->
 
@@ -131,15 +136,13 @@
                 </p>
                 <p>
                     <span data-i18n-static="email_tab_modal_migrate_choose_another_service_or"></span>
-                    <a class="oui-link oui-link_icon" href="/#/configuration/email_pro/{{::ctrl.migrate.destinationService.name}}?tab=ACCOUNT" target="_blank"
-                        data-ng-if="ctrl.migrate.destinationService.type === 'EMAIL PRO'">
-                        <span data-i18n-static="email_tab_modal_migrate_order_new_emails_button"></span>
-                        <span class="oui-icon oui-icon-external_link" aria-hidden="true"></span>
+                    <a class="oui-link" href="/#/configuration/email_pro/{{::ctrl.migrate.destinationService.name}}?tab=ACCOUNT"
+                        data-ng-if="ctrl.migrate.destinationService.type === 'EMAIL PRO'"
+                        data-i18n-static="email_tab_modal_migrate_order_new_emails_button">
                     </a>
-                    <a class="oui-link oui-link_icon" href="/#/configuration/exchange_hosted/{{::ctrl.migrate.destinationService.name}}/{{::ctrl.migrate.destinationService.name}}?tab=ACCOUNT" target="_blank"
-                        data-ng-if="ctrl.migrate.destinationService.type === 'HOSTED EXCHANGE'">
-                        <span data-i18n-static="email_tab_modal_migrate_order_new_emails_button"></span>
-                        <span class="oui-icon oui-icon-external_link" aria-hidden="true"></span>
+                    <a class="oui-link" href="/#/configuration/exchange_hosted/{{::ctrl.migrate.destinationService.name}}/{{::ctrl.migrate.destinationService.name}}?tab=ACCOUNT"
+                        data-ng-if="ctrl.migrate.destinationService.type === 'HOSTED EXCHANGE'"
+                        data-i18n-static="email_tab_modal_migrate_order_new_emails_button">
                     </a>
                 </p>
             </div>
@@ -161,7 +164,7 @@
             <oui-message type="warning" data-ng-if="ctrl.shouldDisplayCheckMigrationsErrors">
                 <span data-ng-bind-html="ctrl.checkMigrationErrorLabel"></span>
                 <ul>
-                    <li data-ng-repeat="error in ctrl.checkMigrationErrors"
+                    <li data-ng-repeat="error in ctrl.checkMigrationErrors track by $index"
                         data-ng-bind-html="error"></li>
                 </ul>
             </oui-message>
