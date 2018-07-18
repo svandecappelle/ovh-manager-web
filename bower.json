@@ -37,6 +37,7 @@
     "ovh-utils-angular": "^12.0.3",
     "ovh-module-sharepoint": "^5.1.0",
     "ovh-module-exchange": "^7.2.0",
+	"ovh-module-exchange": "git+https://github.com/ovh-ux/ovh-module-exchange#fix\/order-price-fix"
     "ovh-module-office": "^5.0.0",
     "ovh-module-emailpro": "^5.1.0",
     "ovh-angular-proxy-request": "^0.1.0",
