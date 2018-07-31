@@ -1,6 +1,16 @@
 <div class="container-fluid px-0" data-ng-controller="DomainTabGeneralInformationsCtrl as ctrlTabGeneralInformations">
-    <div class="row">
-        <div class="col-md-9">
+
+    <div data-ng-switch="ctrlTabGeneralInformations.currentView" class="row">
+
+        <div data-ng-switch-when="obfuscated-email">
+            <div data-ng-include="'domain/general-informations/obfuscated-email/domain-general-informations-obfuscated-email.html'"></div>
+        </div>
+
+        <div data-ng-switch-when="whois">
+            <div data-ng-include="'domain/general-informations/whois/domain-general-informations-whois.html'"></div>
+        </div>
+
+        <div ng-switch-default class="col-md-9">
             <div data-ovh-alert="{{alerts.main}}"></div>
             <div class="row d-md-flex">
                 <div class="col-sm-6">
@@ -251,55 +261,30 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="oui-tile__item" data-ng-if="!ctrlTabGeneralInformations.isOwoSupported()">
+
+                                <!-- WHOIS configuration  -->
+                                <li class="oui-tile__item" data-ng-if="ctrlTabGeneralInformations.isWhoIsSupported()">
                                     <div class="oui-tile__definition">
-                                        <strong data-i18n-static="domain_dashboard_owo"></strong>
-                                        <div data-i18n-static="domain_dashboard_owo_not_supported"></div>
-                                    </div>
-                                </li>
-                                <!-- OWO  -->
-                                <li class="oui-tile__item" data-ng-if="ctrlTabGeneralInformations.isOwoSupported()">
-                                    <div class="oui-tile__definition">
-                                        <strong class="d-inline-block" data-i18n-static="domain_dashboard_owo"></strong>
-                                        <span class="fa fa-info-circle" aria-hidden="true"
-                                              data-uib-tooltip="{{::i18n.domain_dashboard_tooltip_whois}}"
-                                              data-uib-tooltip-append-to-body="true"
-                                              data-uib-tooltip-placement="top"></span>
-                                        <div class="d-block mt-2"
-                                             data-v6-ui-switch
-                                             data-ng-change="ctrlTabGeneralInformations.owoStateHaveChange('all')"
-                                             data-ng-if="ctrlTabGeneralInformations.isOwoSupported()"
-                                             data-ng-model="ctrlTabGeneralInformations.vm.owo.general.uiSwitch"
-                                             data-uib-tooltip="{{ctrlTabGeneralInformations.domain.whoisActivable ? '' : i18n.domain_dashboard_whois_not_activable}}"
-                                             data-uib-tooltip-append-to-body="true">
+                                        <strong data-i18n-static="domain_dashboard_whois"></strong>
+                                        <div>
+                                            <button class="btn btn-default ml-auto my-auto text-wrap" type="button"
+                                                    data-i18n-static="domain_dashboard_whois_button"
+                                                    data-ng-click="ctrlTabGeneralInformations.selectSubView('whois')">
+                                            </button>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="oui-tile__item" data-ng-if="ctrlTabGeneralInformations.isOwoSupported()">
+
+                                <!-- Obfuscated email configuration -->
+                                <li class="oui-tile__item">
                                     <div class="oui-tile__definition">
-                                        <strong data-i18n-static="domain_dashboard_owo_hide_address"></strong>
-                                        <div class="d-block mt-2"
-                                             data-v6-ui-switch
-                                             data-ng-change="ctrlTabGeneralInformations.owoStateHaveChange('address')"
-                                             data-ng-model="ctrlTabGeneralInformations.vm.owo.address.uiSwitch"></div>
-                                    </div>
-                                </li>
-                                <li class="oui-tile__item" data-ng-if="ctrlTabGeneralInformations.isOwoSupported()">
-                                    <div class="oui-tile__definition">
-                                        <strong data-i18n-static="domain_dashboard_owo_hide_email"></strong>
-                                        <div class="d-block mt-2"
-                                             data-v6-ui-switch
-                                             data-ng-change="ctrlTabGeneralInformations.owoStateHaveChange('email')"
-                                             data-ng-model="ctrlTabGeneralInformations.vm.owo.email.uiSwitch"></div>
-                                    </div>
-                                </li>
-                                <li class="oui-tile__item" data-ng-if="ctrlTabGeneralInformations.isOwoSupported()">
-                                    <div class="oui-tile__definition">
-                                        <strong data-i18n-static="domain_dashboard_owo_hide_phone"></strong>
-                                        <div class="d-block mt-2"
-                                             data-v6-ui-switch
-                                             data-ng-change="ctrlTabGeneralInformations.owoStateHaveChange('phone')"
-                                             data-ng-model="ctrlTabGeneralInformations.vm.owo.phone.uiSwitch"></div>
+                                        <strong data-i18n-static="domain_dashboard_obfuscated_email"></strong>
+                                        <div>
+                                            <button class="btn btn-default ml-auto my-auto text-wrap" type="button"
+                                                    data-i18n-static="domain_dashboard_obfuscated_email_button"
+                                                    data-ng-click="ctrlTabGeneralInformations.selectSubView('obfuscated-email')">
+                                            </button>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -309,7 +294,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 mt-md-5 mt-lg-0">
+        <div ng-switch-default class="col-md-3 mt-md-5 mt-lg-0">
             <div class="d-flex flex-column-reverse flex-lg-column">
                 <div class="mb-5 text-center" data-ng-if="!ctrlTabGeneralInformations.domain.isExpired">
                     <oui-spinner

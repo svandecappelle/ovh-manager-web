@@ -34,6 +34,8 @@ angular.module('App').controller(
     $onInit() {
       this.domain = this.$scope.ctrlDomain.domain;
 
+      this.currentView = '';
+
       this.displayAllOwoSwitch = false;
       this.displayFreeHosting = false;
       this.domainUnlockRegistry = this.constants.DOMAIN.domainUnlockRegistry[
@@ -239,6 +241,10 @@ angular.module('App').controller(
         });
     }
 
+    isWhoIsSupported() {
+      return true;
+    }
+
     isOwoSupported() {
       if (!angular.isUndefined(this.domain.owoSupported)) {
         // avoid flashing information
@@ -395,6 +401,14 @@ angular.module('App').controller(
       } else {
         this.$scope.setAction('lock/disable/domain-lock-disable', this.domain);
       }
+    }
+
+    selectSubView(view) {
+      this.currentView = view;
+    }
+
+    resetView() {
+      this.currentView = '';
     }
 
     // Utilities ------------------------------------------
