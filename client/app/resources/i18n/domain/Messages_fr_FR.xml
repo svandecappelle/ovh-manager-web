@@ -39,15 +39,16 @@
 
    <translation id="domain_dashboard_whois">Affichage du WHOIS</translation>
    <translation id="domain_dashboard_whois_button">Configurer l'affichage du WHOIS</translation>
+   <translation id="domain_dashboard_whois_contact_owner">Contact propriétaire</translation>
+   <translation id="domain_dashboard_whois_contact_tech">Contact technique</translation>
+   <translation id="domain_dashboard_whois_contact_billing">Contact facturation</translation>
+   <translation id="domain_dashboard_whois_contact_admin">Contact administrateur</translation>
+
    <translation id="domain_dashboard_obfuscated_email">Adresses e-mail de substitution</translation>
    <translation id="domain_dashboard_obfuscated_email_button">Régénérer les adresses e-mail de substitution</translation>
    <translation id="domain_dashboard_obfuscated_email_subtitle">Sélectionner les contacts pour lesquels vous souhaitez régénérer les adresses e-mail de substitution :</translation>
    <translation id="domain_dashboard_obfuscated_email_regenerate_button">Régénérer les e-mails de substitution</translation>
    <translation id="domain_dashboard_obfuscated_email_explanation">Afin d'éviter la divulgation de vos adresses e-mail dans le registre WHOIS, celles-ci sont automatiquement substituées par des adresses uniques non identifiables. Vous pouvez les régénérer en utilisant le formulaire ci dessous.</translation>
-   <translation id="domain_dashboard_obfuscated_email_owner">Contact propriétaire</translation>
-   <translation id="domain_dashboard_obfuscated_email_tech">Contact technique</translation>
-   <translation id="domain_dashboard_obfuscated_email_billing">Contact facturation</translation>
-   <translation id="domain_dashboard_obfuscated_email_admin">Contact administrateur</translation>
 
    <translation id="domain_dashboard_owo_not_supported" qtlid="288652">Indisponible pour cette extension</translation>
    <translation id="domain_dashboard_offer" qtlid="38217">Offre</translation>
