@@ -1,5 +1,32 @@
 <div data-ng-controller="DomainGeneralInformationsWhoisCtrl as $ctrl">
     <oui-back-button data-heading="{{::tr('domain_dashboard_whois_button')}}"
-	                 data-on-click="ctrlTabGeneralInformations.resetView()">
-	</oui-back-button>
+                     data-on-click="ctrlTabGeneralInformations.resetView()">
+    </oui-back-button>
+
+    <p class="ml-4 pl-5 w-50" data-i18n-static="domain_dashboard_whois_explanation"></p>
+
+    <div class="row">
+        <div class="col-md-4" data-ng-repeat="type in $ctrl.contactTypes">
+            <h3 class="h5" data-i18n-static="{{'domain_dashboard_whois_contact_' + type}}"></h3>
+            <div class="mb-4">
+                <div data-i18n-static="domain_dashboard_whois_email"></div>
+                <oui-radio-toggle-group model="$ctrl.contacts[type].showEmail">
+                    <oui-radio text="{{::tr('common_hide')}}" value="false"></oui-radio>
+                    <oui-radio text="{{::tr('common_display')}}" value="true"></oui-radio>
+                </oui-radio-toggle-group>
+            </div>
+            <div class="mb-4">
+                <div data-i18n-static="domain_dashboard_whois_coordinates"></div>
+                <oui-radio-toggle-group model="$ctrl.contacts[type].showCoordinates">
+                    <oui-radio text="{{::tr('common_hide')}}" value="false"></oui-radio>
+                    <oui-radio text="{{::tr('common_display')}}" value="true"></oui-radio>
+                </oui-radio-toggle-group>
+            </div>
+        </div>
+    </div>
+
+    <oui-button data-variant="primary"
+                data-text="{{::tr('domain_dashboard_whois_validate_button')}}"
+                data-disabled=""
+                data-on-click="$ctrl.validate()"></oui-button>
 </div>

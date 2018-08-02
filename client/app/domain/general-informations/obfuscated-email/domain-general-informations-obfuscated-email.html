@@ -1,20 +1,20 @@
 <div data-ng-controller="DomainGeneralInformationsObfuscatedEmailCtrl as $ctrl">
-	<oui-back-button data-heading="{{::tr('domain_dashboard_obfuscated_email_button')}}"
-	                 data-on-click="ctrlTabGeneralInformations.resetView()">
-	</oui-back-button>
+    <oui-back-button data-heading="{{::tr('domain_dashboard_obfuscated_email_button')}}"
+                     data-on-click="ctrlTabGeneralInformations.resetView()">
+    </oui-back-button>
 
-	<p class="ml-4 pl-5" data-i18n-static="domain_dashboard_obfuscated_email_explanation"></p>
+    <p class="ml-4 pl-5" data-i18n-static="domain_dashboard_obfuscated_email_explanation"></p>
 
-	<h3 class="h5" data-i18n-static="domain_dashboard_obfuscated_email_subtitle"></h3>
+    <h3 class="h5" data-i18n-static="domain_dashboard_obfuscated_email_subtitle"></h3>
 
-	<div class="ml-4">
-		<oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_owner')}}" data-model="$ctrl.regenerate.owner"></oui-checkbox>
-		<oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_tech')}}" data-model="$ctrl.regenerate.tech"></oui-checkbox>
-		<oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_billing')}}" data-model="$ctrl.regenerate.billing"></oui-checkbox>
-		<oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_admin')}}" data-model="$ctrl.regenerate.admin"></oui-checkbox>
-	</div>
-	<oui-button data-variant="primary"
-	            data-text="{{::tr('domain_dashboard_obfuscated_email_regenerate_button')}}"
-	            data-disabled="$ctrl.canRegenerate()"
-	            data-on-click="$ctrl.regenerate()"></oui-button>
+    <div class="ml-4">
+        <oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_owner')}}" data-model="$ctrl.regenerate.owner"></oui-checkbox>
+        <oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_tech')}}" data-model="$ctrl.regenerate.tech"></oui-checkbox>
+        <oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_billing')}}" data-model="$ctrl.regenerate.billing"></oui-checkbox>
+        <oui-checkbox data-text="{{::tr('domain_dashboard_whois_contact_admin')}}" data-model="$ctrl.regenerate.admin"></oui-checkbox>
+    </div>
+    <oui-button data-variant="primary"
+                data-text="{{::tr('domain_dashboard_obfuscated_email_regenerate_button')}}"
+                data-disabled="$ctrl.canRegenerate()"
+                data-on-click="$ctrl.regenerate()"></oui-button>
 </div>

@@ -6,11 +6,11 @@
             <div data-ng-include="'domain/general-informations/obfuscated-email/domain-general-informations-obfuscated-email.html'"></div>
         </div>
 
-        <div data-ng-switch-when="whois" class="col-md-6">
+        <div data-ng-switch-when="whois" class="col-md-12">
             <div data-ng-include="'domain/general-informations/whois/domain-general-informations-whois.html'"></div>
         </div>
 
-        <div ng-switch-default class="col-md-9">
+        <div data-ng-switch-default class="col-md-9">
             <div data-ovh-alert="{{alerts.main}}"></div>
             <div class="row d-md-flex">
                 <div class="col-sm-6">
@@ -294,7 +294,7 @@
             </div>
         </div>
 
-        <div ng-switch-default class="col-md-3 mt-md-5 mt-lg-0">
+        <div data-ng-switch-default class="col-md-3 mt-md-5 mt-lg-0">
             <div class="d-flex flex-column-reverse flex-lg-column">
                 <div class="mb-5 text-center" data-ng-if="!ctrlTabGeneralInformations.domain.isExpired">
                     <oui-spinner

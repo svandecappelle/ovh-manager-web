@@ -147,6 +147,8 @@
    <translation id="common_not_available" qtlid="94783">Non disponible</translation>
    <translation id="common_TODO" qtlid="124483">Info à venir</translation>
    <translation id="common_not_configurated" qtlid="124952">Non configuré</translation>
+   <translation id="common_display">Afficher</translation>
+   <translation id="common_hide">Masquer</translation>
    <translation id="common_ipv4" qtlid="101781">IPv4</translation>
    <translation id="common_ipv6" qtlid="34126">IPv6</translation>
    <translation id="common_bitFormat" qtlid="122107">bits</translation>

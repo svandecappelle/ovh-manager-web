@@ -39,10 +39,13 @@
 
    <translation id="domain_dashboard_whois">Affichage du WHOIS</translation>
    <translation id="domain_dashboard_whois_button">Configurer l'affichage du WHOIS</translation>
+   <translation id="domain_dashboard_whois_validate_button">Enregistrer les modifications</translation>
    <translation id="domain_dashboard_whois_contact_owner">Contact propriétaire</translation>
    <translation id="domain_dashboard_whois_contact_tech">Contact technique</translation>
    <translation id="domain_dashboard_whois_contact_billing">Contact facturation</translation>
    <translation id="domain_dashboard_whois_contact_admin">Contact administrateur</translation>
+   <translation id="domain_dashboard_whois_email">Adresse e-mail personnelle du contact :</translation>
+   <translation id="domain_dashboard_whois_coordinates">Autres coordonnées personnelles du contact :</translation>
 
    <translation id="domain_dashboard_obfuscated_email">Adresses e-mail de substitution</translation>
    <translation id="domain_dashboard_obfuscated_email_button">Régénérer les adresses e-mail de substitution</translation>
