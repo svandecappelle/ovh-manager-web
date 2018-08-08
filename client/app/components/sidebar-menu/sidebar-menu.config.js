@@ -1,7 +1,9 @@
+console.log('Loading Sidebar configuration');
 angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constants, translator) => {
   const menuOptions = [];
-
+  console.log('Running Sidebar configuration');
   function buildMenuOptions() {
+    console.log('buildMenuOptions: start');
     return $q.all([
       User.getUrlOf('domainOrder'),
       User.getUrlOfEndsWithSubsidiary('hosting'),
@@ -80,10 +82,12 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
           icon: 'ms-Icon ms-Icon--SharepointLogo',
           state: 'app.microsoft.sharepoint.order',
         });
+        console.log('buildMenuOptions: end');
       });
   }
 
   function addDomainItems(products) {
+    console.log('addDomainItems: start');
     const domainItem = SidebarMenu.addMenuItem({
       title: translator.tr('navigation_left_domains'),
       category: 'domain',
@@ -143,9 +147,11 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         }, domainItem);
       }
     });
+    console.log('addDomainItems: end');
   }
 
   function addHostingItems(products) {
+    console.log('addHostingItems: start');
     const hostingItem = SidebarMenu.addMenuItem({
       title: translator.tr('navigation_left_hosting'),
       category: 'hosting',
@@ -172,9 +178,11 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         },
       }, hostingItem);
     });
+    console.log('addHostingItems: end');
   }
 
   function addDatabaseItems(products) {
+    console.log('addDatabaseItems: start');
     const databaseItem = SidebarMenu.addMenuItem({
       title: translator.tr('navigation_left_database'),
       category: 'database',
@@ -201,9 +209,11 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         },
       }, databaseItem);
     });
+    console.log('addDatabaseItems: end');
   }
 
   function addEmailProItems(products) {
+    console.log('addEmailProItems: start');
     const emailProItem = SidebarMenu.addMenuItem({
       title: translator.tr('navigation_left_emailPro'),
       category: 'emailPro',
@@ -226,9 +236,11 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         },
       }, emailProItem);
     });
+    console.log('addEmailProItems: end');
   }
 
   function addEmailItems(products) {
+    console.log('addEmailItems: start');
     const emailsItem = SidebarMenu.addMenuItem({
       title: translator.tr('navigation_left_email'),
       category: 'email',
@@ -254,9 +266,11 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         },
       }, emailsItem);
     });
+    console.log('addEmailItems: end');
   }
 
   function addMicrosoftItems(products) {
+    console.log('addMicrosoftItems: start');
     const microsoftItem = SidebarMenu.addMenuItem({
       title: translator.tr('navigation_left_microsoft'),
       category: 'microsoft',
@@ -345,6 +359,7 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         },
       }, sharepointItems);
     });
+    console.log('addMicrosoftItems: end');
   }
 
   const productsPromise = Products.getProductsByType()
@@ -359,6 +374,7 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
     .then(() => buildMenuOptions());
 
   SidebarMenu.loadDeferred.promise.then(() => {
+    console.log('Final Code: start');
     SidebarMenu.manageStateChange();
     SidebarMenu.addActionsMenuOptions(menuOptions);
     SidebarMenu.addActionsMenuItemClickHandler((id) => {
@@ -367,7 +383,11 @@ angular.module('App').run(($q, SidebarMenu, Products, User, atInternet, constant
         type: 'action',
       });
     });
-  });
+    console.log('Final Code: end');
+  })
+    .then(() => {
+      console.log('SidebarMenu.items', SidebarMenu.items);
+    });
 
   SidebarMenu.setInitializationPromise(productsPromise);
 });

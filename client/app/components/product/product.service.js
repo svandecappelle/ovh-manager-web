@@ -37,7 +37,9 @@ angular.module('services').service('Products', [
         .when(true)
         .then(() => {
           if (!products) {
+            console.log('in !products');
             if (requests.productsList === null) {
+              console.log('requests.productsList === null');
               requests.productsList = $q
                 .all([
                   $http.get('/sws/products', {
@@ -51,10 +53,12 @@ angular.module('services').service('Products', [
                   Emails.getDelegatedEmails(),
                 ])
                 .then((data) => {
+                  console.log('products data', data);
                   const result = data[0];
                   const allDoms = data[1];
 
                   if (result.status < 300) {
+                    console.log('in result.status < 300');
                     productsByType = result.data;
 
                     _.forEach(data[2], (email) => {
@@ -98,10 +102,12 @@ angular.module('services').service('Products', [
                     let productDomains = allDomains;
 
                     if (allDoms && allDoms.length > 0) {
+                      console.log('in allDoms && allDoms.length > 0');
                       productsByType.allDoms = [];
                       return $q
                         .allSettled(allDoms.map(allDom => AllDom.getDomains(allDom).then(
                           (domains) => {
+                            console.log('after getDomains');
                             productDomains = productDomains.filter(d => domains.indexOf(d) === -1);
 
                             productsByType.allDoms.push({
@@ -121,6 +127,7 @@ angular.module('services').service('Products', [
                           err => ({ error: err, allDom }),
                         )))
                         .then(() => {
+                          console.log('in getDomains then');
                           if (productsByType.allDoms.length > 0) {
                             const d = productsByType.domains
                               .filter(domain => productDomains.indexOf(domain.name) !== -1);
@@ -132,7 +139,7 @@ angular.module('services').service('Products', [
                           ['domains', 'hostings', 'exchanges', 'sharepoints', 'vps', 'cdns', 'emails', 'licenseOffice', 'allDoms', 'emailPros'].forEach((type) => {
                             products = products.concat(productsByType[type] || []);
                           });
-
+                          console.log('in getDomains then...', products);
                           return products;
                         });
                     }
@@ -140,15 +147,18 @@ angular.module('services').service('Products', [
                     ['domains', 'hostings', 'exchanges', 'sharepoints', 'vps', 'cdns', 'emails', 'licenseOffice', 'emailPros'].forEach((type) => {
                       products = products.concat(productsByType[type] || []);
                     });
-
+                    console.log('returning...', products);
                     return products;
                   }
+
+                  console.log('$q.reject(data)');
                   return $q.reject(data);
                 });
             }
-
+            console.log('return requests.productsList');
             return requests.productsList;
           }
+          console.log('return products');
           return products;
         })
         .then(() => products, reason => $q.reject(reason));
@@ -158,7 +168,9 @@ angular.module('services').service('Products', [
        * Get list of products orderBy Type
        */
     this.getProductsByType = function getProductsByType() {
-      return this.getProducts().then(() => productsByType);
+      return this.getProducts().then(() => productsByType, (reason) => {
+        console.log('getProducts failed', reason);
+      });
     };
 
     /*
