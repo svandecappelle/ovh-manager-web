@@ -248,49 +248,49 @@ module.exports = function (grunt) {
           component_translations: {
               files: {
                   "<%= distdir %>/components/translations/Messages_cs_CZ.json": [
-                      "<%= bowerdir %>/**/Messages_cs_CZ.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_cs_CZ.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_de_DE.json": [
-                      "<%= bowerdir %>/**/Messages_de_DE.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_de_DE.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_en_CA.json": [
-                      "<%= bowerdir %>/**/Messages_en_CA.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_en_CA.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_en_GB.json": [
-                      "<%= bowerdir %>/**/Messages_en_GB.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_en_GB.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_en_US.json": [
-                      "<%= bowerdir %>/**/Messages_en_US.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_en_US.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_es_ES.json": [
-                      "<%= bowerdir %>/**/Messages_es_ES.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_es_ES.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_es_US.json": [
-                      "<%= bowerdir %>/**/Messages_es_US.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_es_US.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_fi_FI.json": [
-                      "<%= bowerdir %>/**/Messages_fi_FI.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_fi_FI.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_fr_CA.json": [
-                      "<%= bowerdir %>/**/Messages_fr_CA.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_fr_CA.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_fr_FR.json": [
-                      "<%= bowerdir %>/**/Messages_fr_FR.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_fr_FR.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_it_IT.json": [
-                      "<%= bowerdir %>/**/Messages_it_IT.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_it_IT.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_lt_LT.json": [
-                      "<%= bowerdir %>/**/Messages_lt_LT.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_lt_LT.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_nl_NL.json": [
-                      "<%= bowerdir %>/**/Messages_nl_NL.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_nl_NL.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_pl_PL.json": [
-                      "<%= bowerdir %>/**/Messages_pl_PL.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_pl_PL.json"
                   ],
                   "<%= distdir %>/components/translations/Messages_pt_PT.json": [
-                      "<%= bowerdir %>/**/Messages_pt_PT.json"
+                      "<%= bowerdir %>/ovh-*/**/Messages_pt_PT.json"
                   ]
               }
           }
