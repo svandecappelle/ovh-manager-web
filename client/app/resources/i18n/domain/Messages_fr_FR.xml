@@ -47,11 +47,7 @@
    <translation id="domain_dashboard_whois_email">Adresse e-mail personnelle du contact :</translation>
    <translation id="domain_dashboard_whois_coordinates">Autres coordonnées personnelles du contact :</translation>
    <translation id="domain_dashboard_whois_field_by_field">Gérer l'affichage champ par champ</translation>
-   <translation id="domain_dashboard_whois_field_name">Prénom</translation>
-   <translation id="domain_dashboard_whois_field_firstname">Nom</translation>
-   <translation id="domain_dashboard_whois_field_organisationName">Nom de l'organisation</translation>
-   <translation id="domain_dashboard_whois_field_address">Addresse</translation>
-   <translation id="domain_dashboard_whois_field_tel">Téléphone</translation>
+   <translation id="domain_dashboard_whois_field">Champ "{0}"</translation>
 
    <translation id="domain_dashboard_obfuscated_email">Adresses e-mail de substitution</translation>
    <translation id="domain_dashboard_obfuscated_email_button">Régénérer les adresses e-mail de substitution</translation>

@@ -32,7 +32,7 @@
             </div>
             <oui-checkbox data-text="{{::tr('domain_dashboard_whois_field_by_field')}}" data-model="$ctrl.contacts[type].fieldByField"></oui-checkbox>
             <div class="mb-4" data-ng-if="$ctrl.contacts[type].fieldByField" data-ng-repeat="field in $ctrl.fields">
-                <div data-i18n-static="{{'domain_dashboard_whois_field_' + field}}"></div>
+                <div>{{::tr('domain_dashboard_whois_field', field)}}</div>
                 <oui-radio-toggle-group model="$ctrl.contacts[type].fields[field]">
                     <oui-radio text="{{::tr('common_hide')}}" value="false"></oui-radio>
                     <oui-radio text="{{::tr('common_display')}}" value="true"></oui-radio>
