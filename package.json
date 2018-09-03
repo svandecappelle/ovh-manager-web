@@ -108,7 +108,7 @@
 
     "properties": "latest",
     "punycode": "~1.2.4",
-    "raphael": "~2.1.2",
+    "raphael": "~2.2.7",
     "raven-js": "~3.3.0",
     "request": "^2.51.0",
     "uri.js": "~0.1.3",

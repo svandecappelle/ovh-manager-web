@@ -72,7 +72,7 @@ gen-certificate:
 	rm $(CERTIFICATE_TMP_KEY)
 
 install:
-	$(YARN) install --verbose
+	$(YARN) install
 
 dev: deps
 	$(GRUNT) serve
