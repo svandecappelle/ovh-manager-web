@@ -1,6 +1,6 @@
 {
   "name": "ovh-manager-web",
-  "version": "13.4.19",
+  "version": "13.4.22",
   "description": "OVH Control Panel Web UI",
   "authors": [
     "OVH SAS"
@@ -34,11 +34,11 @@
     "es5-shim": "~2.1.0",
     "json3": "~3.2.5",
     "lodash": "~3.10.x",
-    "ovh-utils-angular": "^12.0.3",
-    "ovh-module-sharepoint": "^5.1.0",
-	"ovh-module-exchange": "git+https://github.com/ovh-ux/ovh-module-exchange#fix\/translation-manager-web",
-    "ovh-module-office": "^5.0.0",
-    "ovh-module-emailpro": "^5.1.0",
+    "ovh-utils-angular": "^13.0.0",
+    "ovh-module-sharepoint": "git+https://github.com/ovh-ux/ovh-module-sharepoint#refactor\/translation-upgrade",
+    "ovh-module-exchange": "git+https://github.com/ovh-ux/ovh-module-exchange#fix\/translation-manager-web",
+    "ovh-module-office": "git+https://github.com/ovh-ux/ovh-module-office#refactor\/translation-upgrade",
+    "ovh-module-emailpro": "git+https://github.com/ovh-ux/ovh-module-emailpro#refactor\/translation-upgrade",
     "ovh-angular-proxy-request": "^0.1.0",
     "ovh-angular-http": "^3.0.1",
     "ipaddr.js": "git+https://github.com/whitequark/ipaddr.js",
@@ -71,7 +71,7 @@
     "ng-file-upload": "^12.0.4",
     "jsurl": "https://github.com/Sage/jsurl.git#~0.1.4",
     "ovh-angular-sso-auth-modal-plugin": "^2.0.1",
-    "raven-js": "https://github.com/getsentry/raven-js/archive/3.3.0.zip",
+    "raven-js": "~3.3.0",
     "ovh-angular-sso-auth": "^3.1.2",
     "bs4": "bootstrap#v4.0.0-beta",
     "angular-ui-router": "1.0.15",
