@@ -36,7 +36,7 @@
     "lodash": "~3.10.x",
     "ovh-utils-angular": "^13.0.0",
     "ovh-module-sharepoint": "^6.0.0",
-    "ovh-module-exchange": "^8.0.0",
+    "ovh-module-exchange": "git+https://github.com/ovh-ux/ovh-module-exchange.git#fix/exchange-delete-modal",
     "ovh-module-office": "^6.0.0",
     "ovh-module-emailpro": "^6.0.0",
     "ovh-angular-proxy-request": "^0.1.0",
