@@ -4,30 +4,75 @@ angular.module('App').controller(
     constructor(
       $scope,
       $stateParams,
+      $translate,
       Alerter,
       hostingSSLCertificate,
-      translator,
+      HostingLocalSeo,
+      HostingRuntimes,
     ) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
 
       this.Alerter = Alerter;
       this.hostingSSLCertificate = hostingSSLCertificate;
-      this.translator = translator;
+      this.HostingLocalSeo = HostingLocalSeo;
+      this.HostingRuntimes = HostingRuntimes;
     }
 
     $onInit() {
-      this.$scope.$on('hosting.ssl.reload', () =>
-        this.retrievingSSLCertificate());
+      this.serviceName = this.$stateParams.productId;
+      this.defaultRuntime = null;
 
-      return this.retrievingSSLCertificate();
+      this.loading = {
+        defaultRuntime: true,
+        localSeo: true,
+      };
+
+      this.localSeo = {
+        isActive: false,
+        quantity: 0,
+      };
+
+      this.$scope.$on('hosting.ssl.reload', () => this.retrievingSSLCertificate());
+      return this.retrievingSSLCertificate()
+        .then(() => this.HostingRuntimes.getDefault(this.serviceName))
+        .then((runtime) => {
+          this.defaultRuntime = runtime;
+        })
+        .then(() => this.initializeLocalSeo(this.serviceName))
+        .finally(() => {
+          this.loading.defaultRuntime = false;
+          this.loading.localSeo = false;
+        });
+    }
+
+    initializeLocalSeo(serviceName) {
+      if (!this.$scope.localSeoAvailable) {
+        return false;
+      }
+
+      return this.HostingLocalSeo.getAccounts(serviceName)
+        .then((accountIds) => {
+          if (!accountIds || accountIds.length <= 0) {
+            throw new Error('No LocalSEO Accounts');
+          }
+          return this.HostingLocalSeo.getAccount(serviceName, _.first(accountIds));
+        })
+        .then((account) => {
+          this.localSeo.isActive = account.status === 'created';
+        })
+        .then(() => this.HostingLocalSeo.getLocations(serviceName))
+        .then((locationIds) => {
+          this.localSeo.quantity = locationIds.length;
+        });
     }
 
     retrievingSSLCertificate() {
       this.isRetrievingSSLCertificate = true;
 
       return this.hostingSSLCertificate
-        .retrievingCertificate(this.$stateParams.productId)
+        .retrievingCertificate(this.serviceName)
         .then((certificate) => {
           this.sslCertificate = certificate;
         })
@@ -35,7 +80,7 @@ angular.module('App').controller(
           // 404 error means that the user has no SSL certificate
           if (error.status !== 404) {
             this.Alerter.alertFromSWS(
-              this.translator.tr('hosting_dashboard_ssl_details_error'),
+              this.$translate.instant('hosting_dashboard_ssl_details_error'),
               error,
               this.$scope.alerts.main,
             );
@@ -56,16 +101,16 @@ angular.module('App').controller(
 
     canRegenerateSSLCertificate() {
       return (
-        this.hasSSLCertificate() &&
-        this.sslCertificate.regenerable &&
-        this.hostingSSLCertificate.constructor.testCanBeHandled(this.sslCertificate)
+        this.hasSSLCertificate()
+        && this.sslCertificate.regenerable
+        && this.hostingSSLCertificate.constructor.testCanBeHandled(this.sslCertificate)
       );
     }
 
     canDeleteSSLCertificate() {
       return (
-        this.hasSSLCertificate() &&
-        this.hostingSSLCertificate.constructor.testCanBeHandled(this.sslCertificate)
+        this.hasSSLCertificate()
+        && this.hostingSSLCertificate.constructor.testCanBeHandled(this.sslCertificate)
       );
     }
 
@@ -75,16 +120,16 @@ angular.module('App').controller(
 
     selectSSLCertificateStatusText() {
       if (!this.hasSSLCertificate()) {
-        return this.translator.tr('common_no');
+        return this.$translate.instant('common_no');
       }
 
       if (
         this.hostingSSLCertificate.constructor.testCanBeHandled(this.sslCertificate)
       ) {
-        return this.translator.tr('common_yes');
+        return this.$translate.instant('common_yes');
       }
 
-      return this.translator.tr(`hosting_dashboard_service_ssl_${this.sslCertificate.status}`);
+      return this.$translate.instant(`hosting_dashboard_service_ssl_${this.sslCertificate.status}`);
     }
   },
 );

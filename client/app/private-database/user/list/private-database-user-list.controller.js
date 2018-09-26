@@ -1,11 +1,12 @@
 angular.module('App').controller(
   'PrivateDatabaseUsersListCtrl',
   class PrivateDatabaseUsersListCtrl {
-    constructor(Alerter, PrivateDatabase, $scope, $stateParams) {
+    constructor(Alerter, PrivateDatabase, $scope, $stateParams, $translate) {
       this.alerter = Alerter;
       this.privateDatabaseService = PrivateDatabase;
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
     }
 
     $onInit() {
@@ -28,8 +29,8 @@ angular.module('App').controller(
       this.getUsers();
 
       /*
-           * Listners
-           */
+       * Listners
+       */
       _.forEach(this.statusToWatch, (state) => {
         this.$scope.$on(`privateDatabase.user.create.${state}`, this[`onUserCreate${state}`].bind(this));
         this.$scope.$on(`privateDatabase.user.delete.${state}`, this[`onUserDelete${state}`].bind(this));
@@ -98,29 +99,33 @@ angular.module('App').controller(
     }
 
     /*
-       * Create User jobs
-       */
+     * Create User jobs
+     */
     onUserCreatestart(evt, opts) {
       this.currentUsers.add.push(opts.userName);
     }
 
     onUserCreatedone(evt, opts) {
-      this.currentUsers.add =
-        _.remove(this.currentUsers.add, userName => userName !== opts.userName);
+      this.currentUsers.add = _.remove(
+        this.currentUsers.add,
+        userName => userName !== opts.userName,
+      );
       this.getUsers();
     }
 
     onUserCreateerror(evt, opts) {
-      this.currentUsers.add =
-        _.remove(this.currentUsers.add, userName => userName !== opts.userName);
-      this.alerter.error(this.$scope.tr('privateDatabase_add_user_fail'), this.$scope.alerts.main);
+      this.currentUsers.add = _.remove(
+        this.currentUsers.add,
+        userName => userName !== opts.userName,
+      );
+      this.alerter.error(this.$translate.instant('privateDatabase_add_user_fail'), this.$scope.alerts.main);
     }
 
     /** EndCreateUserJobs */
 
     /*
-       * delete User jobs
-       */
+     * delete User jobs
+     */
     onUserDeletestart(evt, opts) {
       let unregister = null;
       const todo = () => {
@@ -154,7 +159,7 @@ angular.module('App').controller(
         if (idx !== -1) {
           delete this.userDetails[idx].waiteDelete;
 
-          this.alerter.error(this.$scope.tr('privateDatabase_delete_user_fail'), this.$scope.alerts.main);
+          this.alerter.error(this.$translate.instant('privateDatabase_delete_user_fail'), this.$scope.alerts.main);
 
           if (unregister) {
             unregister();
@@ -200,7 +205,7 @@ angular.module('App').controller(
         if (idx !== -1) {
           delete this.userDetails[idx].waitChangePassword;
 
-          this.alerter.success(this.$scope.tr('privateDatabase_change_userPassword_done'), this.$scope.alerts.main);
+          this.alerter.success(this.$translate.instant('privateDatabase_change_userPassword_done'), this.$scope.alerts.main);
 
           if (unregister) {
             unregister();
@@ -223,7 +228,7 @@ angular.module('App').controller(
         if (idx !== -1) {
           delete this.userDetails[idx].waitChangePassword;
 
-          this.alerter.error(this.$scope.tr('privateDatabase_change_userPassword_fail'), this.$scope.alerts.main);
+          this.alerter.error(this.$translate.instant('privateDatabase_change_userPassword_fail'), this.$scope.alerts.main);
 
           if (unregister) {
             unregister();

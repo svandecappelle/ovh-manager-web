@@ -2,13 +2,14 @@ angular
   .module('App')
   .controller('EmailDomainEmailCtrl', class EmailDomainEmailCtrl {
     constructor(
-      $q, $scope, $stateParams, $timeout, $window,
+      $q, $scope, $stateParams, $timeout, $translate, $window,
       Alerter, constants, Emails, ovhUserPref, User,
     ) {
       this.$q = $q;
       this.$scope = $scope;
       this.$stateParams = $stateParams;
       this.$timeout = $timeout;
+      this.$translate = $translate;
       this.$window = $window;
 
       this.Alerter = Alerter;
@@ -72,8 +73,10 @@ angular
         }) => {
           this.webMailUrl = webMailUrl;
           this.webOMMUrl = webOMMUrl;
-          this.delegationsIsAvailable =
-            _.includes([serviceInfos.contactTech, serviceInfos.contactAdmin], user.nichandle);
+          this.delegationsIsAvailable = _.includes(
+            [serviceInfos.contactTech, serviceInfos.contactAdmin],
+            user.nichandle,
+          );
           this.domains = allDomains;
           this.quotas = quotas;
           this.summary = summary;
@@ -186,11 +189,11 @@ angular
           const canCreateAccounts = _(this.quotas).get('account', 0) > 0;
           const userMustCreateAccount = (this.emails.length === 1 && this.emails[0] === 'postmaster') || _.isEmpty(this.emails);
 
-          if (shouldShowHelp &&
-              !guidesAlreadyRetrieved &&
-              !this.search.accounts &&
-              canCreateAccounts &&
-              userMustCreateAccount) {
+          if (shouldShowHelp
+              && !guidesAlreadyRetrieved
+              && !this.search.accounts
+              && canCreateAccounts
+              && userMustCreateAccount) {
             this.$timeout(() => {
               if (this.quotas != null) {
                 this.$scope.setAction('email-domain/email/help/email-domain-email-help', {
@@ -204,7 +207,7 @@ angular
           }
         })
         .catch((err) => {
-          this.Alerter.alertFromSWS(this.$scope.tr('email_tab_table_accounts_error'), err, this.$scope.alerts.main);
+          this.Alerter.alertFromSWS(this.$translate.instant('email_tab_table_accounts_error'), err, this.$scope.alerts.main);
         })
         .finally(() => {
           if (_.isEmpty(this.emails)) {

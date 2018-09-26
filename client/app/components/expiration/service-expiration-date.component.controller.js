@@ -2,13 +2,12 @@
   class ServiceExpirationDateComponentCtrl {
     constructor($scope, $rootScope) {
       $scope.tr = $rootScope.tr;
-      $scope.i18n = $rootScope.i18n;
     }
 
     $onInit() {
       if (
-        !angular.isObject(this.serviceInfos) ||
-        !_.isString(this.serviceName)
+        !angular.isObject(this.serviceInfos)
+        || !_.isString(this.serviceName)
       ) {
         throw new Error('serviceExpirationDate: Missing parameter(s)');
       }
@@ -47,16 +46,16 @@
 
     isAutoRenew() {
       return (
-        this.serviceInfos.renew &&
-        (this.serviceInfos.renew.automatic || this.serviceInfos.renew.forced)
+        this.serviceInfos.renew
+        && (this.serviceInfos.renew.automatic || this.serviceInfos.renew.forced)
       );
     }
 
     isExpired() {
       const diff = moment(this.serviceInfos.expiration).diff(moment(), 'days');
       return (
-        this.serviceInfos.expiration &&
-        (diff <= 0 || this.serviceInfos.status === 'expired')
+        this.serviceInfos.expiration
+        && (diff <= 0 || this.serviceInfos.status === 'expired')
       );
     }
   }

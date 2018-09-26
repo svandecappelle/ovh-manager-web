@@ -1,9 +1,10 @@
 angular.module('App').controller(
   'DomainTabZoneDnsCtrl',
   class DomainTabZoneDnsCtrl {
-    constructor($scope, $q, Alerter, Domain, User) {
+    constructor($scope, $q, $translate, Alerter, Domain, User) {
       this.$scope = $scope;
       this.$q = $q;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.User = User;
@@ -34,8 +35,7 @@ angular.module('App').controller(
         this.selectedRecords = [];
         this.refreshTable();
       });
-      this.$scope.loadPaginated = (count, offset) =>
-        this.loadPaginated(count, offset);
+      this.$scope.loadPaginated = (count, offset) => this.loadPaginated(count, offset);
 
       this.checkAllowModification(this.domain.name);
       this.getZoneDns(this.domain.name);
@@ -68,14 +68,13 @@ angular.module('App').controller(
           user: this.User.getUser(),
         })
         .then(({ domainServiceInfo, zoneServiceInfo, user }) => {
-          this.allowModification =
-            user &&
-            ((domainServiceInfo &&
-              (domainServiceInfo.contactTech === user.nichandle ||
-                domainServiceInfo.contactAdmin === user.nichandle)) ||
-              (zoneServiceInfo &&
-                (zoneServiceInfo.contactTech === user.nichandle ||
-                  zoneServiceInfo.contactAdmin === user.nichandle)));
+          this.allowModification = user
+            && ((domainServiceInfo
+              && (domainServiceInfo.contactTech === user.nichandle
+                || domainServiceInfo.contactAdmin === user.nichandle))
+              || (zoneServiceInfo
+                && (zoneServiceInfo.contactTech === user.nichandle
+                  || zoneServiceInfo.contactAdmin === user.nichandle)));
         });
     }
 
@@ -123,8 +122,8 @@ angular.module('App').controller(
             .sort();
 
           if (
-            !_.isEmpty(this.defaultsDns) &&
-            !_.isEqual(this.defaultsDns, this.activatedDns)
+            !_.isEmpty(this.defaultsDns)
+            && !_.isEqual(this.defaultsDns, this.activatedDns)
           ) {
             this.useDefaultsDns = false;
           }
@@ -150,16 +149,14 @@ angular.module('App').controller(
           }
           this.displayActivateZone = false;
           this.applySelection();
-          return this.Domain.getZoneStatus(this.domain.name).catch(err =>
-            this.Alerter.alertFromSWS(
-              this.$scope.tr('domain_dashboard_loading_error'),
-              err,
-              this.$scope.alerts.main,
-            ));
+          return this.Domain.getZoneStatus(this.domain.name).catch(err => this.Alerter.alertFromSWS(
+            this.$translate.instant('domain_dashboard_loading_error'),
+            err,
+            this.$scope.alerts.main,
+          ));
         })
         .then((data) => {
-          this.zoneStatusErrors =
-            (data && !data.isDeployed && _.get(data, 'errors', [])) || [];
+          this.zoneStatusErrors = (data && !data.isDeployed && _.get(data, 'errors', [])) || [];
           this.zoneStatusWarnings = _.get(data, 'warnings', []);
         })
         .catch((err) => {
@@ -178,7 +175,7 @@ angular.module('App').controller(
             this.displayActivateZone = true;
           } else {
             this.Alerter.alertFromSWS(
-              this.$scope.tr('domain_dashboard_loading_error'),
+              this.$translate.instant('domain_dashboard_loading_error'),
               _.get(err, 'data', err),
               this.$scope.alerts.main,
             );
@@ -198,9 +195,9 @@ angular.module('App').controller(
 
     targetIsRelativeDomain(domain) {
       return (
-        domain.target &&
-        _.indexOf(this.typesToCheck, domain.fieldType) !== -1 &&
-        /\..*[^.]$/.test(domain.target)
+        domain.target
+        && _.indexOf(this.typesToCheck, domain.fieldType) !== -1
+        && /\..*[^.]$/.test(domain.target)
       );
     }
 

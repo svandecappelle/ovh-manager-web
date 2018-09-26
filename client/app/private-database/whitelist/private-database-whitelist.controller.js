@@ -6,12 +6,14 @@ angular.module('App').controller(
       PrivateDatabase,
       $scope,
       $stateParams,
+      $translate,
       WhitelistService,
     ) {
       this.alerter = Alerter;
       this.privateDatabaseService = PrivateDatabase;
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.whitelistService = WhitelistService;
     }
 
@@ -38,8 +40,7 @@ angular.module('App').controller(
       });
       this.$scope.$on(
         'privateDatabase.whitelist.update.done',
-        opts =>
-          (opts.serviceName === this.serviceName ? this.getList() : undefined),
+        opts => (opts.serviceName === this.serviceName ? this.getList() : undefined),
       );
 
       _.forEach(['done', 'error'], (state) => {
@@ -111,7 +112,7 @@ angular.module('App').controller(
 
     onWhitelistCreateerror() {
       this.alerter.error(
-        this.$scope.tr('privateDatabase_modale_whitelist_add_fail'),
+        this.$translate.instant('privateDatabase_modale_whitelist_add_fail'),
         this.$scope.alerts.main,
       );
       this.getList();
@@ -165,7 +166,7 @@ angular.module('App').controller(
           delete el.deleting;
 
           this.alerter.error(
-            this.$scope.tr('privateDatabase_modale_whitelist_delete_fail'),
+            this.$translate.instant('privateDatabase_modale_whitelist_delete_fail'),
             this.$scope.alerts.main,
           );
 

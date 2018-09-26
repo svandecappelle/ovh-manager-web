@@ -18,15 +18,9 @@ angular.module('App').config(($stateProvider) => {
           });
         },
       ],
-      translator: [
-        'translator',
-        translator =>
-          translator
-            .load(['domain', 'hosting', 'website'])
-            .then(() => translator),
-      ],
       currentSection: () => 'website',
     },
+    translations: ['domain', 'hosting', 'website'],
   });
 
   $stateProvider.state('app.website-success', {
@@ -48,14 +42,8 @@ angular.module('App').config(($stateProvider) => {
           });
         },
       ],
-      translator: [
-        'translator',
-        translator =>
-          translator
-            .load(['domain', 'hosting', 'website'])
-            .then(() => translator),
-      ],
       currentSection: () => 'website',
     },
+    translations: ['domain', 'hosting', 'website'],
   });
 });

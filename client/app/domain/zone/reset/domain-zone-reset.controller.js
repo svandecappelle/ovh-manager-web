@@ -1,9 +1,10 @@
 angular.module('App').controller(
   'DomainZoneResetCtrl',
   class DomainZoneResetCtrl {
-    constructor($scope, $q, Alerter, Domain, DomainValidator, Emails, Hosting) {
+    constructor($scope, $q, $translate, Alerter, Domain, DomainValidator, Emails, Hosting) {
       this.$scope = $scope;
       this.$q = $q;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.DomainValidator = DomainValidator;
@@ -38,9 +39,9 @@ angular.module('App').controller(
     checkValidityA(input) {
       input.$setValidity(
         'ipv4',
-        this.aOpts.custom === null ||
-          this.aOpts.custom === '' ||
-          this.DomainValidator.isValidTarget(this.aOpts.custom, 'A'),
+        this.aOpts.custom === null
+          || this.aOpts.custom === ''
+          || this.DomainValidator.isValidTarget(this.aOpts.custom, 'A'),
       );
     }
 
@@ -77,23 +78,21 @@ angular.module('App').controller(
       return this.$q
         .all({
           hostingList: this.Hosting.getHostings(),
-          email: this.Emails.getDomain(this.domain.name).catch(() =>
-            this.$q.resolve(null)),
+          email: this.Emails.getDomain(this.domain.name).catch(() => this.$q.resolve(null)),
         })
         .then((data) => {
           this.hostingList = data.hostingList;
           if (data.email) {
-            this.mxOpts.enum =
-              data.email.offer === 'MXREDIRECT'
-                ? this.mxOpts.enum.filter(enumMx => enumMx !== 'EMAILS')
-                : this.mxOpts.enum;
+            this.mxOpts.enum = data.email.offer === 'MXREDIRECT'
+              ? this.mxOpts.enum.filter(enumMx => enumMx !== 'EMAILS')
+              : this.mxOpts.enum;
           } else {
             this.mxOpts.enum = this.mxOpts.enum.filter(enumMx => enumMx !== 'EMAILS');
           }
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_configuration_zonedns_reset_error'),
+            this.$translate.instant('domain_configuration_zonedns_reset_error'),
             err,
             this.$scope.alerts.main,
           );
@@ -134,17 +133,15 @@ angular.module('App').controller(
             dnsRecords.length ? dnsRecords : null,
           );
         })
-        .then(() =>
-          this.Alerter.success(
-            this.$scope.tr('domain_configuration_zonedns_reset_success'),
-            this.$scope.alerts.main,
-          ))
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_configuration_zonedns_reset_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Alerter.success(
+          this.$translate.instant('domain_configuration_zonedns_reset_success'),
+          this.$scope.alerts.main,
+        ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('domain_configuration_zonedns_reset_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
           this.$scope.resetAction();

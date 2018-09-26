@@ -4,24 +4,23 @@ angular.module('App').controller(
     constructor(
       $scope,
       $stateParams,
+      $translate,
       Alerter,
       hostingSSLCertificate,
       hostingSSLCertificateType,
-      translator,
     ) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
 
       this.Alerter = Alerter;
       this.hostingSSLCertificate = hostingSSLCertificate;
       this.hostingSSLCertificateType = hostingSSLCertificateType;
-      this.translator = translator;
     }
 
     $onInit() {
-      this.wasCertificateFree =
-        this.hostingSSLCertificateType.constructor
-          .getCertificateTypeByProvider(this.$scope.currentActionData.provider).isFree;
+      this.wasCertificateFree = this.hostingSSLCertificateType.constructor
+        .getCertificateTypeByProvider(this.$scope.currentActionData.provider).isFree;
 
       this.$scope.deletingCertificate = () => this.deletingCertificate();
     }
@@ -32,13 +31,13 @@ angular.module('App').controller(
         .then(() => {
           this.hostingSSLCertificate.reload();
           this.Alerter.success(
-            this.translator.tr('hosting_dashboard_service_delete_ssl_success'),
+            this.$translate.instant('hosting_dashboard_service_delete_ssl_success'),
             this.$scope.alerts.main,
           );
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.translator.tr('hosting_dashboard_service_delete_ssl_error'),
+            this.$translate.instant('hosting_dashboard_service_delete_ssl_error'),
             err.data,
             this.$scope.alerts.main,
           );

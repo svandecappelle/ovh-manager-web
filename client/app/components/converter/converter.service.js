@@ -1,8 +1,8 @@
 angular.module('services').service(
   'ConverterService',
   class ConverterService {
-    constructor(translator) {
-      this.translator = translator;
+    constructor($translate) {
+      this.$translate = $translate;
 
       this.base = 1000;
 
@@ -33,35 +33,35 @@ angular.module('services').service(
         },
         {
           val:
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base,
+            this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base,
           unit: 'EB',
         },
         {
           val:
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base,
+            this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base,
           unit: 'ZB',
         },
         {
           val:
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base *
-            this.base,
+            this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base
+            * this.base,
           unit: 'YB',
         },
       ];
@@ -96,11 +96,11 @@ angular.module('services').service(
      */
     convertBytesSize(nb, unit, decimalWanted = 0) {
       if (
-        !_.isNumber(Number(nb)) ||
-        !_.isString(unit) ||
-        !_.isNumber(decimalWanted) ||
-        nb <= 0 ||
-        decimalWanted < 0
+        !_.isNumber(Number(nb))
+        || !_.isString(unit)
+        || !_.isNumber(decimalWanted)
+        || nb <= 0
+        || decimalWanted < 0
       ) {
         throw new Error('Wrong parameter(s)');
       }
@@ -116,7 +116,7 @@ angular.module('services').service(
       const bestUnitIndex = Math.floor(Math.log(convertedNb) / Math.log(this.base));
 
       convertedNb = `${(convertedNb / this.def[bestUnitIndex].val).toFixed(decimalWanted)}`;
-      const bestUnit = this.translator.tr(`unit_size_${this.def[bestUnitIndex].unit}`);
+      const bestUnit = this.$translate.instant(`unit_size_${this.def[bestUnitIndex].unit}`);
 
       return {
         val: convertedNb,

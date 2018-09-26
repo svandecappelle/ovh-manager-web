@@ -1,9 +1,10 @@
 angular.module('App').controller(
   'HostingTabFTPCtrl',
   class HostingTabFTPCtrl {
-    constructor($scope, $stateParams, Alerter, Hosting, HostingUser) {
+    constructor($scope, $stateParams, $translate, Alerter, Hosting, HostingUser) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Hosting = Hosting;
       this.HostingUser = HostingUser;
@@ -29,8 +30,7 @@ angular.module('App').controller(
         value: null,
       };
 
-      this.$scope.loadFtpInformations = (count, offset) =>
-        this.loadFtpInformations(count, offset);
+      this.$scope.loadFtpInformations = (count, offset) => this.loadFtpInformations(count, offset);
 
       this.$scope.$on(this.Hosting.events.tabFtpRefresh, () => {
         if (_.get(this.ftpInformations, 'hasMultiFtp', false)) {
@@ -102,11 +102,11 @@ angular.module('App').controller(
       )
         .then((ftpInformations) => {
           if (
-            ftpInformations != null &&
-            !_.isEmpty(ftpInformations.list.results)
+            ftpInformations != null
+            && !_.isEmpty(ftpInformations.list.results)
           ) {
-            const firstUserCredentials =
-              ftpInformations.list.results[0].serviceManagementCredentials;
+            const firstUserCredentials = ftpInformations.list.results[0]
+              .serviceManagementCredentials;
             this.hasResult = true;
             this.firstUser = {
               ftp: firstUserCredentials.ftp,
@@ -139,11 +139,10 @@ angular.module('App').controller(
           });
           /* eslint-enable no-param-reassign */
 
-          this.primaryUserEnabled =
-            ftpInformations.list.results.length &&
-            ftpInformations.list.results[0].isPrimaryAccount
-              ? ftpInformations.list.results[0].state === 'RW'
-              : null;
+          this.primaryUserEnabled = ftpInformations.list.results.length
+            && ftpInformations.list.results[0].isPrimaryAccount
+            ? ftpInformations.list.results[0].state === 'RW'
+            : null;
           this.ftpInformations = ftpInformations;
         })
         .finally(() => {
@@ -166,15 +165,15 @@ angular.module('App').controller(
       )
         .then(() => {
           this.Alerter.success(
-            this.$scope.tr('hosting_tab_FTP_configuration_change_password_success'),
+            this.$translate.instant('hosting_tab_FTP_configuration_change_password_success'),
             this.$scope.alerts.main,
           );
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr(
+            this.$translate.instant(
               'hosting_tab_FTP_configuration_change_password_fail',
-              [this.ftpInformations.primaryLogin],
+              { t0: this.ftpInformations.primaryLogin },
             ),
             _.get(err, 'data', err),
             this.$scope.alerts.main,
@@ -216,7 +215,7 @@ angular.module('App').controller(
       })
         .then(() => {
           this.Alerter.success(
-            this.$scope.tr('hosting_tab_FTP_configuration_user_modify_success'),
+            this.$translate.instant('hosting_tab_FTP_configuration_user_modify_success'),
             this.$scope.alerts.main,
           );
           this.startPolling();
@@ -225,7 +224,7 @@ angular.module('App').controller(
           const idx = _.indexOf(this.ftpInformations.list.result, element);
           this.ftpInformations.list.result[idx] = _.assign(element, prev);
           this.Alerter.alertFromSWS(
-            this.$scope.tr('hosting_tab_FTP_configuration_user_modify_fail'),
+            this.$translate.instant('hosting_tab_FTP_configuration_user_modify_fail'),
             err,
             this.$scope.alerts.main,
           );

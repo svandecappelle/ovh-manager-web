@@ -1,8 +1,9 @@
 angular.module('App').controller(
   'DomainDynHostLoginAddCtrl',
   class DomainDynHostLoginAddCtrl {
-    constructor($scope, Alerter, Domain, Validator) {
+    constructor($scope, $translate, Alerter, Domain, Validator) {
       this.$scope = $scope;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.Validator = Validator;
@@ -24,10 +25,9 @@ angular.module('App').controller(
     }
 
     isPasswordMatches(input = null) {
-      const valid =
-        !!this.dynHostLogin.password &&
-        !!this.validation.password &&
-        this.dynHostLogin.password === this.validation.password;
+      const valid = !!this.dynHostLogin.password
+        && !!this.validation.password
+        && this.dynHostLogin.password === this.validation.password;
       if (input && typeof input.$setValidity === 'function') {
         input.$setValidity('match', valid);
       }
@@ -44,8 +44,8 @@ angular.module('App').controller(
     subDomainCheck(input) {
       input.$setValidity(
         'subdomain',
-        this.dynHostLogin.subDomain === '*' ||
-          this.Validator.isValidSubDomain(this.dynHostLogin.subDomain),
+        this.dynHostLogin.subDomain === '*'
+          || this.Validator.isValidSubDomain(this.dynHostLogin.subDomain),
       );
     }
 
@@ -54,17 +54,15 @@ angular.module('App').controller(
       this.dynHostLogin.subDomain = punycode.toASCII(this.dynHostLogin.subDomain);
 
       return this.Domain.addDynHostLogin(this.product.name, this.dynHostLogin)
-        .then(() =>
-          this.Alerter.success(
-            this.$scope.tr('domain_tab_DYNHOST_add_login_success'),
-            this.$scope.alerts.main,
-          ))
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_tab_DYNHOST_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Alerter.success(
+          this.$translate.instant('domain_tab_DYNHOST_add_login_success'),
+          this.$scope.alerts.main,
+        ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('domain_tab_DYNHOST_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
           this.$scope.resetAction();

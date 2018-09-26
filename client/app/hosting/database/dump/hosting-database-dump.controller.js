@@ -1,10 +1,11 @@
 angular.module('App').controller(
   'DatabaseDumpsCtrl',
   class DatabaseDumpsCtrl {
-    constructor($scope, $q, $stateParams, $window, Alerter, HostingDatabase) {
+    constructor($scope, $q, $stateParams, $translate, $window, Alerter, HostingDatabase) {
       this.$scope = $scope;
       this.$q = $q;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.$window = $window;
       this.alerter = Alerter;
       this.hostingDatabase = HostingDatabase;
@@ -37,12 +38,11 @@ angular.module('App').controller(
           this.databaseDumps = databaseDumps;
           return databaseDumps;
         })
-        .catch(err =>
-          this.alerter.alertFromSWS(
-            this.$scope.tr('hosting_tab_databases_dumps_error_fetch'),
-            err,
-            this.$scope.alerts.main,
-          ));
+        .catch(err => this.alerter.alertFromSWS(
+          this.$translate.instant('hosting_tab_databases_dumps_error_fetch'),
+          err,
+          this.$scope.alerts.main,
+        ));
     }
 
     transformItem(item) {
@@ -71,14 +71,14 @@ angular.module('App').controller(
       });
 
       this.alerter.success(
-        this.$scope.tr('database_tabs_dumps_delete_start'),
+        this.$translate.instant('database_tabs_dumps_delete_start'),
         this.$scope.alerts.main,
       );
     }
 
     onDataBaseDumpDeletedoing() {
       this.alerter.success(
-        this.$scope.tr('database_tabs_dumps_delete_in_progress'),
+        this.$translate.instant('database_tabs_dumps_delete_in_progress'),
         this.$scope.alerts.main,
       );
     }
@@ -86,7 +86,7 @@ angular.module('App').controller(
     onDataBaseDumpDeletedone() {
       this.loadDumps();
       this.alerter.success(
-        this.$scope.tr('database_tabs_dumps_delete_success'),
+        this.$translate.instant('database_tabs_dumps_delete_success'),
         this.$scope.alerts.main,
       );
     }
@@ -97,7 +97,7 @@ angular.module('App').controller(
           if (idx !== -1) {
             delete this.databaseDumps[idx].waitDelete;
             this.alerter.error(
-              this.$scope.tr('database_tabs_dumps_delete_fail'),
+              this.$translate.instant('database_tabs_dumps_delete_fail'),
               this.$scope.alerts.main,
             );
           }
@@ -111,7 +111,7 @@ angular.module('App').controller(
       this.findItemIndex(dump.id).then((idx) => {
         this.databaseDumps[idx].waitRestore = true;
         this.alerter.success(
-          this.$scope.tr('database_tabs_dumps_restore_start'),
+          this.$translate.instant('database_tabs_dumps_restore_start'),
           this.$scope.alerts.main,
         );
       });
@@ -119,7 +119,7 @@ angular.module('App').controller(
 
     onDataBaseDumpRestoredoing() {
       this.alerter.success(
-        this.$scope.tr('database_tabs_dumps_restore_in_progress'),
+        this.$translate.instant('database_tabs_dumps_restore_in_progress'),
         this.$scope.alerts.main,
       );
     }
@@ -131,7 +131,7 @@ angular.module('App').controller(
         delete dump.waitRestore; // eslint-disable-line no-param-reassign
       });
       this.alerter.success(
-        this.$scope.tr('database_tabs_dumps_restore_success'),
+        this.$translate.instant('database_tabs_dumps_restore_success'),
         this.$scope.alerts.main,
       );
     }
@@ -143,7 +143,7 @@ angular.module('App').controller(
         this.findItemIndex(dump.id).then((idx) => {
           this.databaseDumps[idx].waitRestore = null;
           this.alerter.error(
-            this.$scope.tr('database_tabs_dumps_restore_fail'),
+            this.$translate.instant('database_tabs_dumps_restore_fail'),
             this.$scope.alerts.main,
           );
         });

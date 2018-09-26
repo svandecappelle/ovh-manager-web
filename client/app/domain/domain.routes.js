@@ -26,14 +26,8 @@ angular.module('App').config(($stateProvider) => {
           });
         },
       ],
-      translator: [
-        'translator',
-        translator =>
-          translator
-            .load(['domain', 'email', 'hosting', 'domainsOperations'])
-            .then(() => translator),
-      ],
     },
+    translations: ['domain', 'email', 'hosting', 'domain-operation'],
   });
 
   $stateProvider.state('app.domain.alldom', {
@@ -58,13 +52,7 @@ angular.module('App').config(($stateProvider) => {
           });
         },
       ],
-      translator: [
-        'translator',
-        translator =>
-          translator
-            .load(['domain', 'email', 'hosting', 'domainsOperations'])
-            .then(() => translator),
-      ],
     },
+    translations: ['domain', 'email', 'hosting', 'domain-operation'],
   });
 });

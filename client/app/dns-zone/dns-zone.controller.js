@@ -17,6 +17,7 @@ angular.module('App').controller(
       $q,
       $stateParams,
       $timeout,
+      $translate,
       Alerter,
       Domain,
       Products,
@@ -26,6 +27,7 @@ angular.module('App').controller(
       this.$q = $q;
       this.$stateParams = $stateParams;
       this.$timeout = $timeout;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.Products = Products;
@@ -88,12 +90,11 @@ angular.module('App').controller(
             return this.domain;
           });
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_dashboard_loading_error'),
-            err,
-            this.$scope.alerts.page,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('domain_dashboard_loading_error'),
+          err,
+          this.$scope.alerts.page,
+        ))
         .finally(() => {
           this.loading.domainsInfos = false;
         });

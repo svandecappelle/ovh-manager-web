@@ -5,12 +5,14 @@ angular.module('App').controller(
      * Constructor
      * @param $scope
      * @param $stateParams
+     * @param $translate
      * @param Alerter
      * @param Emails
      */
-    constructor($scope, $stateParams, Alerter, Emails) {
+    constructor($scope, $stateParams, $translate, Alerter, Emails) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Emails = Emails;
     }
@@ -20,8 +22,7 @@ angular.module('App').controller(
         responders: false,
       };
 
-      this.$scope.$on('hosting.tabs.delegate.responders.refresh', () =>
-        this.refreshTableResponders());
+      this.$scope.$on('hosting.tabs.delegate.responders.refresh', () => this.refreshTableResponders());
 
       this.refreshTableResponders();
     }
@@ -43,12 +44,11 @@ angular.module('App').controller(
           this.accounts = _.map(data, email => email.split('@')[0]);
           this.emailsList = data.sort();
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_table_accounts_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('email_tab_table_accounts_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           if (_.isEmpty(this.emailsList)) {
             this.loading.responders = false;

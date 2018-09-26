@@ -5,6 +5,7 @@ angular.module('App').controller(
       $scope,
       $q,
       $stateParams,
+      $translate,
       Alerter,
       PrivateDatabase,
       Hosting,
@@ -14,6 +15,7 @@ angular.module('App').controller(
       this.$scope = $scope;
       this.$q = $q;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.PrivateDatabase = PrivateDatabase;
       this.Hosting = Hosting;
@@ -114,7 +116,7 @@ angular.module('App').controller(
           if (this.model.addIp) {
             return this.whitelistService.createWhitelist(this.productId, {
               ip: this.model.ip.value,
-              name: this.$scope.tr('privateDatabase_add_authorized_ip_description'),
+              name: this.$translate.instant('privateDatabase_add_authorized_ip_description'),
               service: true,
               sftp: false,
             });
@@ -122,16 +124,14 @@ angular.module('App').controller(
           return null;
         })
         .then(
-          () =>
-            this.Alerter.success(
-              this.$scope.tr('privateDatabase_add_bdd_success'),
-              this.$scope.alerts.main,
-            ),
-          () =>
-            this.Alerter.error(
-              this.$scope.tr('privateDatabase_add_bdd_fail'),
-              this.$scope.alerts.main,
-            ),
+          () => this.Alerter.success(
+            this.$translate.instant('privateDatabase_add_bdd_success'),
+            this.$scope.alerts.main,
+          ),
+          () => this.Alerter.error(
+            this.$translate.instant('privateDatabase_add_bdd_fail'),
+            this.$scope.alerts.main,
+          ),
         );
     }
 
@@ -140,24 +140,24 @@ angular.module('App').controller(
         return this.isBddNameValid();
       }
       return (
-        this.isBddNameValid() &&
-        this.isLoginValid() &&
-        this.isPasswordValid() &&
-        !!this.model.user.grant.value
+        this.isBddNameValid()
+        && this.isLoginValid()
+        && this.isPasswordValid()
+        && !!this.model.user.grant.value
       );
     }
 
     isBddNameValid() {
       return (
-        this.model.database.value &&
-        this.model.database.condition.reg.test(this.model.database.value)
+        this.model.database.value
+        && this.model.database.condition.reg.test(this.model.database.value)
       );
     }
 
     isLoginValid() {
       return (
-        this.model.user.login.value &&
-        this.model.user.login.condition.reg.test(this.model.user.login.value)
+        this.model.user.login.value
+        && this.model.user.login.condition.reg.test(this.model.user.login.value)
       );
     }
 
@@ -167,22 +167,22 @@ angular.module('App').controller(
 
     checkPassword() {
       return (
-        this.model.user.password.value &&
-        this.Hosting.constructor.isPasswordValid(this.model.user.password.value)
+        this.model.user.password.value
+        && this.Hosting.constructor.isPasswordValid(this.model.user.password.value)
       );
     }
 
     checkPasswordConfirm() {
       return (
-        this.model.user.password.confirm &&
-        this.Hosting.constructor.isPasswordValid(this.model.user.password.confirm) &&
-        this.model.user.password.confirm === this.model.user.password.value
+        this.model.user.password.confirm
+        && this.Hosting.constructor.isPasswordValid(this.model.user.password.confirm)
+        && this.model.user.password.confirm === this.model.user.password.value
       );
     }
 
     getGrantLabel(grant) {
       return grant
-        ? this.$scope.tr(`privateDatabase_add_bdd_new_user_grant_${grant}`)
+        ? this.$translate.instant(`privateDatabase_add_bdd_new_user_grant_${grant}`)
         : '';
     }
 

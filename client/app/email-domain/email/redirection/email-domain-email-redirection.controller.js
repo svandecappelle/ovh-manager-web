@@ -6,13 +6,15 @@ angular.module('App').controller(
      * @param $scope
      * @param $stateParams
      * @param $q
+     * @param $translate
      * @param Alerter
      * @param Emails
      */
-    constructor($scope, $stateParams, $q, Alerter, Emails) {
+    constructor($scope, $stateParams, $q, $translate, Alerter, Emails) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
       this.$q = $q;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Emails = Emails;
     }
@@ -24,8 +26,7 @@ angular.module('App').controller(
       };
       this.redirectionsDetails = [];
 
-      this.$scope.$on('hosting.tabs.emails.redirections.refresh', () =>
-        this.refreshTableRedirections());
+      this.$scope.$on('hosting.tabs.emails.redirections.refresh', () => this.refreshTableRedirections());
 
       this.refreshTableRedirections();
     }
@@ -35,14 +36,16 @@ angular.module('App').controller(
 
       const dataToExport = [
         [
-          this.$scope.tr('emails_common_from'),
-          this.$scope.tr('emails_common_to'),
+          this.$translate.instant('emails_common_from'),
+          this.$translate.instant('emails_common_to'),
         ],
       ];
 
       return this.$q
-        .all(_.map(this.redirections, ({ id }) =>
-          this.Emails.getRedirection(this.$stateParams.productId, id)))
+        .all(_.map(
+          this.redirections,
+          ({ id }) => this.Emails.getRedirection(this.$stateParams.productId, id),
+        ))
         .then(data => dataToExport.concat(_.map(data, d => [d.from, d.to])))
         .finally(() => {
           this.loading.exportCSV = false;
@@ -57,12 +60,11 @@ angular.module('App').controller(
         .then((data) => {
           this.redirections = data.map(id => ({ id }));
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_table_redirections_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('email_tab_table_redirections_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading.redirections = false;
         });

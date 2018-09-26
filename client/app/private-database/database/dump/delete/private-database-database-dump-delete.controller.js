@@ -1,9 +1,10 @@
 angular.module('controllers').controller(
   'PrivateDatabaseBDDsDumpsDeleteCtrl',
   class PrivateDatabaseBDDsDumpsDeleteCtrl {
-    constructor($scope, $stateParams, Alerter, PrivateDatabase) {
+    constructor($scope, $stateParams, $translate, Alerter, PrivateDatabase) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.alerter = Alerter;
       this.privateDatabaseService = PrivateDatabase;
     }
@@ -23,12 +24,11 @@ angular.module('controllers').controller(
           this.bdd.databaseName,
           this.dump.id,
         )
-        .catch(err =>
-          this.alerter.alertFromSWS(
-            this.$scope.tr('privateDatabase_tabs_dumps_delete_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.alerter.alertFromSWS(
+          this.$translate.instant('privateDatabase_tabs_dumps_delete_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.$scope.resetAction();
         });

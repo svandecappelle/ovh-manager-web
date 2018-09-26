@@ -5,19 +5,19 @@ angular.module('App').controller(
       $scope,
       $stateParams,
       $timeout,
+      $translate,
       Alerter,
       Hosting,
       HostingEnvvars,
-      translator,
     ) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
       this.$timeout = $timeout;
+      this.$translate = $translate;
 
       this.Alerter = Alerter;
       this.Hosting = Hosting;
       this.HostingEnvvars = HostingEnvvars;
-      this.translator = translator;
     }
 
     $onInit() {
@@ -26,8 +26,7 @@ angular.module('App').controller(
       this.envvars = [];
       this.maxEnvvars = 0;
 
-      this.$scope.$on(this.Hosting.events.tabEnvvarsRefresh, () =>
-        this.getIds());
+      this.$scope.$on(this.Hosting.events.tabEnvvarsRefresh, () => this.getIds());
 
       return this.getIds().then(() => this.loadCapabilities());
     }
@@ -39,20 +38,19 @@ angular.module('App').controller(
       return this.HostingEnvvars.list(this.$stateParams.productId)
         .then((keys) => {
           if (!_(keys).isArray()) {
-            throw this.translator.tr('hosting_tab_ENVVARS_list_error_temporary');
+            throw this.$translate.instant('hosting_tab_ENVVARS_list_error_temporary');
           }
 
           this.envvars = keys.map(key => ({ key }));
         })
         .catch((err) => {
           this.Alerter.error(
-            this.$scope.tr('hosting_tab_ENVVARS_list_error') + err.message,
+            this.$translate.instant('hosting_tab_ENVVARS_list_error') + err.message,
             this.$scope.alerts.main,
           );
         })
         .finally(() => {
-          this.hasResult =
-            _(this.envvars).isArray() && !_(this.envvars).isEmpty();
+          this.hasResult = _(this.envvars).isArray() && !_(this.envvars).isEmpty();
           this.loading = false;
         });
     }
@@ -91,7 +89,7 @@ angular.module('App').controller(
         })
         .catch((err) => {
           this.Alerter.error(
-            this.$scope.tr('hosting_tab_RUNTIMES_error') + err.message,
+            this.$translate.instant('hosting_tab_RUNTIMES_error') + err.message,
             this.$scope.alerts.main,
           );
         });

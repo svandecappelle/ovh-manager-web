@@ -6,6 +6,7 @@ angular.module('controllers').controller(
       $filter,
       $q,
       $stateParams,
+      $translate,
       Alerter,
       Domain,
       User,
@@ -16,6 +17,7 @@ angular.module('controllers').controller(
       this.$filter = $filter;
       this.$q = $q;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.User = User;
@@ -56,11 +58,10 @@ angular.module('controllers').controller(
           user: this.User.getUser(),
         })
         .then(({ serviceInfo, user }) => {
-          this.allowModification =
-            serviceInfo &&
-            user &&
-            (serviceInfo.contactTech === user.nichandle ||
-              serviceInfo.contactAdmin === user.nichandle);
+          this.allowModification = serviceInfo
+            && user
+            && (serviceInfo.contactTech === user.nichandle
+              || serviceInfo.contactAdmin === user.nichandle);
         });
 
       this.init();
@@ -90,11 +91,10 @@ angular.module('controllers').controller(
             isUsed: true,
             toDelete: false,
           }).length;
-          return this.$q.all(_.map(tabDns.dns, nameServer =>
-            this.Domain.getNameServerStatus(
-              this.$stateParams.productId,
-              nameServer.id,
-            )));
+          return this.$q.all(_.map(tabDns.dns, nameServer => this.Domain.getNameServerStatus(
+            this.$stateParams.productId,
+            nameServer.id,
+          )));
         })
         .then((nameServersStatus) => {
           if (!_.isEmpty(nameServersStatus)) {
@@ -116,8 +116,8 @@ angular.module('controllers').controller(
 
     addNewLine() {
       return (
-        this.dns.table.dns.length >= 10 ||
-        this.dns.table.dns.push({ editedHost: '', editedIp: '' })
+        this.dns.table.dns.length >= 10
+        || this.dns.table.dns.push({ editedHost: '', editedIp: '' })
       );
     }
 
@@ -140,10 +140,9 @@ angular.module('controllers').controller(
     checkAtLeastOneDns() {
       const filtered = _.filter(
         this.dns.table.dns,
-        currentDNS =>
-          !currentDNS.toDelete &&
-          ((currentDNS.host && currentDNS.editedHost == null) ||
-            (currentDNS.editedHost && currentDNS.editedHost !== '')),
+        currentDNS => !currentDNS.toDelete
+          && ((currentDNS.host && currentDNS.editedHost == null)
+            || (currentDNS.editedHost && currentDNS.editedHost !== '')),
       );
       this.atLeastOneDns = this.dns.table.dns && filtered.length > 0;
     }
@@ -160,9 +159,9 @@ angular.module('controllers').controller(
       const value = input.$viewValue;
       input.$setValidity(
         'ip',
-        value === '' ||
-          this.Validator.isValidIpv4(value) ||
-          this.Validator.isValidIpv6(value),
+        value === ''
+          || this.Validator.isValidIpv4(value)
+          || this.Validator.isValidIpv6(value),
       );
     }
 
@@ -193,15 +192,14 @@ angular.module('controllers').controller(
               dns,
             );
           })
-          .then(() =>
-            this.Alerter.success(
-              this.$scope.i18n.domain_tab_DNS_update_success,
-              this.$scope.alerts.main,
-            ))
+          .then(() => this.Alerter.success(
+            this.$translate.instant('domain_tab_DNS_update_success'),
+            this.$scope.alerts.main,
+          ))
           .catch((err) => {
             _.set(err, 'type', err.type || 'ERROR');
             this.Alerter.alertFromSWS(
-              this.$scope.i18n.domain_tab_DNS_update_error,
+              this.$translate.instant('domain_tab_DNS_update_error'),
               err,
               this.$scope.alerts.main,
             );

@@ -6,6 +6,7 @@ angular.module('App').controller(
       $interval,
       $q,
       $stateParams,
+      $translate,
       Alerter,
       Emails,
       exportCsv,
@@ -14,6 +15,7 @@ angular.module('App').controller(
       this.$interval = $interval;
       this.$q = $q;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Emails = Emails;
       this.exportCsv = exportCsv;
@@ -57,10 +59,9 @@ angular.module('App').controller(
         let quit = false;
         const requests = _.map(
           emails,
-          id =>
-            (delegated
-              ? this.Emails.getDelegatedEmail(id)
-              : this.Emails.getEmail(this.$stateParams.productId, id)),
+          id => (delegated
+            ? this.Emails.getDelegatedEmail(id)
+            : this.Emails.getEmail(this.$stateParams.productId, id)),
         );
 
         this.intervalPromise = this.$interval(() => {
@@ -92,20 +93,19 @@ angular.module('App').controller(
                   separator: ';',
                 });
                 this.Alerter.success(
-                  this.$scope.tr(
+                  this.$translate.instant(
                     'email_tab_modal_accounts_export_csv_success',
-                    [data],
+                    { t0: data },
                   ),
                   this.$scope.alerts.main,
                 );
               }
             })
-            .catch(err =>
-              this.Alerter.alertFromSWS(
-                this.$scope.tr('email_tab_modal_accounts_export_csv_error'),
-                err,
-                this.$scope.alerts.main,
-              ))
+            .catch(err => this.Alerter.alertFromSWS(
+              this.$translate.instant('email_tab_modal_accounts_export_csv_error'),
+              err,
+              this.$scope.alerts.main,
+            ))
             .finally(() => {
               this.loading.exportCsv = false;
               this.$scope.resetAction();

@@ -7,6 +7,7 @@ angular.module('App').controller(
       $q,
       $stateParams,
       $timeout,
+      $translate,
       Alerter,
       AllDom,
       Domain,
@@ -18,6 +19,7 @@ angular.module('App').controller(
       this.$q = $q;
       this.$stateParams = $stateParams;
       this.$timeout = $timeout;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.AllDom = AllDom;
       this.Domain = Domain;
@@ -64,8 +66,7 @@ angular.module('App').controller(
         }
       };
 
-      this.$scope.$on('domain.dashboard.refresh', () =>
-        this.reloadDomain(true));
+      this.$scope.$on('domain.dashboard.refresh', () => this.reloadDomain(true));
       this.$scope.$on('$locationChangeStart', () => this.$scope.resetAction());
       this.$scope.$on('transfertLock.get.done', (e, infos) => {
         this.domain.protection = infos.transferLockStatus;
@@ -84,17 +85,15 @@ angular.module('App').controller(
         .then(({
           user, domain, allDom, alldomOrder,
         }) => {
-          this.isAdmin =
-            domain.contactAdmin === user.nichandle ||
-            domain.contactTech === user.nichandle;
+          this.isAdmin = domain.contactAdmin === user.nichandle
+            || domain.contactTech === user.nichandle;
           this.domainInfos = domain;
           if (this.isAllDom) {
             this.allDom = this.$stateParams.allDom;
             this.allDomInfos = allDom;
           } else if (alldomOrder) {
-            this.alldomURL =
-              alldomOrder +
-              new URI(`http://${domain.domain}`).tld('alldom').domain();
+            this.alldomURL = alldomOrder
+              + new URI(`http://${domain.domain}`).tld('alldom').domain();
           }
         })
         .catch(() => {
@@ -139,7 +138,7 @@ angular.module('App').controller(
 
             if (messages.length > 0) {
               this.Alerter.alertFromSWS(
-                this.$scope.tr('domain_dashboard_loading_error'),
+                this.$translate.instant('domain_dashboard_loading_error'),
                 { state: 'ERROR', messages },
                 this.$scope.alerts.page,
               );
@@ -180,11 +179,10 @@ angular.module('App').controller(
             }),
           ]);
         })
-        .catch(() =>
-          this.Alerter.error(
-            this.$scope.tr('domain_dashboard_loading_error'),
-            this.$scope.alerts.page,
-          ))
+        .catch(() => this.Alerter.error(
+          this.$translate.instant('domain_dashboard_loading_error'),
+          this.$scope.alerts.page,
+        ))
         .finally(() => {
           this.loading.domainInfos = false;
           this.$scope.$broadcast('domain.refreshData.done');

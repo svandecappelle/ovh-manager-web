@@ -5,26 +5,25 @@ angular.module('App').controller(
      * Constructor
      * @param $scope
      * @param $stateParams
+     * @param $translate
      * @param Alerter
      * @param Emails
      * @param constants
-     * @param translator
      */
-    constructor($scope, $stateParams, Alerter, Emails, constants, translator) {
+    constructor($scope, $stateParams, $translate, Alerter, Emails, constants) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Emails = Emails;
       this.constants = constants;
-      this.translator = translator;
     }
 
     $onInit() {
       this.addDelegateShown = false;
-      this.createNicUrl =
-        this.constants.WEBSITE_URLS.new_nic[
-          this.translator.getSelectedAvailableLanguage().value
-        ] || null;
+      this.createNicUrl = this.constants.WEBSITE_URLS.new_nic[
+        this.$translate.use()
+      ] || null;
       this.currentAccount = this.$scope.currentActionData.accountName || null;
       this.delegationAccountList = [];
       this.loading = false;
@@ -44,12 +43,11 @@ angular.module('App').controller(
         .then((list) => {
           this.delegationAccountList = list;
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_error'),
-            _.get(err, 'data', err),
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('email_tab_error'),
+          _.get(err, 'data', err),
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
         });
@@ -68,7 +66,7 @@ angular.module('App').controller(
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_error'),
+            this.$translate.instant('email_tab_error'),
             _.get(err, 'data', err),
             this.$scope.alerts.main,
           );
@@ -87,14 +85,13 @@ angular.module('App').controller(
         this.currentAccount,
         delegationAccount,
       )
-        .then(() =>
-          _.remove(
-            this.delegationAccountList,
-            name => name === delegationAccount,
-          ))
+        .then(() => _.remove(
+          this.delegationAccountList,
+          name => name === delegationAccount,
+        ))
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_error'),
+            this.$translate.instant('email_tab_error'),
             _.get(err, 'data', err),
             this.$scope.alerts.main,
           );

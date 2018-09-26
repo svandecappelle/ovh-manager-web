@@ -4,6 +4,7 @@
     $q,
     $location,
     $timeout,
+    $translate,
     Hosting,
     Domain,
     HostingDomain,
@@ -67,18 +68,16 @@
           );
           self.hostingInfos = response.info;
 
-          self.canBeCreated =
-            databaseCapabilites || privateDatabaseCapabilities;
-          const haveEnoughRemaining =
-            Hosting.constructor.getRemainingQuota(
-              self.hostingInfos.quotaSize,
-              self.hostingInfos.quotaUsed,
-            ) >= 219;
+          self.canBeCreated = databaseCapabilites || privateDatabaseCapabilities;
+          const haveEnoughRemaining = Hosting.constructor.getRemainingQuota(
+            self.hostingInfos.quotaSize,
+            self.hostingInfos.quotaUsed,
+          ) >= 219;
           self.canBeCreated = self.canBeCreated && haveEnoughRemaining;
         })
         .catch((err) => {
           Alerter.alertFromSWS(
-            $scope.tr('website_hosting_capabilities_error'),
+            $translate.instant('website_hosting_capabilities_error'),
             err,
             self.alerts,
           );
@@ -101,18 +100,17 @@
       }
 
       return (
-        self.site.config.domain &&
-        self.site.config.hosting &&
-        self.site.config.type &&
-        moduleConfiguration
+        self.site.config.domain
+        && self.site.config.hosting
+        && self.site.config.type
+        && moduleConfiguration
       );
     };
 
-    self.checkWebsiteConfiguration = () =>
-      self.site.config.type !== 'classic' &&
-      (self.site.config.module.adminPasswordConfirm !==
-        self.site.config.module.adminPassword ||
-        !self.isPasswordValid(self.site.config.module.adminPassword));
+    self.checkWebsiteConfiguration = () => self.site.config.type !== 'classic'
+      && (self.site.config.module.adminPasswordConfirm
+        !== self.site.config.module.adminPassword
+        || !self.isPasswordValid(self.site.config.module.adminPassword));
 
     function createModule() {
       const data = _.assign({}, self.site.config.module);
@@ -124,10 +122,9 @@
     }
 
     self.createWebSite = () => {
-      const path =
-        self.site.config.type === 'classic'
-          ? './www'
-          : `./${self.site.config.domain}`;
+      const path = self.site.config.type === 'classic'
+        ? './www'
+        : `./${self.site.config.domain}`;
       const promises = [
         HostingDomain.addDomain(
           self.site.config.domain,
@@ -166,14 +163,13 @@
             let traduction = 'website_creation_error';
             errorLoad = true;
             if (err.data) {
-              traduction =
-                err.data.split(':')[0] === '402'
-                  ? 'website_creation_error_quotas'
-                  : 'website_creation_error';
+              traduction = err.data.split(':')[0] === '402'
+                ? 'website_creation_error_quotas'
+                : 'website_creation_error';
             }
 
             Alerter.alertFromSWS(
-              $scope.tr(traduction),
+              $translate.instant(traduction),
               { message: _.get(err, 'data', err.message), type: 'ERROR' },
               self.alerts,
             );
@@ -192,7 +188,7 @@
     $scope.$on('hostingDomain.modifyDomain.done', () => {
       if (!errorLoad) {
         Alerter.success(
-          $scope.tr('website_creation_success_done'),
+          $translate.instant('website_creation_success_done'),
           self.alerts,
         );
       }
@@ -201,7 +197,7 @@
     $scope.$on('hostingDomain.modifyDomain.error', (err) => {
       if (!errorLoad) {
         Alerter.alertFromSWS(
-          $scope.tr('website_creation_error'),
+          $translate.instant('website_creation_error'),
           _.get(err, 'data', err),
           self.alerts,
         );
@@ -241,6 +237,7 @@
       '$q',
       '$location',
       '$timeout',
+      '$translate',
       'Hosting',
       'Domain',
       'HostingDomain',

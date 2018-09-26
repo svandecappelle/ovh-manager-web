@@ -2,7 +2,7 @@ angular
   .module('App')
   .controller(
     'HostingDatabaseOrderCtrl',
-    ($scope, $q, $window, HostingOptionOrder, Alerter) => {
+    ($scope, $q, $translate, $window, HostingOptionOrder, Alerter) => {
       $scope.loading = {
         init: true,
         duration: true,
@@ -79,15 +79,15 @@ angular
             );
           case 2:
             return (
-              $scope.model.offer &&
-              $scope.model.duration &&
-              !$scope.loading.details
+              $scope.model.offer
+              && $scope.model.duration
+              && !$scope.loading.details
             );
           case 3:
             return (
-              $scope.model.offer &&
-              $scope.model.duration &&
-              $scope.model.contract
+              $scope.model.offer
+              && $scope.model.duration
+              && $scope.model.contract
             );
           default:
             return false;
@@ -101,10 +101,10 @@ angular
         }).then((order) => {
           $scope.resetAction();
           Alerter.success(
-            $scope.tr('hosting_tab_DATABASES_configuration_order_success', [
-              order.url,
-              order.orderId,
-            ]),
+            $translate.instant('hosting_tab_DATABASES_configuration_order_success', {
+              t0: order.url,
+              t1: order.orderId,
+            }),
             $scope.alerts.main,
           );
           $window.open(order.url, '_blank');

@@ -1,8 +1,9 @@
 angular.module('App').controller(
   'DomainDynHostLoginCtrl',
   class DomainDynHostLoginCtrl {
-    constructor($scope, Alerter, Domain) {
+    constructor($scope, $translate, Alerter, Domain) {
       this.$scope = $scope;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
     }
@@ -51,12 +52,11 @@ angular.module('App').controller(
             this.hasResult = true;
           }
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_tab_DYNHOSTLOGIN_table_empty'),
-            err.data || err,
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('domain_tab_DYNHOSTLOGIN_table_empty'),
+          err.data || err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading.init = false;
           if (_.isEmpty(this.dynHostsLogin)) {

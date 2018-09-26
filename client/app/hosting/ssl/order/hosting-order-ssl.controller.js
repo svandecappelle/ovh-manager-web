@@ -4,23 +4,23 @@ angular.module('App').controller(
     constructor(
       $scope,
       $stateParams,
+      $translate,
       $window,
       Alerter,
       HostingDomain,
       hostingSSLCertificate,
       hostingSSLCertificateType,
-      translator,
       User,
       Validator,
     ) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
 
       this.Alerter = Alerter;
       this.HostingDomain = HostingDomain;
       this.hostingSSLCertificate = hostingSSLCertificate;
       this.hostingSSLCertificateType = hostingSSLCertificateType;
-      this.translator = translator;
       this.User = User;
       this.Validator = Validator;
       this.$window = $window;
@@ -67,23 +67,22 @@ angular.module('App').controller(
         this.$stateParams.productId,
         this.$stateParams.productId,
       )
-        .then(attachedDomain =>
-          (!attachedDomain.ssl
-            ? this.HostingDomain.updateAttachedDomain(
-              this.$stateParams.productId,
-              this.$stateParams.productId,
-              {
-                ssl: true,
-              },
-            )
-            : null))
+        .then(attachedDomain => (!attachedDomain.ssl
+          ? this.HostingDomain.updateAttachedDomain(
+            this.$stateParams.productId,
+            this.$stateParams.productId,
+            {
+              ssl: true,
+            },
+          )
+          : null))
         .then(() => {
           this.step1.canOrderPaidCertificate = true;
         })
         .catch((err) => {
-          this.step1.cannotOrderPaidCertificateErrorMessage = this.translator.tr(
+          this.step1.cannotOrderPaidCertificateErrorMessage = this.$translate.instant(
             'hosting_dashboard_ssl_paid_certificate_error',
-            [err.message],
+            { t0: err.message },
           );
           this.step1.canOrderPaidCertificate = false;
         })
@@ -109,13 +108,13 @@ angular.module('App').controller(
     }
 
     isStep2Valid() {
-      const isPaidCertificateValid =
-        this.hostingSSLCertificateType.constructor.isPaid(this.selectedCertificateType) &&
-        !this.step2.loading.isGeneratingOrderForm;
-      const isImportCertificateValid =
-        this.hostingSSLCertificateType.constructor.isImported(this.selectedCertificateType) &&
-        _(this.importCertificateForm).isObject() &&
-        this.importCertificateForm.$valid;
+      const isPaidCertificateValid = this.hostingSSLCertificateType
+        .constructor.isPaid(this.selectedCertificateType)
+          && !this.step2.loading.isGeneratingOrderForm;
+      const isImportCertificateValid = this.hostingSSLCertificateType
+        .constructor.isImported(this.selectedCertificateType)
+          && _(this.importCertificateForm).isObject()
+          && this.importCertificateForm.$valid;
 
       return isPaidCertificateValid || isImportCertificateValid;
     }
@@ -131,13 +130,13 @@ angular.module('App').controller(
         .then(() => {
           this.hostingSSLCertificate.reload();
           this.Alerter.success(
-            this.$scope.tr('hosting_dashboard_ssl_generate_success'),
+            this.$translate.instant('hosting_dashboard_ssl_generate_success'),
             this.$scope.alerts.main,
           );
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('hosting_dashboard_ssl_order_error'),
+            this.$translate.instant('hosting_dashboard_ssl_order_error'),
             err.data,
             this.$scope.alerts.main,
           );
@@ -159,7 +158,7 @@ angular.module('App').controller(
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('hosting_dashboard_ssl_redirect_to_order_error'),
+            this.$translate.instant('hosting_dashboard_ssl_redirect_to_order_error'),
             err,
             this.$scope.alerts.main,
           );

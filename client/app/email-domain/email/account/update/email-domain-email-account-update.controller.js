@@ -5,13 +5,15 @@ angular.module('App').controller(
      * Constructor
      * @param $scope
      * @param $stateParams
+     * @param $translate
      * @param Alerter
      * @param Emails
      * @param User
      */
-    constructor($scope, $stateParams, Alerter, Emails, User) {
+    constructor($scope, $stateParams, $translate, Alerter, Emails, User) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Emails = Emails;
       this.User = User;
@@ -52,9 +54,9 @@ angular.module('App').controller(
     accountDescriptionCheck(input) {
       input.$setValidity(
         'descriptionCheck',
-        !this.account.description ||
-          punycode.toASCII(this.account.description).length <=
-            this.constants.descMaxLength,
+        !this.account.description
+          || punycode.toASCII(this.account.description).length
+            <= this.constants.descMaxLength,
       );
     }
 
@@ -72,12 +74,11 @@ angular.module('App').controller(
         .then((data) => {
           this.accountSize = data.allowedAccountSize;
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_error'),
-            _.get(err, 'data', err),
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('email_tab_error'),
+          _.get(err, 'data', err),
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
         });
@@ -107,17 +108,15 @@ angular.module('App').controller(
       }
 
       return accountPromise
-        .then(() =>
-          this.Alerter.success(
-            this.$scope.tr('email_tab_modal_update_account_success'),
-            this.$scope.alerts.main,
-          ))
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_modal_update_account_error'),
-            _.get(err, 'data', err),
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Alerter.success(
+          this.$translate.instant('email_tab_modal_update_account_success'),
+          this.$scope.alerts.main,
+        ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('email_tab_modal_update_account_error'),
+          _.get(err, 'data', err),
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
           this.$scope.resetAction();

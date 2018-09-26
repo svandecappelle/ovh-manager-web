@@ -2,7 +2,7 @@ angular
   .module('App')
   .controller(
     'HostingBoostOfferUpdateCtrl',
-    ($scope, HostingBoost, Alerter) => {
+    ($scope, $translate, HostingBoost, Alerter) => {
       $scope.product = $scope.currentActionData.product;
       $scope.models = { boostOffer: null };
       $scope.acceptCGV = { value: false };
@@ -11,9 +11,8 @@ angular
         request: false,
       };
 
-      $scope.isStepValid = () =>
-        $scope.acceptCGV.value === true &&
-        angular.isObject($scope.models.boostOffer);
+      $scope.isStepValid = () => $scope.acceptCGV.value === true
+        && angular.isObject($scope.models.boostOffer);
 
       $scope.updateBoost = () => {
         $scope.loaders.request = true;
@@ -24,13 +23,13 @@ angular
         })
           .then(() => {
             Alerter.success(
-              $scope.tr('hosting_tab_BOOST_update_activation'),
+              $translate.instant('hosting_tab_BOOST_update_activation'),
               $scope.alerts.main,
             );
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_tab_BOOST_update_error'),
+              $translate.instant('hosting_tab_BOOST_update_error'),
               _.get(err, 'data', err),
               $scope.alerts.main,
             );

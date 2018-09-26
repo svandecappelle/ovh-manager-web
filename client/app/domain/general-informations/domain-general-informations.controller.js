@@ -6,6 +6,7 @@ angular.module('App').controller(
       $rootScope,
       $q,
       $stateParams,
+      $translate,
       Alerter,
       AllDom,
       Domain,
@@ -20,6 +21,7 @@ angular.module('App').controller(
       this.$rootScope = $rootScope;
       this.$q = $q;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.AllDom = AllDom;
       this.Domain = Domain;
@@ -135,12 +137,11 @@ angular.module('App').controller(
                 isIncluded: domains.indexOf(domain) !== -1,
               }));
             })
-            .catch(err =>
-              this.Alerter.alertFromSWS(
-                this.$scope.tr('domain_tab_GLUE_table_error'),
-                err,
-                this.$scope.alerts.page,
-              ))
+            .catch(err => this.Alerter.alertFromSWS(
+              this.$translate.instant('domain_tab_GLUE_table_error'),
+              err,
+              this.$scope.alerts.page,
+            ))
             .finally(() => {
               this.loading.allDom = false;
             });
@@ -148,7 +149,7 @@ angular.module('App').controller(
         .catch((err) => {
           this.loading.allDom = false;
           this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_tab_GLUE_table_error'),
+            this.$translate.instant('domain_tab_GLUE_table_error'),
             err,
             this.$scope.alerts.page,
           );
@@ -165,9 +166,8 @@ angular.module('App').controller(
         .then(({ sites, hostingInfo }) => {
           this.vm.hosting.web.sites = sites;
           this.vm.hosting.web.selected.info = hostingInfo;
-          this.hasStart10mOffer =
-            hostingInfo.offer ===
-            this.constants.HOSTING.OFFERS.START_10_M.TYPE_VALUE;
+          this.hasStart10mOffer = hostingInfo.offer
+            === this.constants.HOSTING.OFFERS.START_10_M.TYPE_VALUE;
           this.displayFreeHosting = _.isEmpty(sites) || this.hasStart10mOffer;
         })
         .finally(() => {
@@ -180,8 +180,10 @@ angular.module('App').controller(
       return this.Domain.getAllNameServer(serviceName)
         .then((nameServers) => {
           this.nameServers = nameServers;
-          return this.$q.all(_.map(nameServers, nameServer =>
-            this.Domain.getNameServerStatus(serviceName, nameServer.id)));
+          return this.$q.all(_.map(
+            nameServers,
+            nameServer => this.Domain.getNameServerStatus(serviceName, nameServer.id),
+          ));
         })
         .then((nameServersStatus) => {
           if (!_.isEmpty(nameServersStatus)) {
@@ -190,10 +192,11 @@ angular.module('App').controller(
               type: 'external',
             });
 
-            const lastUpdated = _.max(nameServersStatus, nameServer =>
-              new Date(nameServer.usedSince).getTime());
-            this.dnsStatus.refreshAlert =
-              moment().diff(lastUpdated.usedSince, 'days') <= 2;
+            const lastUpdated = _.max(
+              nameServersStatus,
+              nameServer => new Date(nameServer.usedSince).getTime(),
+            );
+            this.dnsStatus.refreshAlert = moment().diff(lastUpdated.usedSince, 'days') <= 2;
           }
         })
         .finally(() => {
@@ -204,7 +207,9 @@ angular.module('App').controller(
     getAssociatedHosting(serviceName) {
       this.loading.associatedHosting = true;
       this.hostingAssociated = [];
-      return this.HostingDomain.getAttachedDomains(serviceName)
+      return this.HostingDomain.getAttachedDomains(serviceName, {
+        returnErrorKey: '',
+      })
         .then((response) => {
           if (_.isArray(response) && !_.isEmpty(response)) {
             this.hasHostingAssociate = true;
@@ -217,12 +222,15 @@ angular.module('App').controller(
             }));
           }
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_configuration_web_hosting_fail'),
-            err,
-            this.$scope.alerts.page,
-          ))
+        .catch((err) => {
+          if (err.status !== 404) {
+            this.Alerter.alertFromSWS(
+              this.$translate.instant('domain_configuration_web_hosting_fail'),
+              _.get(err, 'data'),
+              this.$scope.alerts.page,
+            );
+          }
+        })
         .finally(() => {
           this.loading.associatedHosting = false;
         });
@@ -254,8 +262,8 @@ angular.module('App').controller(
       if (field === 'all') {
         _.forEach(this.owoFields, (fieldName) => {
           if (
-            this.vm.owo[fieldName].uiSwitch.checked !==
-            this.vm.owo.general.uiSwitch.checked
+            this.vm.owo[fieldName].uiSwitch.checked
+            !== this.vm.owo.general.uiSwitch.checked
           ) {
             this.vm.owo[
               fieldName
@@ -275,10 +283,10 @@ angular.module('App').controller(
         }
 
         if (
-          this.vm.owo.address.uiSwitch.checked ===
-            this.vm.owo.email.uiSwitch.checked &&
-          this.vm.owo.address.uiSwitch.checked ===
-            this.vm.owo.phone.uiSwitch.checked
+          this.vm.owo.address.uiSwitch.checked
+            === this.vm.owo.email.uiSwitch.checked
+          && this.vm.owo.address.uiSwitch.checked
+            === this.vm.owo.phone.uiSwitch.checked
         ) {
           this.vm.owo.general.uiSwitch.checked = this.vm.owo.address.uiSwitch.checked;
         } else {
@@ -303,12 +311,12 @@ angular.module('App').controller(
             });
             if (hasHttpErr409) {
               this.Alerter.error(
-                this.$scope.tr('domain_configuration_whois_contracts'),
+                this.$translate.instant('domain_configuration_whois_contracts'),
                 this.$scope.alerts.main,
               );
             } else {
               this.Alerter.alertFromSWS(
-                this.$scope.tr('domain_configuration_whois_fail'),
+                this.$translate.instant('domain_configuration_whois_fail'),
                 { message },
                 this.$scope.alerts.main,
               );
@@ -320,12 +328,12 @@ angular.module('App').controller(
             .checked;
           if (err.data.code === 409) {
             this.Alerter.error(
-              this.$scope.tr('domain_configuration_whois_contracts'),
+              this.$translate.instant('domain_configuration_whois_contracts'),
               this.$scope.alerts.main,
             );
           } else {
             this.Alerter.alertFromSWS(
-              this.$scope.tr('domain_configuration_whois_fail'),
+              this.$translate.instant('domain_configuration_whois_fail'),
               err,
               this.$scope.alerts.main,
             );
@@ -335,13 +343,11 @@ angular.module('App').controller(
     }
 
     setSwitchStates() {
-      this.vm.protection.uiSwitch.checked =
-        this.domain.protection === 'locked' ||
-        this.domain.protection === 'locking';
+      this.vm.protection.uiSwitch.checked = this.domain.protection === 'locked'
+        || this.domain.protection === 'locking';
       this.vm.protection.uiSwitch.pending = /ing$/i.test(this.domain.protection);
-      this.vm.protection.uiSwitch.disabled =
-        /ing$/i.test(this.domain.protection) ||
-        this.domain.protection === 'unavailable';
+      this.vm.protection.uiSwitch.disabled = /ing$/i.test(this.domain.protection)
+        || this.domain.protection === 'unavailable';
 
       this.vm.dnssec.uiSwitch.checked = /enable/i.test(this.domain.dnssecStatus);
       this.vm.dnssec.uiSwitch.pending = /progress/i.test(this.domain.dnssecStatus);

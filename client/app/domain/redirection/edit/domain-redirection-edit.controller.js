@@ -9,9 +9,10 @@ angular.module('controllers').controller(
      * @param {Object} DomainRedirection
      * @param {Object} Validator
      */
-    constructor($scope, $rootScope, Alerter, DomainRedirection, Validator) {
+    constructor($scope, $rootScope, $translate, Alerter, DomainRedirection, Validator) {
       this.$scope = $scope;
       this.$rootScope = $rootScope;
+      this.$translate = $translate;
       this.alerter = Alerter;
       this.service = DomainRedirection;
       this.validator = Validator;
@@ -31,8 +32,7 @@ angular.module('controllers').controller(
         ortDescription: false,
       };
       this.shouldIncludeDomain = false;
-      this.unknownFieldDisplayTypeErrorMessageId =
-        'domain_tab_REDIRECTION_edit_fail';
+      this.unknownFieldDisplayTypeErrorMessageId = 'domain_tab_REDIRECTION_edit_fail';
 
       // Binds this to the functions used in the scope
       this.$scope.editRedirection = this.editRedirection.bind(this);
@@ -45,8 +45,8 @@ angular.module('controllers').controller(
     isTargetValid() {
       const completeTarget = this.getCompleteTarget();
       return (
-        !_.isEmpty(this.redirectionTarget) &&
-        this.constructor.isLengthValid(completeTarget)
+        !_.isEmpty(this.redirectionTarget)
+        && this.constructor.isLengthValid(completeTarget)
       );
     }
 
@@ -67,14 +67,14 @@ angular.module('controllers').controller(
           message = 'domain_tab_REDIRECTION_edit_server_cname_label';
           break;
         default: {
-          const errorMessage = this.$scope.tr(
+          const errorMessage = this.$translate.instant(
             this.unknownFieldDisplayTypeErrorMessageId,
-            this.redirection.fieldDisplayType,
+            { t0: this.redirection.fieldDisplayType },
           );
           this.alerter.alertFromSWS(
-            this.$scope.tr(
+            this.$translate.instant(
               'domain_tab_REDIRECTION_edit_fail',
-              this.displayName,
+              { t0: this.displayName },
             ),
             errorMessage,
             this.$scope.alerts.main,
@@ -83,7 +83,7 @@ angular.module('controllers').controller(
         }
       }
 
-      return this.$scope.tr(message);
+      return this.$translate.instant(message);
     }
 
     /**
@@ -124,14 +124,14 @@ angular.module('controllers').controller(
             message = 'domain_tab_REDIRECTION_edit_server_cname_error';
             break;
           default: {
-            const errorMessage = this.$scope.tr(
+            const errorMessage = this.$translate.instant(
               this.unknownFieldDisplayTypeErrorMessageId,
-              this.redirection.fieldDisplayType,
+              { t0: this.redirection.fieldDisplayType },
             );
             this.alerter.alertFromSWS(
-              this.$scope.tr(
+              this.$translate.instant(
                 'domain_tab_REDIRECTION_edit_fail',
-                this.displayName,
+                { t0: this.displayName },
               ),
               errorMessage,
               this.$scope.alerts.main,
@@ -141,7 +141,7 @@ angular.module('controllers').controller(
         }
       }
 
-      this.errorLabel = this.$scope.tr(message);
+      this.errorLabel = this.$translate.instant(message);
     }
 
     /**
@@ -178,14 +178,14 @@ angular.module('controllers').controller(
             break;
           }
           default: {
-            const errorMessage = this.$scope.tr(
+            const errorMessage = this.$translate.instant(
               this.unknownFieldDisplayTypeErrorMessageId,
-              this.redirection.fieldDisplayType,
+              { t0: this.redirection.fieldDisplayType },
             );
             this.alerter.alertFromSWS(
-              this.$scope.tr(
+              this.$translate.instant(
                 'domain_tab_REDIRECTION_edit_fail',
-                this.displayName,
+                { t0: this.displayName },
               ),
               errorMessage,
               this.$scope.alerts.main,
@@ -204,10 +204,9 @@ angular.module('controllers').controller(
      */
     isTargetLengthValid() {
       let value = this.redirectionTarget;
-      const shouldAppendZone =
-        this.shouldIncludeDomain &&
-        _.isString(this.redirection.fieldDisplayType) &&
-        this.redirection.fieldDisplayType.toUpperCase() === 'CNAME';
+      const shouldAppendZone = this.shouldIncludeDomain
+        && _.isString(this.redirection.fieldDisplayType)
+        && this.redirection.fieldDisplayType.toUpperCase() === 'CNAME';
 
       if (shouldAppendZone) {
         value += `${this.redirection.zone}.`;
@@ -253,23 +252,21 @@ angular.module('controllers').controller(
       }
 
       this.service[method](this.redirection.id, data)
-        .then(() =>
-          this.alerter.success(
-            this.$scope.tr(
-              'domain_tab_REDIRECTION_edit_success',
-              this.displayName,
-            ),
-            this.$scope.alerts.main,
-          ))
-        .catch(err =>
-          this.alerter.alertFromSWS(
-            this.$scope.tr(
-              'domain_tab_REDIRECTION_edit_fail',
-              this.displayName,
-            ),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.alerter.success(
+          this.$translate.instant(
+            'domain_tab_REDIRECTION_edit_success',
+            { t0: this.displayName },
+          ),
+          this.$scope.alerts.main,
+        ))
+        .catch(err => this.alerter.alertFromSWS(
+          this.$translate.instant(
+            'domain_tab_REDIRECTION_edit_fail',
+            { t0: this.displayName },
+          ),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.isLoading = false;
           this.$scope.resetAction();
@@ -285,13 +282,10 @@ angular.module('controllers').controller(
      */
     includeDomainToTarget() {
       const endsWithDot = this.redirectionTarget.match(/.*\.$/);
-      const targetIsCNAME =
-        _.isString(this.redirection.fieldDisplayType) &&
-        this.redirection.fieldDisplayType.toUpperCase() === 'CNAME';
-      const shouldDeleteTrailingDot =
-        endsWithDot && this.shouldIncludeDomain && targetIsCNAME;
-      const shouldAddTrailingDot =
-        !endsWithDot && !this.shouldIncludeDomain && targetIsCNAME;
+      const targetIsCNAME = _.isString(this.redirection.fieldDisplayType)
+        && this.redirection.fieldDisplayType.toUpperCase() === 'CNAME';
+      const shouldDeleteTrailingDot = endsWithDot && this.shouldIncludeDomain && targetIsCNAME;
+      const shouldAddTrailingDot = !endsWithDot && !this.shouldIncludeDomain && targetIsCNAME;
 
       if (shouldDeleteTrailingDot) {
         return this.redirectionTarget.substring(

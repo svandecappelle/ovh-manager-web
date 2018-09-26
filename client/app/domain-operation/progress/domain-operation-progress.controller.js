@@ -1,9 +1,10 @@
 angular.module('App').controller(
   'DomainOperationProgressCtrl',
   class DomainOperationProgressCtrl {
-    constructor($scope, $stateParams, Alerter, domainOperationService) {
+    constructor($scope, $stateParams, $translate, Alerter, domainOperationService) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Operation = domainOperationService;
     }
@@ -68,12 +69,11 @@ angular.module('App').controller(
               : null;
           }
         })
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domains_operations_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('domains_operations_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
         });

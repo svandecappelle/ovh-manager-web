@@ -5,6 +5,7 @@ angular.module('App').controller(
       $scope,
       $rootScope,
       $stateParams,
+      $translate,
       HostingDatabase,
       Alerter,
       PrivateDatabase,
@@ -12,6 +13,7 @@ angular.module('App').controller(
       this.$scope = $scope;
       this.$rootScope = $rootScope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.HostingDatabase = HostingDatabase;
       this.Alerter = Alerter;
       this.PrivateDatabase = PrivateDatabase;
@@ -36,16 +38,15 @@ angular.module('App').controller(
       this.PrivateDatabase.getAvailableOrderCapacities('classic')
         .then((capacities) => {
           this.versions = _.get(capacities, 'version');
-          this.choice.version =
-            this.versions && this.versions.length === 1
-              ? _.first(this.versions)
-              : null;
+          this.choice.version = this.versions && this.versions.length === 1
+            ? _.first(this.versions)
+            : null;
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('hosting_dashboard_database_versions_error', [
-              this.$scope.entryToDelete,
-            ]),
+            this.$translate.instant('hosting_dashboard_database_versions_error', {
+              t0: this.$scope.entryToDelete,
+            }),
             _.get(err, 'data', err),
             this.$scope.alerts.main,
           );
@@ -64,15 +65,15 @@ angular.module('App').controller(
         .then(() => {
           this.$rootScope.$broadcast('hosting.database.sqlPrive');
           this.Alerter.success(
-            this.$scope.tr('hosting_dashboard_database_active_success'),
+            this.$translate.instant('hosting_dashboard_database_active_success'),
             this.$scope.alerts.main,
           );
         })
         .catch((err) => {
           this.Alerter.alertFromSWS(
-            this.$scope.tr('hosting_dashboard_database_active_error', [
-              this.$scope.entryToDelete,
-            ]),
+            this.$translate.instant('hosting_dashboard_database_active_error', {
+              t0: this.$scope.entryToDelete,
+            }),
             _.get(err, 'data', err),
             this.$scope.alerts.main,
           );

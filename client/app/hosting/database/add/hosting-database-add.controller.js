@@ -8,6 +8,7 @@ angular
       $q,
       $timeout,
       $stateParams,
+      $translate,
       Alerter,
       Hosting,
       HostingDatabase,
@@ -21,12 +22,11 @@ angular
         }
       });
 
-      const isPasswordValid = () =>
-        $scope.model.selected.password.value &&
-        $scope.model.selected.password.confirmation &&
-        $scope.model.selected.password.value ===
-          $scope.model.selected.password.confirmation &&
-        Hosting.constructor.isPasswordValid(
+      const isPasswordValid = () => $scope.model.selected.password.value
+        && $scope.model.selected.password.confirmation
+        && $scope.model.selected.password.value
+          === $scope.model.selected.password.confirmation
+        && Hosting.constructor.isPasswordValid(
           $scope.model.selected.password.value,
           $scope.customPasswordConditions,
         );
@@ -78,8 +78,7 @@ angular
         })
           .then((resp) => {
             $scope.model.capabilities = resp.capabilities;
-            $scope.model.maxUserLength =
-              MAX_USER_LENGTH - resp.capabilities.primaryLogin.length;
+            $scope.model.maxUserLength = MAX_USER_LENGTH - resp.capabilities.primaryLogin.length;
 
             if (resp.capabilities.availableDatabases.length === 1) {
               [
@@ -92,53 +91,47 @@ angular
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_tab_DATABASES_configuration_create_step1_loading_error'),
+              $translate.instant('hosting_tab_DATABASES_configuration_create_step1_loading_error'),
               _.get(err, 'data', err),
               $scope.alerts.main,
             );
           });
       };
 
-      $scope.isStep1Valid = () =>
-        $scope.model.selected.type !== null &&
-        $scope.model.selected.capabilitie !== null;
+      $scope.isStep1Valid = () => $scope.model.selected.type !== null
+        && $scope.model.selected.capabilitie !== null;
 
       $scope.isStep2Valid = () => isPasswordValid() && $scope.isUserValid();
 
-      $scope.shouldDisplayDifferentPasswordMessage = () =>
-        $scope.model.selected.password.value &&
-        $scope.model.selected.password.confirmation &&
-        $scope.model.selected.password.value !==
-          $scope.model.selected.password.confirmation;
+      $scope.shouldDisplayDifferentPasswordMessage = () => $scope.model.selected.password.value
+        && $scope.model.selected.password.confirmation
+        && $scope.model.selected.password.value
+          !== $scope.model.selected.password.confirmation;
 
       $scope.condition = Hosting.constructor.getPasswordConditions($scope.customPasswordConditions);
 
-      $scope.isPasswordInvalid = () =>
-        !Hosting.constructor.isPasswordValid(
-          _.get($scope.model, 'selected.password.value'),
-          $scope.customPasswordConditions,
-        );
+      $scope.isPasswordInvalid = () => !Hosting.constructor.isPasswordValid(
+        _.get($scope.model, 'selected.password.value'),
+        $scope.customPasswordConditions,
+      );
 
-      $scope.isPasswordConfirmationInvalid = () =>
-        (Hosting.constructor.isPasswordValid(
-          _.get($scope.model, 'selected.password.confirmation'),
-          $scope.customPasswordConditions,
-        ) && !$scope.shouldDisplayDifferentPasswordMessage()
-          ? ''
-          : 'has-error');
+      $scope.isPasswordConfirmationInvalid = () => (Hosting.constructor.isPasswordValid(
+        _.get($scope.model, 'selected.password.confirmation'),
+        $scope.customPasswordConditions,
+      ) && !$scope.shouldDisplayDifferentPasswordMessage()
+        ? ''
+        : 'has-error');
 
-      $scope.isUserValid = () =>
-        $scope.model.selected.user !== undefined &&
-        $scope.model.selected.user.length > 0 &&
-        $scope.model.selected.user.length <= $scope.model.maxUserLength &&
-        /^[a-z0-9]+$/.test($scope.model.selected.user);
+      $scope.isUserValid = () => $scope.model.selected.user !== undefined
+        && $scope.model.selected.user.length > 0
+        && $scope.model.selected.user.length <= $scope.model.maxUserLength
+        && /^[a-z0-9]+$/.test($scope.model.selected.user);
 
       function convertEnumToString(e) {
         const enumTab = e.toLowerCase().split('_');
         $.each(enumTab, (index, subString) => {
           if (index > 0) {
-            enumTab[index] =
-              subString.charAt(0).toUpperCase() + subString.slice(1);
+            enumTab[index] = subString.charAt(0).toUpperCase() + subString.slice(1);
           }
         });
         return enumTab.join('');
@@ -150,26 +143,26 @@ angular
           $stateParams.productId,
           convertEnumToString($scope.model.selected.capabilitie.type),
           $scope.model.selected.password.value,
-          $scope.model.selected.capabilitie.type ===
-          $scope.model.types.EXTRA_SQL_PERSO
+          $scope.model.selected.capabilitie.type
+          === $scope.model.types.EXTRA_SQL_PERSO
             ? convertEnumToString($scope.model.selected.capabilitie.extraSqlQuota)
             : null,
           convertEnumToString($scope.model.selected.type),
-          $scope.model.capabilities.primaryLogin +
-            ($scope.model.selected.user === null
+          $scope.model.capabilities.primaryLogin
+            + ($scope.model.selected.user === null
               ? ''
               : $scope.model.selected.user),
           $scope.model.selected.version,
         )
           .then(() => {
             Alerter.success(
-              $scope.tr('hosting_tab_DATABASES_configuration_create_bdd_adding'),
+              $translate.instant('hosting_tab_DATABASES_configuration_create_bdd_adding'),
               $scope.alerts.main,
             );
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_tab_DATABASES_configuration_create_fail'),
+              $translate.instant('hosting_tab_DATABASES_configuration_create_fail'),
               _.get(err, 'data', err),
               $scope.alerts.main,
             );

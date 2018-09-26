@@ -15,6 +15,7 @@ angular.module('App').controller(
       $scope,
       $rootScope,
       $timeout,
+      $translate,
       Domains,
       Navigator,
       Alerter,
@@ -23,6 +24,7 @@ angular.module('App').controller(
       this.$scope = $scope;
       this.$rootScope = $rootScope;
       this.$timeout = $timeout;
+      this.$translate = $translate;
       this.Domains = Domains;
       this.Navigator = Navigator;
       this.Alerter = Alerter;
@@ -74,7 +76,7 @@ angular.module('App').controller(
           .catch(() => {
             this.loading.domainsError = true;
             this.Alerter.error(
-              this.$scope.tr('domains_dashboard_loading_error'),
+              this.$translate.instant('domains_dashboard_loading_error'),
               this.$scope.alerts.page,
             );
           })
@@ -89,8 +91,7 @@ angular.module('App').controller(
           this.setAction(action, 'domains/', data);
         }
       };
-      this.$scope.setActionMultiple = (action, data) =>
-        this.setAction(action, 'domains/', data);
+      this.$scope.setActionMultiple = (action, data) => this.setAction(action, 'domains/', data);
       this.$scope.resetAction = () => this.setAction(false);
       this.$scope.getSelectedDomains = () => this.$scope.selectedDomains;
 
@@ -116,8 +117,7 @@ angular.module('App').controller(
 
     applySelection() {
       _.forEach(_.get(this.$scope.domains, 'list.results'), (value) => {
-        value.selected = // eslint-disable-line no-param-reassign
-          _.indexOf(this.$scope.selectedDomains, value.name) !== -1;
+        _.set(value, 'selected', _.indexOf(this.$scope.selectedDomains, value.name) !== -1);
       });
     }
 

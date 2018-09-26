@@ -1,10 +1,11 @@
 angular.module('controllers').controller(
   'controllers.Domain.Dns.Lock',
   class DomainDnsLockCtrl {
-    constructor($scope, $rootScope, $stateParams, Alerter, Domain) {
+    constructor($scope, $rootScope, $stateParams, $translate, Alerter, Domain) {
       this.$scope = $scope;
       this.$rootScope = $rootScope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
     }
@@ -20,15 +21,14 @@ angular.module('controllers').controller(
         this.$stateParams.productId,
         'hosted',
       )
-        .then(() =>
-          this.Alerter.success(
-            this.$scope.i18n.domain_tab_DNS_lock_success,
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Alerter.success(
+          this.$translate.instant('domain_tab_DNS_lock_success'),
+          this.$scope.alerts.main,
+        ))
         .catch((err) => {
           _.set(err, 'type', err.type || 'ERROR');
           this.Alerter.alertFromSWS(
-            this.$scope.i18n.domain_tab_DNS_lock_error,
+            this.$translate.instant('domain_tab_DNS_lock_error'),
             err,
             this.$scope.alerts.main,
           );

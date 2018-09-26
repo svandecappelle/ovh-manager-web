@@ -5,8 +5,8 @@ angular
     (
       $scope,
       $stateParams,
+      $translate,
       Alerter,
-      translator,
       Hosting,
       HostingCron,
       CronValidator,
@@ -26,18 +26,17 @@ angular
       // See definition in cronEditor.controller.js.
       $scope.crontabObject = CronValidator.makeCrontabObject();
 
-      $scope.isPathValid = () =>
-        Hosting.constructor.isPathValid($scope.selected.command);
+      $scope.isPathValid = () => Hosting.constructor.isPathValid($scope.selected.command);
 
       $scope.isValid = (step) => {
         switch (step) {
           case 1:
             return (
-              $scope.selected.command &&
-              $scope.getSelectedCommand().length <= 100 &&
-              $scope.isPathValid() &&
-              $scope.model.language &&
-              ($scope.model.emailSelect === 'other' ? $scope.model.email : true)
+              $scope.selected.command
+              && $scope.getSelectedCommand().length <= 100
+              && $scope.isPathValid()
+              && $scope.model.language
+              && ($scope.model.emailSelect === 'other' ? $scope.model.email : true)
             );
           case 2:
             return (
@@ -58,8 +57,8 @@ angular
         let home;
         if ($scope.selected.command !== null) {
           if (
-            /^\/.*/.test($scope.selected.command) ||
-            /^\.\/.*/.test($scope.selected.command)
+            /^\/.*/.test($scope.selected.command)
+            || /^\.\/.*/.test($scope.selected.command)
           ) {
             home = $scope.selected.command;
           } else {
@@ -74,10 +73,9 @@ angular
         $scope.model.frequency = $scope.crontabObject.getCrontab();
       };
 
-      $scope.getEmailResume = () =>
-        ($scope.model.emailSelect === 'other'
-          ? $scope.model.email
-          : $scope.model.emailSelect);
+      $scope.getEmailResume = () => ($scope.model.emailSelect === 'other'
+        ? $scope.model.email
+        : $scope.model.emailSelect);
 
       $scope.saveCron = () => {
         $scope.loading.validation = true;
@@ -96,14 +94,14 @@ angular
           )
             .then(() => {
               Alerter.alertFromSWS(
-                translator.tr('hosting_tab_CRON_edit_success'),
+                $translate.instant('hosting_tab_CRON_edit_success'),
                 { idTask: 42, state: 'OK' },
                 $scope.alerts.main,
               );
             })
             .catch((err) => {
               Alerter.alertFromSWS(
-                translator.tr('hosting_tab_CRON_edit_error', [
+                $translate.instant('hosting_tab_CRON_edit_error', [
                   actionData.cron.id,
                 ]),
                 _.get(err, 'data', err),
@@ -117,14 +115,14 @@ angular
           HostingCron.createCron($stateParams.productId, $scope.model)
             .then(() => {
               Alerter.alertFromSWS(
-                translator.tr('hosting_tab_CRON_save_success'),
+                $translate.instant('hosting_tab_CRON_save_success'),
                 { idTask: 42, state: 'OK' },
                 $scope.alerts.main,
               );
             })
             .catch((err) => {
               Alerter.alertFromSWS(
-                translator.tr('hosting_tab_CRON_save_error'),
+                $translate.instant('hosting_tab_CRON_save_error'),
                 _.get(err, 'data', err),
                 $scope.alerts.main,
               );
@@ -142,8 +140,8 @@ angular
       $scope.init = () => {
         $scope.loading.init = true;
         $scope.title = actionData.cron
-          ? translator.tr('hosting_tab_CRON_configuration_edit_title_button')
-          : translator.tr('hosting_tab_CRON_configuration_create_title_button');
+          ? $translate.instant('hosting_tab_CRON_configuration_edit_title_button')
+          : $translate.instant('hosting_tab_CRON_configuration_create_title_button');
 
         // Edition
         if (actionData.cron) {
@@ -170,12 +168,11 @@ angular
 
         Hosting.getModels()
           .then((models) => {
-            $scope.statusEnum =
-              models.models['hosting.web.cron.StatusEnum'].enum;
+            $scope.statusEnum = models.models['hosting.web.cron.StatusEnum'].enum;
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_tab_CRON_error'),
+              $translate.instant('hosting_tab_CRON_error'),
               _.get(err, 'data', err),
               $scope.alerts.main,
             );
@@ -191,7 +188,7 @@ angular
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_tab_CRON_error'),
+              $translate.instant('hosting_tab_CRON_error'),
               err,
               $scope.alerts.main,
             );

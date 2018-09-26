@@ -5,24 +5,24 @@ angular.module('App').controller(
       $scope,
       $stateParams,
       $timeout,
+      $translate,
       HostingAutomatedEmails,
       Alerter,
       $filter,
       User,
       ChartjsFactory,
       HOSTING_AUTOMATED_EMAILS,
-      translator,
     ) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
       this.$timeout = $timeout;
+      this.$translate = $translate;
       this.HostingAutomatedEmails = HostingAutomatedEmails;
       this.Alerter = Alerter;
       this.$filter = $filter;
       this.User = User;
       this.ChartjsFactory = ChartjsFactory;
       this.HOSTING_AUTOMATED_EMAILS = HOSTING_AUTOMATED_EMAILS;
-      this.translator = translator;
     }
 
     $onInit() {
@@ -65,9 +65,9 @@ angular.module('App').controller(
       return this.HostingAutomatedEmails.getAutomatedEmails(this.$stateParams.productId)
         .then((data) => {
           if (
-            !_.isEmpty(this.automatedEmails) &&
-            this.automatedEmails.state !== data.state &&
-            data.state === 'purging'
+            !_.isEmpty(this.automatedEmails)
+            && this.automatedEmails.state !== data.state
+            && data.state === 'purging'
           ) {
             this.polling();
           }
@@ -79,7 +79,7 @@ angular.module('App').controller(
         .catch((err) => {
           _.set(err, 'type', err.type || 'ERROR');
           this.Alerter.alertFromSWS(
-            this.translator.tr('hosting_tab_AUTOMATED_EMAILS_error'),
+            this.$translate.instant('hosting_tab_AUTOMATED_EMAILS_error'),
             err,
             this.$scope.alerts.main,
           );
@@ -94,14 +94,14 @@ angular.module('App').controller(
 
       return this.HostingAutomatedEmails.retrievingVolumes(this.$stateParams.productId)
         .then((data) => {
-          this.stats.chart =
-            new this.ChartjsFactory(angular.copy(this.HOSTING_AUTOMATED_EMAILS.chart));
+          this.stats.chart = new this.ChartjsFactory(angular.copy(this
+            .HOSTING_AUTOMATED_EMAILS.chart));
           this.stats.chart.setAxisOptions('yAxes', {
             type: 'linear',
           });
 
           this.stats.chart.addSerie(
-            this.translator.tr('hosting_tab_AUTOMATED_EMAILS_emails_sent'),
+            this.$translate.instant('hosting_tab_AUTOMATED_EMAILS_emails_sent'),
             data.data.reverse().map(d => ({
               x: moment.utc(new Date(d.date)).valueOf(),
               y: d.volume,
@@ -117,7 +117,7 @@ angular.module('App').controller(
         .catch((err) => {
           if (err.status !== 404) {
             this.Alerter.alertFromSWS(
-              this.translator.tr('hosting_tab_AUTOMATED_EMAILS_error'),
+              this.$translate.instant('hosting_tab_AUTOMATED_EMAILS_error'),
               _.get(err, 'data', err),
               this.$scope.alerts.main,
             );
@@ -146,7 +146,7 @@ angular.module('App').controller(
         .catch((err) => {
           if (err.status !== 404) {
             this.Alerter.alertFromSWS(
-              this.translator.tr('hosting_tab_AUTOMATED_EMAILS_error'),
+              this.$translate.instant('hosting_tab_AUTOMATED_EMAILS_error'),
               _.get(err, 'data', err),
               this.$scope.alerts.main,
             );
@@ -166,9 +166,9 @@ angular.module('App').controller(
 
     purge() {
       if (
-        this.automatedEmails.state !== 'ko' &&
-        this.automatedEmails.state !== 'spam' &&
-        this.automatedEmails.state !== 'bounce'
+        this.automatedEmails.state !== 'ko'
+        && this.automatedEmails.state !== 'spam'
+        && this.automatedEmails.state !== 'bounce'
       ) {
         return;
       }

@@ -1,12 +1,13 @@
 angular.module('App').controller(
   'PrivateDatabaseUpdatePasswordCtrl',
   class PrivateDatabaseUpdatePasswordCtrl {
-    constructor(Alerter, PrivateDatabase, $rootScope, $scope, $stateParams) {
+    constructor(Alerter, PrivateDatabase, $rootScope, $scope, $stateParams, $translate) {
       this.alerter = Alerter;
       this.privateDatabaseService = PrivateDatabase;
       this.$rootScope = $rootScope;
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
     }
 
     $onInit() {
@@ -79,13 +80,13 @@ angular.module('App').controller(
             }
             this.$scope.pollAction(task);
             this.alerter.success(
-              this.$scope.tr(`privateDatabase_change_${this.prefix}Password_success`),
+              this.$translate.instant(`privateDatabase_change_${this.prefix}Password_success`),
               this.$scope.alerts.main,
             );
           })
           .catch((err) => {
             this.alerter.alertFromSWS(
-              this.$scope.tr(`privateDatabase_change_${this.prefix}Password_fail`),
+              this.$translate.instant(`privateDatabase_change_${this.prefix}Password_fail`),
               _.get(err, 'data', err),
               this.$scope.alerts.main,
             );
@@ -105,10 +106,10 @@ angular.module('App').controller(
 
     isPasswordValid() {
       return (
-        this.model.password.value &&
-        this.model.password.value.length &&
-        this.model.password.value === this.model.password.confirmation &&
-        this.model.password.condition.pattern.test(this.model.password.value)
+        this.model.password.value
+        && this.model.password.value.length
+        && this.model.password.value === this.model.password.confirmation
+        && this.model.password.condition.pattern.test(this.model.password.value)
       );
     }
 

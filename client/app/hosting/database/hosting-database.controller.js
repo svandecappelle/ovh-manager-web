@@ -6,6 +6,7 @@ angular.module('App').controller(
       $q,
       $stateParams,
       $timeout,
+      $translate,
       Alerter,
       ConverterService,
       Hosting,
@@ -15,6 +16,7 @@ angular.module('App').controller(
       this.$q = $q;
       this.$stateParams = $stateParams;
       this.$timeout = $timeout;
+      this.$translate = $translate;
       this.alerter = Alerter;
       this.converterService = ConverterService;
       this.hostingService = Hosting;
@@ -31,8 +33,7 @@ angular.module('App').controller(
         WEEKLY: 'weekly.1',
         NOW: 'now',
       };
-      this.canCreateDatabase =
-        this.hosting.databaseMax - this.hosting.databaseCount > 0;
+      this.canCreateDatabase = this.hosting.databaseMax - this.hosting.databaseCount > 0;
       this.databases = {
         details: [],
       };
@@ -46,14 +47,13 @@ angular.module('App').controller(
       };
 
       this.$scope.goToList = () => this.goToList();
-      this.$scope.$on('hosting.databases.backup.restore', () =>
-        this.reloadCurrentPage());
+      this.$scope.$on('hosting.databases.backup.restore', () => this.reloadCurrentPage());
 
       this.$scope.$on(
         `${this.hostingService.events.tabDatabasesCreation}.done`,
         () => {
           this.alerter.success(
-            this.$scope.tr('hosting_tab_DATABASES_configuration_create_bdd_added'),
+            this.$translate.instant('hosting_tab_DATABASES_configuration_create_bdd_added'),
             this.$scope.alerts.main,
           );
           this.reloadCurrentPage();
@@ -64,7 +64,7 @@ angular.module('App').controller(
         `${this.hostingService.events.tabDatabasesCreation}.error`,
         (err) => {
           this.alerter.alertFromSWS(
-            this.$scope.tr('hosting_tab_databases_get_error'),
+            this.$translate.instant('hosting_tab_databases_get_error'),
             _.get(err, 'data', err),
             this.$scope.alerts.main,
           );
@@ -118,7 +118,7 @@ angular.module('App').controller(
         round: decimalWanted,
         base: -1,
       });
-      const resUnit = this.$scope.tr(`unit_size_${res.symbol}`);
+      const resUnit = this.$translate.instant(`unit_size_${res.symbol}`);
       return `${res.value} ${resUnit}`;
     }
 
@@ -161,7 +161,7 @@ angular.module('App').controller(
         })
         .catch((err) => {
           this.alerter.alertFromSWS(
-            this.$scope.tr('hosting_tab_databases_get_error'),
+            this.$translate.instant('hosting_tab_databases_get_error'),
             err,
             this.$scope.alerts.main,
           );

@@ -2,7 +2,7 @@ angular
   .module('App')
   .controller(
     'HostingOrderCdnCtrl',
-    ($scope, $q, $window, HostingOptionOrder, Hosting, Alerter, $rootScope) => {
+    ($scope, $q, $translate, $window, HostingOptionOrder, Hosting, Alerter, $rootScope) => {
       $scope.loading = {
         init: true,
         duration: true,
@@ -48,8 +48,8 @@ angular
         });
       };
 
-      $scope.isPerfOffer = () =>
-        Hosting.constructor.isPerfOffer((hosting || $scope.hostingProxy).offer);
+      $scope.isPerfOffer = () => Hosting.constructor.isPerfOffer((hosting
+        || $scope.hostingProxy).offer);
 
       $scope.getDuration = () => {
         const queue = [];
@@ -80,7 +80,7 @@ angular
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_dashboard_cdn_order_error'),
+              $translate.instant('hosting_dashboard_cdn_order_error'),
               _.get(err, 'data', err),
               $scope.alerts.main,
             );
@@ -96,15 +96,15 @@ angular
             );
           case 2:
             return (
-              $scope.model.offer &&
-              $scope.model.duration &&
-              !$scope.loading.details
+              $scope.model.offer
+              && $scope.model.duration
+              && !$scope.loading.details
             );
           case 3:
             return (
-              $scope.model.offer &&
-              $scope.model.duration &&
-              $scope.model.contract
+              $scope.model.offer
+              && $scope.model.duration
+              && $scope.model.contract
             );
           default:
             return null;
@@ -118,14 +118,14 @@ angular
         })
           .then((order) => {
             Alerter.success(
-              $scope.tr('hosting_dashboard_cdn_order_success', [order.url]),
+              $translate.instant('hosting_dashboard_cdn_order_success', { t0: order.url }),
               $scope.alerts.main,
             );
             $window.open(order.url, '_blank');
           })
           .catch((err) => {
             Alerter.alertFromSWS(
-              $scope.tr('hosting_dashboard_cdn_order_error'),
+              $translate.instant('hosting_dashboard_cdn_order_error'),
               _.get(err, 'data', err),
               $scope.alerts.main,
             );

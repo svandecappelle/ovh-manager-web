@@ -1,9 +1,10 @@
 angular.module('App').controller(
   'DomainDynHostLoginEditCtrl',
   class DomainDynHostLoginEditCtrl {
-    constructor($scope, $q, Alerter, Domain, Validator) {
+    constructor($scope, $q, $translate, Alerter, Domain, Validator) {
       this.$scope = $scope;
       this.$q = $q;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.Validator = Validator;
@@ -25,10 +26,9 @@ angular.module('App').controller(
     }
 
     isPasswordMatches(input = null) {
-      const valid =
-        !!this.data.password &&
-        !!this.validation.password &&
-        this.data.password === this.validation.password;
+      const valid = !!this.data.password
+        && !!this.validation.password
+        && this.data.password === this.validation.password;
       if (input && typeof input.$setValidity === 'function') {
         input.$setValidity('match', valid);
       }
@@ -39,10 +39,10 @@ angular.module('App').controller(
       const length = this.data.password.length || 0;
       input.$setValidity(
         'password',
-        this.data.password === null ||
-          this.data.password === '' ||
-          (length >= this.const.nbMinPassword &&
-            length <= this.const.nbMaxPassword),
+        this.data.password === null
+          || this.data.password === ''
+          || (length >= this.const.nbMinPassword
+            && length <= this.const.nbMaxPassword),
       );
       this.isPasswordMatches(confirm);
     }
@@ -50,10 +50,10 @@ angular.module('App').controller(
     subDomainCheck(input) {
       input.$setValidity(
         'subdomain',
-        this.login.subDomain === null ||
-          this.login.subDomain === '' ||
-          this.login.subDomain === '*' ||
-          this.Validator.isValidSubDomain(this.login.subDomain),
+        this.login.subDomain === null
+          || this.login.subDomain === ''
+          || this.login.subDomain === '*'
+          || this.Validator.isValidSubDomain(this.login.subDomain),
       );
     }
 
@@ -77,18 +77,15 @@ angular.module('App').controller(
 
       return this.$q
         .all(promises)
-        .then(() =>
-          this.Domain.refreshZoneState(this.product.name).then(() =>
-            this.Alerter.success(
-              this.$scope.tr('domain_tab_DYNHOSTLOGIN_edit_success'),
-              this.$scope.alerts.main,
-            )))
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('domain_tab_DYNHOST_error'),
-            _.get(err, 'data', err),
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Domain.refreshZoneState(this.product.name).then(() => this.Alerter.success(
+          this.$translate.instant('domain_tab_DYNHOSTLOGIN_edit_success'),
+          this.$scope.alerts.main,
+        )))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('domain_tab_DYNHOST_error'),
+          _.get(err, 'data', err),
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
           this.$scope.resetAction();

@@ -1,10 +1,11 @@
 angular.module('App').controller(
   'DomainTabDynHostCtrl',
   class DomainTabDynHostCtrl {
-    constructor($scope, $q, $stateParams, Alerter, Domain, Products) {
+    constructor($scope, $q, $stateParams, $translate, Alerter, Domain, Products) {
       this.$scope = $scope;
       this.$q = $q;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.Products = Products;
@@ -57,15 +58,15 @@ angular.module('App').controller(
 
     displayError(err, trKey, alert) {
       if (
-        err.status === 460 &&
-        err.data &&
-        /service(\s|\s\w+\s)expired/i.test(err.data.message)
+        err.status === 460
+        && err.data
+        && /service(\s|\s\w+\s)expired/i.test(err.data.message)
       ) {
         // If the service is really expired, the customers have already received several messages
         return;
       }
       this.Alerter.alertFromSWS(
-        this.$scope.tr(trKey),
+        this.$translate.instant(trKey),
         _.get(err, 'data', err),
         alert,
       );
@@ -111,12 +112,11 @@ angular.module('App').controller(
             this.hasResult = true;
           }
         })
-        .catch(err =>
-          this.displayError(
-            err,
-            'domain_tab_DYNHOST_error',
-            this.$scope.alerts.main,
-          ))
+        .catch(err => this.displayError(
+          err,
+          'domain_tab_DYNHOST_error',
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           if (_.isEmpty(this.dynHosts)) {
             this.loading.dynHosts = false;

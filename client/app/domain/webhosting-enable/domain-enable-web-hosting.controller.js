@@ -2,12 +2,13 @@ angular.module('App').controller(
   'App.Controllers.EnableWebHostingOrderController',
   class EnableWebHostingOrderCtrl {
     constructor(
-      $scope, $q, $window,
+      $scope, $q, $translate, $window,
       Alerter, atInternet, Hosting, HostingModule, HostingOrder, User, constants,
     ) {
       this.$scope = $scope;
       this.$q = $q;
       this.$window = $window;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.atInternet = atInternet;
       this.Hosting = Hosting;
@@ -47,19 +48,19 @@ angular.module('App').controller(
 
       this.$q
         .all({
-          modules: this.model.offer !== this.constants.HOSTING.OFFERS.START_10_M.LIST_VALUE ?
-            this.getModulesList() : null,
+          modules: this.model.offer !== this.constants.HOSTING.OFFERS.START_10_M.LIST_VALUE
+            ? this.getModulesList() : null,
           offers: this.offers.length ? this.offers : this.getOffersList(),
           user: this.User.getUser(),
         })
         .then(({ modules, offers, user }) => {
           this.model.moduleTemplates = _.filter(modules, { branch: 'stable' });
           this.offers = _.compact(offers);
-          this.hostingUrl = this.constants.urls.hosting[user.ovhSubsidiary] ||
-            this.constants.urls.hosting.FR;
+          this.hostingUrl = this.constants.urls.hosting[user.ovhSubsidiary]
+            || this.constants.urls.hosting.FR;
         })
         .catch((err) => {
-          this.Alerter.alertFromSWS(this.$scope.tr('hosting_tab_DATABASES_configuration_create_step1_loading_error'), err, this.$scope.alerts.main);
+          this.Alerter.alertFromSWS(this.$translate.instant('hosting_tab_DATABASES_configuration_create_step1_loading_error'), err, this.$scope.alerts.main);
           this.$scope.resetAction();
         })
         .finally(() => {
@@ -90,17 +91,23 @@ angular.module('App').controller(
     }
 
     getModulesList() {
-      return this.HostingModule.getModulesLatestList().then(moduleTemplates =>
-        this.$q.all(_.map(moduleTemplates, id => this.HostingModule.getAvailableModule(id))));
+      return this.HostingModule
+        .getModulesLatestList()
+        .then(moduleTemplates => this.$q.all(_.map(
+          moduleTemplates,
+          id => this.HostingModule.getAvailableModule(id),
+        )));
     }
 
     getOffersList() {
-      return this.Hosting.getAvailableOffer(this.domain.name).then(offers =>
-        this.$q.all(_.map(offers, (offer) => {
+      return this.Hosting
+        .getAvailableOffer(this.domain.name)
+        .then(offers => this.$q.all(_.map(offers, (offer) => {
           let rtn;
-          if ((!this.model.offer &&
-            offer !== this.constants.HOSTING.OFFERS.START_10_M.LIST_VALUE) ||
-            (this.model.offer && offer === this.constants.HOSTING.OFFERS.START_10_M.LIST_VALUE)) {
+          if ((!this.model.offer
+              && offer !== this.constants.HOSTING.OFFERS.START_10_M.LIST_VALUE)
+              || (this.model.offer
+                && offer === this.constants.HOSTING.OFFERS.START_10_M.LIST_VALUE)) {
             rtn = this.HostingOrder.get(
               this.domain.name, offer,
               this.model.dnsZone, this.model.duration,
@@ -175,7 +182,7 @@ angular.module('App').controller(
     }
 
     getResumePrice(price) {
-      return price.value === 0 ? this.$scope.tr('price_free') : this.$scope.tr('price_ht_label', [price.text]);
+      return price.value === 0 ? this.$translate.instant('price_free') : this.$translate.instant('price_ht_label', { price: price.text });
     }
 
     getSelectedOfferOrderInfos() {
@@ -208,11 +215,11 @@ angular.module('App').controller(
             status: 1,
           });
 
-          this.Alerter.success(this.$scope.tr('domain_order_hosting_finish_success', [order.url]), this.$scope.alerts.main);
+          this.Alerter.success(this.$translate.instant('domain_order_hosting_finish_success', { t0: order.url }), this.$scope.alerts.main);
           this.$window.open(order.url, '_blank');
           return true;
         })
-        .catch(err => this.Alerter.alertFromSWS(this.$scope.tr('domain_order_hosting_finish_error'), _.get(err, 'data', err), this.$scope.alerts.main))
+        .catch(err => this.Alerter.alertFromSWS(this.$translate.instant('domain_order_hosting_finish_error'), _.get(err, 'data', err), this.$scope.alerts.main))
         .finally(() => this.$scope.resetAction());
     }
   },

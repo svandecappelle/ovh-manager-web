@@ -5,14 +5,18 @@ angular.module('App').controller(
      * Constructor
      * @param $scope
      * @param $stateParams
+     * @param $translate
      * @param Alerter
      * @param Emails
+     * @param SessionService
      */
-    constructor($scope, $stateParams, Alerter, Emails) {
+    constructor($scope, $stateParams, $translate, Alerter, Emails, SessionService) {
       this.$scope = $scope;
       this.$stateParams = $stateParams;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Emails = Emails;
+      this.SessionService = SessionService;
     }
 
     $onInit() {
@@ -31,11 +35,11 @@ angular.module('App').controller(
 
     responderDurationCheck() {
       return (
-        this.model.responderDuration === 'permanent' ||
-        (!!this.model.from &&
-          !!this.model.to &&
-          moment(this.model.to).isAfter(this.model.from) &&
-          moment(this.model.to).isAfter(new Date()))
+        this.model.responderDuration === 'permanent'
+        || (!!this.model.from
+          && !!this.model.to
+          && moment(this.model.to).isAfter(this.model.from)
+          && moment(this.model.to).isAfter(new Date()))
       );
     }
 
@@ -50,8 +54,8 @@ angular.module('App').controller(
       }
       input.$setValidity(
         'date',
-        !!this.model.from &&
-          (!this.model.to || moment(this.model.from).isBefore(this.model.to)),
+        !!this.model.from
+          && (!this.model.to || moment(this.model.from).isBefore(this.model.to)),
       );
     }
 
@@ -61,10 +65,10 @@ angular.module('App').controller(
       }
       input.$setValidity(
         'date',
-        !!this.model.to &&
-          (!this.model.from ||
-            moment(this.model.to).isAfter(this.model.from)) &&
-          moment(this.model.to).isAfter(new Date()),
+        !!this.model.to
+          && (!this.model.from
+            || moment(this.model.to).isAfter(this.model.from))
+          && moment(this.model.to).isAfter(new Date()),
       );
     }
 
@@ -98,17 +102,15 @@ angular.module('App').controller(
       }
 
       return promise
-        .then(() =>
-          this.Alerter.success(
-            this.$scope.tr('email_tab_modal_update_responder_success'),
-            this.$scope.alerts.main,
-          ))
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr('email_tab_modal_update_responder_error'),
-            _.get(err, 'data', err),
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Alerter.success(
+          this.$translate.instant('email_tab_modal_update_responder_success'),
+          this.$scope.alerts.main,
+        ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant('email_tab_modal_update_responder_error'),
+          _.get(err, 'data', err),
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
           this.$scope.resetAction();

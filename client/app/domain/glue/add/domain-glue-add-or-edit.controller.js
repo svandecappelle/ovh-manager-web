@@ -1,8 +1,9 @@
 angular.module('controllers').controller(
   'controllers.Domain.Glue.AddOrEdit',
   class DomainGlueAddOrEditCtrl {
-    constructor($scope, Alerter, Domain, Validator) {
+    constructor($scope, $translate, Alerter, Domain, Validator) {
       this.$scope = $scope;
+      this.$translate = $translate;
       this.Alerter = Alerter;
       this.Domain = Domain;
       this.Validator = Validator;
@@ -37,8 +38,7 @@ angular.module('controllers').controller(
       return {
         host: `${this.model.host}.${this.domain.name}`,
         ips: this.model.ips
-          ? _.uniq(_.map(this.model.ips.replace(/,\s*$/, '').split(','), ip =>
-            _.trim(ip)))
+          ? _.uniq(_.map(this.model.ips.replace(/,\s*$/, '').split(','), ip => _.trim(ip)))
           : [],
       };
     }
@@ -57,14 +57,12 @@ angular.module('controllers').controller(
       if (!this.domain.glueRecordMultiIpSupported && model.ips.length > 1) {
         valid = false;
       } else {
-        valid =
-          !_.isEmpty(model.ips) &&
-          _.every(
+        valid = !_.isEmpty(model.ips)
+          && _.every(
             model.ips,
-            ip =>
-              this.Validator.isValidIpv4(ip) ||
-              (_.get(this.domain, 'glueRecordIpv6Supported', false) &&
-                this.Validator.isValidIpv6(ip)),
+            ip => this.Validator.isValidIpv4(ip)
+              || (_.get(this.domain, 'glueRecordIpv6Supported', false)
+                && this.Validator.isValidIpv6(ip)),
           );
       }
 
@@ -89,21 +87,19 @@ angular.module('controllers').controller(
       }
 
       return promise
-        .then(() =>
-          this.Alerter.success(
-            this.$scope.tr(this.editMode
-              ? 'domain_tab_GLUE_modify_success'
-              : 'domain_tab_GLUE_add_success'),
-            this.$scope.alerts.main,
-          ))
-        .catch(err =>
-          this.Alerter.alertFromSWS(
-            this.$scope.tr(this.editMode
-              ? 'domain_tab_GLUE_modify_error'
-              : 'domain_tab_GLUE_add_error'),
-            err,
-            this.$scope.alerts.main,
-          ))
+        .then(() => this.Alerter.success(
+          this.$translate.instant(this.editMode
+            ? 'domain_tab_GLUE_modify_success'
+            : 'domain_tab_GLUE_add_success'),
+          this.$scope.alerts.main,
+        ))
+        .catch(err => this.Alerter.alertFromSWS(
+          this.$translate.instant(this.editMode
+            ? 'domain_tab_GLUE_modify_error'
+            : 'domain_tab_GLUE_add_error'),
+          err,
+          this.$scope.alerts.main,
+        ))
         .finally(() => {
           this.loading = false;
           this.$scope.resetAction();
