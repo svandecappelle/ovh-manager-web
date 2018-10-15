@@ -2,10 +2,10 @@
 <translations>
    <translation id="select_option" qtlid="159046">Selecteer...</translation>
    <translation id="welcome_to_your_manager_1" qtlid="282393">Welkom op uw </translation>
-   <translation id="welcome_to_your_manager_2" qtlid="282406">OVH control panel</translation>
+   <translation id="welcome_to_your_manager_2" qtlid="282406">OVH Control Panel</translation>
    <translation id="select_product_on_left" qtlid="123487">Selecteer een te configureren product uit de linkerkolom.</translation>
-   <translation id="select_product_on_top" qtlid="123499">Kies hierboven een te configureren product uit.</translation>
-   <translation id="index_nav_bar_logo_alt" qtlid="128190">OVH WEB Manager</translation>
+   <translation id="select_product_on_top" qtlid="123499">Selecteer hierboven een te configureren product.</translation>
+   <translation id="index_nav_bar_logo_alt" qtlid="128190">OVH Web Control Panel</translation>
    <translation id="universe_univers-cloud_name" qtlid="15677">Cloud</translation>
    <translation id="universe_univers-dedicated_name" qtlid="31738">Dedicated</translation>
    <translation id="universe_univers-telecom_name" qtlid="135827">Telecom</translation>
@@ -15,8 +15,10 @@
    <translation id="universe_univers-partners_name" qtlid="383512">Partners</translation>
    <translation id="universe_univers-labs_name" qtlid="383707">UX Labs</translation>
    <translation id="universe_labs_chatbot" qtlid="382758">OVH virtual assistant </translation>
-   <translation id="older_interface" qtlid="135931">Oud client interface</translation>
-   <translation id="universe_univers-v3_name" qtlid="135931">Oud client interface</translation>
+   <translation id="older_interface" qtlid="135931">Oude klant-interface</translation>
+
+   <translation id="configuration_summit_banner_alt" qtlid="504121">Sign up to the OVH Summit in Paris, which will be held on 18th October 2018 (link opens in a new tab). You can meet OVH experts, our partners, and Europe's most innovative startups.</translation>
+
    <translation id="language_de" qtlid="31618">Duits</translation>
    <translation id="language_en" qtlid="33838">Engels</translation>
    <translation id="language_es" qtlid="33454">Spaans</translation>
@@ -124,10 +126,10 @@
    <translation id="table_manage_entry" qtlid="404395">: beheer</translation>
    <translation id="form_delete_item" qtlid="402113">Element verwijderen</translation>
    <translation id="form_add_item" qtlid="402126">Element toevoegen</translation>
-   <translation id="wizard_breadcrumb">Étape {{ currentStep }} sur {{ stepCount }}</translation>
+   <translation id="wizard_breadcrumb" qtlid="486451">Stap {{ currentStep }} van {{ stepCount }}</translation>
    <translation id="table_delete_search" qtlid="402139">Zoekopdracht verwijderen</translation>
    <translation id="select_placeholder" qtlid="447963">Selecteer...</translation>
-   <translation id="pagination_page">Page {{current}} / {{last}}</translation>
+   <translation id="pagination_page" qtlid="503215">Page {{current}} / {{last}}</translation>
    <translation id="pagination_go" qtlid="31522">OK</translation>
    <translation id="pagination_display" qtlid="69353">Weergeven</translation>
    <translation id="common_actions" qtlid="72809">Handelingen</translation>
@@ -268,24 +270,24 @@
 
    <translation id="contract_next" qtlid="17743">Volgende</translation>
    <translation id="contract_previous" qtlid="17431">Vorige</translation>
-   <translation id="download_contract">Ouvrir le contrat "{{name}}" en PDF</translation>
+   <translation id="download_contract" qtlid="503228">"{{name}}" contract openen als PDF</translation>
    <translation id="contract_help" qtlid="180382">Scroll naar beneden naar de contracten om deze te bevestigen.</translation>
-   <translation id="contracts_list_title">Il y a {{count}} contrats à consulter.</translation>
+   <translation id="contracts_list_title" qtlid="503241">Er zijn {{count}} contracten beschikbaar voor weergave.</translation>
    <translation id="contract_list_title" qtlid="180408">Er is 1 contract, dat u kunt raadplegen.</translation>
    <translation id="contracts_agree" qtlid="180421">Ik accepteer de contracten</translation>
    <translation id="contract_agree" qtlid="180434">Ik accepteer het contract</translation>
 
    <translation id="day_1" qtlid="28807">1 dag</translation>
-   <translation id="day_other">{0} jours</translation>
+   <translation id="day_other" qtlid="178484">{0} dagen</translation>
    <translation id="month_1" qtlid="70241">1 maand</translation>
-   <translation id="month_other">{0} mois</translation>
+   <translation id="month_other" qtlid="220148">{0} maanden</translation>
    <translation id="year_1" qtlid="70277">1 jaar</translation>
-   <translation id="year_other">{0} ans</translation>
+   <translation id="year_other" qtlid="374495">{0} jaar</translation>
    <translation id="upto" qtlid="158617">Tot {0}</translation>
    <translation id="uptofirstdaynextmonth" qtlid="158630">Tot de 1e van de volgende maand</translation>
    <translation id="engage" qtlid="158643">Sign up {0}</translation>
-   <translation id="price_ht_label">{{price}}&#160;HT</translation>
-   <translation id="price_ttc_label">{{price}}&#160;TTC</translation>
+   <translation id="price_ht_label" qtlid="503254">{{price}}&#160;excl. btw</translation>
+   <translation id="price_ttc_label" qtlid="503267">{{price}}&#160;incl. btw</translation>
    <translation id="price_free" qtlid="195776">Inbegrepen</translation>
    <translation id="price_label_yearly" qtlid="288977">/jaar</translation>
 

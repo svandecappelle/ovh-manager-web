@@ -1,3 +1,209 @@
+<a name="13.7.5"></a>
+## [13.7.5](https://github.com/ovh-ux/ovh-manager-web/compare/v13.7.4...v13.7.5) (2018-10-10)
+
+
+### Bug Fixes
+
+* **domain:** allow subnet in IPs ([38715ed](https://github.com/ovh-ux/ovh-manager-web/commit/38715ed))
+* **domain.dnssec:** use common_delete ([cb47ad3](https://github.com/ovh-ux/ovh-manager-web/commit/cb47ad3))
+* **domain.tasks:** display oui-status correctly ([d5c2720](https://github.com/ovh-ux/ovh-manager-web/commit/d5c2720))
+* **email.domain:** Filters list ([e76c1b7](https://github.com/ovh-ux/ovh-manager-web/commit/e76c1b7))
+
+
+
+<a name="13.7.4"></a>
+## [13.7.4](https://github.com/ovh-ux/ovh-manager-web/compare/v13.7.3...v13.7.4) (2018-10-09)
+
+
+### Bug Fixes
+
+* **ie11:** app will now display correctly ([3bf01d7](https://github.com/ovh-ux/ovh-manager-web/commit/3bf01d7))
+
+
+
+<a name="13.7.3"></a>
+## [13.7.3](https://github.com/ovh-ux/ovh-manager-web/compare/v13.7.2...v13.7.3) (2018-10-08)
+
+
+### Bug Fixes
+
+* **domain.operation.update:** text not interpreted unnecessary ([d9d1586](https://github.com/ovh-ux/ovh-manager-web/commit/d9d1586))
+* **private.database.state:** dont display menu when expired ([ef40b14](https://github.com/ovh-ux/ovh-manager-web/commit/ef40b14))
+* set correct relative path to background images ([4e9f0e9](https://github.com/ovh-ux/ovh-manager-web/commit/4e9f0e9))
+
+
+
+<a name="13.7.2"></a>
+## [13.7.2](https://github.com/ovh-ux/ovh-manager-web/compare/v13.7.1...v13.7.2) (2018-10-05)
+
+
+### Bug Fixes
+
+* remove border top of the summit banner ([cf33b3a](https://github.com/ovh-ux/ovh-manager-web/commit/cf33b3a))
+
+
+
+<a name="13.7.1"></a>
+## [13.7.1](https://github.com/ovh-ux/ovh-manager-web/compare/v13.7.0...v13.7.1) (2018-10-04)
+
+
+### Bug Fixes
+
+* **banner:** display only for some subsidiaries ([0845715](https://github.com/ovh-ux/ovh-manager-web/commit/0845715))
+* update gitignore file ([a65c3d5](https://github.com/ovh-ux/ovh-manager-web/commit/a65c3d5))
+
+
+
+<a name="13.7.0"></a>
+# [13.7.0](https://github.com/ovh-ux/ovh-manager-web/compare/v13.6.4...v13.7.0) (2018-10-03)
+
+
+### Bug Fixes
+
+* improve performance ([d521da1](https://github.com/ovh-ux/ovh-manager-web/commit/d521da1))
+* rename services to v6 and v7 ([165fb24](https://github.com/ovh-ux/ovh-manager-web/commit/165fb24)), closes [ovh-ux/ovh-api-services#68](https://github.com/ovh-ux/ovh-api-services/issues/68)
+* **app:** set correct constants.target ([3bac449](https://github.com/ovh-ux/ovh-manager-web/commit/3bac449))
+* remove .npmrc file ([20f3d30](https://github.com/ovh-ux/ovh-manager-web/commit/20f3d30))
+* **auth:** apply the same fix as in dedicated to fix dev authentication ([dd6c6e0](https://github.com/ovh-ux/ovh-manager-web/commit/dd6c6e0))
+* **private.database.state:** fix indentation attributes ([673d347](https://github.com/ovh-ux/ovh-manager-web/commit/673d347))
+* bump ovh-utils-angular ([a260a2a](https://github.com/ovh-ux/ovh-manager-web/commit/a260a2a))
+* **components.manager-preload:** center hr element ([cc2b554](https://github.com/ovh-ux/ovh-manager-web/commit/cc2b554))
+* **deps:** bump ovh-module-exchange to v8 ([c1bd848](https://github.com/ovh-ux/ovh-manager-web/commit/c1bd848))
+* **deps:** bump ovh-module-exchange to v8.0.8 ([f4291a4](https://github.com/ovh-ux/ovh-manager-web/commit/f4291a4))
+* **editorconfig:** update configuration ([0618b77](https://github.com/ovh-ux/ovh-manager-web/commit/0618b77))
+* **email:** remove useless repeated id ([fec1565](https://github.com/ovh-ux/ovh-manager-web/commit/fec1565))
+* **otrs:** add translations & directive ([8841617](https://github.com/ovh-ux/ovh-manager-web/commit/8841617))
+* **ovh-ui-kit-bs:** upgrade version ([24636e2](https://github.com/ovh-ux/ovh-manager-web/commit/24636e2))
+* **package.json:** add missing lint-staged and husky configuration ([cbb5e73](https://github.com/ovh-ux/ovh-manager-web/commit/cbb5e73))
+* **package.json:** remove duplicate glob deps ([608410b](https://github.com/ovh-ux/ovh-manager-web/commit/608410b))
+* **preload:** add translations ([d108e9a](https://github.com/ovh-ux/ovh-manager-web/commit/d108e9a))
+* **private.database.state:** fix indentation ([6981dad](https://github.com/ovh-ux/ovh-manager-web/commit/6981dad))
+* **privatedb:** update all bad catching for tasks ([02eaf80](https://github.com/ovh-ux/ovh-manager-web/commit/02eaf80))
+* **privatedb:** update bad catching for tasks ([a1a52a5](https://github.com/ovh-ux/ovh-manager-web/commit/a1a52a5))
+* **webpack:** fix ovh-module-emailpro ([da94e7c](https://github.com/ovh-ux/ovh-manager-web/commit/da94e7c))
+* **webpack:** fix validator dependency ([20852ff](https://github.com/ovh-ux/ovh-manager-web/commit/20852ff))
+* **webpack:** remove useless eslint comments ([ab048aa](https://github.com/ovh-ux/ovh-manager-web/commit/ab048aa))
+* **yarn:** build dist correctly ([c06fc09](https://github.com/ovh-ux/ovh-manager-web/commit/c06fc09))
+* **yarn:** fix more deps ([7a9881a](https://github.com/ovh-ux/ovh-manager-web/commit/7a9881a))
+* **yarn:** fix raphael and ckeditor missing ([936ff63](https://github.com/ovh-ux/ovh-manager-web/commit/936ff63))
+* **yarn:** PR fixes ([dee7cc2](https://github.com/ovh-ux/ovh-manager-web/commit/dee7cc2))
+* **yarn:** remove as much [@bower](https://github.com/bower)_components as possible ([dcdf78b](https://github.com/ovh-ux/ovh-manager-web/commit/dcdf78b))
+* **yarn:** remove popper.js as we get it in bootstrap ([08cb7a8](https://github.com/ovh-ux/ovh-manager-web/commit/08cb7a8))
+* **yarn:** resolve deps issues ([fd87d40](https://github.com/ovh-ux/ovh-manager-web/commit/fd87d40))
+* **yarn:** yet another path fix ([3493181](https://github.com/ovh-ux/ovh-manager-web/commit/3493181))
+* remove sonar-project.properties file ([aceea6f](https://github.com/ovh-ux/ovh-manager-web/commit/aceea6f))
+* remove unused files ([e38ceee](https://github.com/ovh-ux/ovh-manager-web/commit/e38ceee))
+* update gitignore file ([80c12ca](https://github.com/ovh-ux/ovh-manager-web/commit/80c12ca))
+* update license file ([7adfa22](https://github.com/ovh-ux/ovh-manager-web/commit/7adfa22))
+* update package.json ([0ca618c](https://github.com/ovh-ux/ovh-manager-web/commit/0ca618c))
+
+
+### Features
+
+* **chore:** bump ui-router to version ^1.0.0. ([33b7ee8](https://github.com/ovh-ux/ovh-manager-web/commit/33b7ee8))
+* **i18n:** submit translations ([c23e235](https://github.com/ovh-ux/ovh-manager-web/commit/c23e235))
+* **i18n:** submit/retrieve ([cc0e474](https://github.com/ovh-ux/ovh-manager-web/commit/cc0e474))
+
+
+
+<a name="13.2.5"></a>
+## [13.2.5](https://github.com/ovh-ux/ovh-manager-web/compare/v13.2.4...v13.2.5) (2018-03-26)
+
+
+### Bug Fixes
+
+* **email-domain:** Remove old guides ([201bdb3](https://github.com/ovh-ux/ovh-manager-web/commit/201bdb3))
+* **translation:** change field error translation pattern ([8f18c9c](https://github.com/ovh-ux/ovh-manager-web/commit/8f18c9c))
+
+
+
+<a name="13.2.4"></a>
+## [13.2.4](https://github.com/ovh-ux/ovh-manager-web/compare/v13.2.3...v13.2.4) (2018-03-20)
+
+
+
+<a name="13.2.3"></a>
+## [13.2.3](https://github.com/ovh-ux/ovh-manager-web/compare/v13.2.2...v13.2.3) (2018-03-19)
+
+
+### Bug Fixes
+
+* update icons path and bump versions of ovh-ui-* ([077b846](https://github.com/ovh-ux/ovh-manager-web/commit/077b846))
+
+
+### Features
+
+* **domain:** specify field size ([b623baf](https://github.com/ovh-ux/ovh-manager-web/commit/b623baf))
+
+
+
+<a name="13.2.2"></a>
+## [13.2.2](https://github.com/ovh-ux/ovh-manager-web/compare/v13.2.1...v13.2.2) (2018-03-14)
+
+
+
+<a name="13.2.1"></a>
+## [13.2.1](https://github.com/ovh-ux/ovh-manager-web/compare/v13.2.0...v13.2.1) (2018-03-08)
+
+
+
+<a name="13.2.0"></a>
+# [13.2.0](https://github.com/ovh-ux/ovh-manager-web/compare/v13.1.1...v13.2.0) (2018-03-01)
+
+
+
+<a name="13.1.1"></a>
+## 13.1.1 (2018-02-28)
+
+
+
+<a name="13.6.4"></a>
+## [13.6.4](https://github.com/ovh-ux/ovh-manager-web/compare/v13.6.3...v13.6.4) (2018-10-02)
+
+
+### Features
+
+* **configuration:** display Summit banner ([dc9d427](https://github.com/ovh-ux/ovh-manager-web/commit/dc9d427))
+
+
+
+<a name="13.6.3"></a>
+## [13.6.3](https://github.com/ovh-ux/ovh-manager-web/compare/v13.6.2...v13.6.3) (2018-09-28)
+
+
+### Bug Fixes
+
+* **app:** restore OTRS translations ([1db4d67](https://github.com/ovh-ux/ovh-manager-web/commit/1db4d67))
+
+
+
+<a name="13.6.2"></a>
+## [13.6.2](https://github.com/ovh-ux/ovh-manager-web/compare/v13.6.1...v13.6.2) (2018-09-27)
+
+
+
+<a name="13.6.1"></a>
+## [13.6.1](https://github.com/ovh-ux/ovh-manager-web/compare/v13.6.0...v13.6.1) (2018-09-27)
+
+
+### Bug Fixes
+
+* **hosting.general.informations:** fixing translation ([8538778](https://github.com/ovh-ux/ovh-manager-web/commit/8538778))
+
+
+
+<a name="13.6.0"></a>
+# [13.6.0](https://github.com/ovh-ux/ovh-manager-web/compare/v13.5.0...v13.6.0) (2018-09-27)
+
+
+### Bug Fixes
+
+* cron job edit ([e07bf15](https://github.com/ovh-ux/ovh-manager-web/commit/e07bf15))
+* **privateDatabase:** improve warnings on OomKill ([c5ac29f](https://github.com/ovh-ux/ovh-manager-web/commit/c5ac29f))
+* **privateDatabase:** oom kill error display ([831c6ad](https://github.com/ovh-ux/ovh-manager-web/commit/831c6ad))
+
+
+
 <a name="13.5.0"></a>
 # [13.5.0](https://github.com/ovh-ux/ovh-manager-web/compare/v13.4.24...v13.5.0) (2018-09-19)
 
