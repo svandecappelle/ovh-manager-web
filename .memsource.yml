@@ -1,0 +1,31 @@
+log-level: info
+force: true
+i18n:
+  files_pattern: '^.*_[a-z]{2}_[A-Z]{2}\.json$'
+  source: fr_FR
+  targets:
+    - en_GB
+    - it_IT
+    - es_ES
+    - de_DE
+    - lt_LT
+    - nl_NL
+    - pl_PL
+    - pt_PT
+    - en_SG
+    - en_AU
+    - fi_FI
+    - fr_CA
+    - cs_CZ
+    - en_SG
+    - en_CA
+    - es_US
+app:
+  name: manager-web
+  path: .
+  directories:
+    - .
+  excludes:
+    - client/bower_components
+    - dist/
+    - node_modules/
